@@ -15,7 +15,10 @@
     display:flex;align-items:flex-end;gap:0;
     border-bottom:1px solid var(--border-subtle);
     margin-bottom:0;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
   }
+  .tabs::-webkit-scrollbar{display:none;}
   .tab{
     font-size:var(--fs-14);font-weight:var(--fw-medium);color:var(--fg-3);
     padding:10px 16px;border:none;background:transparent;cursor:pointer;

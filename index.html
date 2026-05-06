@@ -371,7 +371,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '1.1.1';
+const VERSION      = '1.1.2';
 const LAST_UPDATED = 'May 6, 2026';
 
 /* ================================================================
@@ -380,6 +380,23 @@ const LAST_UPDATED = 'May 6, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '1.1.2',
+    date: '2026-05-06',
+    type: 'patch',
+    changes: [
+      'Fixed display/heading font overflow in type-display.html — all sizes now use clamp() to scale with viewport',
+      'Fixed weight-reference text wrapping in type-weights.html — 24px sample text scales down on narrow screens',
+      'Fixed corner-radii and shadow-stack items clipping in spacing-radii.html and spacing-shadows.html — flex rows now wrap',
+      'Fixed extreme text wrapping in components-card.html — 2-col grid stacks to 1 col at ≤500px',
+      'Fixed hero section in components-hero.html — stacks to 1 col on mobile, heading uses clamp()',
+      'Fixed type-body.html meta column overflow — narrowed fixed column and added min-width:0 to spec col',
+      'Fixed components-empty.html no-results/error grid — stacks to 1 col at ≤480px',
+      'Fixed iconography.html icon grid — drops from 8 cols to 4 cols at ≤480px',
+      'Fixed components-tabs.html underline tabs — tabs row scrolls horizontally instead of clipping',
+      'Fixed components-inputs.html input grid — stacks to 1 col at ≤480px',
+    ],
+  },
   {
     version: '1.1.1',
     date: '2026-05-06',

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:24px 28px;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  h2{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);margin:0 0 16px;}
+  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px;}
+
+  .btn{
+    font-family:inherit;font-size:14px;font-weight:600;line-height:1;
+    border:1px solid transparent;border-radius:8px;padding:12px 20px;cursor:pointer;
+    letter-spacing:0;display:inline-flex;align-items:center;gap:8px;
+    transition: transform 160ms cubic-bezier(.2,0,0,1),
+                box-shadow 200ms cubic-bezier(.2,0,0,1),
+                background-color 160ms cubic-bezier(.2,0,0,1),
+                border-color 160ms cubic-bezier(.2,0,0,1),
+                color 160ms cubic-bezier(.2,0,0,1);
+    will-change: transform, box-shadow;
+  }
+
+  /* Primary — depth via inset highlight + lifted shadow that grows on hover */
+  .primary{
+    background:var(--color-navy);
+    color:#fff;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.12) inset,
+      0 1px 2px rgba(6,47,74,0.20),
+      0 2px 6px rgba(9,75,119,0.18);
+  }
+  .primary:hover{
+    background:#0A5689;
+    transform: translateY(-1px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.16) inset,
+      0 4px 10px rgba(9,75,119,0.28),
+      0 8px 18px rgba(9,75,119,0.18);
+  }
+  .primary:active{
+    background:#062F4A;
+    transform: translateY(0);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.10) inset,
+      0 1px 2px rgba(6,47,74,0.30);
+  }
+
+  /* Secondary — solid surface with 4.5:1 nav-on-white text + visible 1.5px border, lifts on hover */
+  .secondary{
+    background:#fff;
+    color:var(--color-navy-900);              /* #062F4A on #fff = ~12.7:1 */
+    border:1.5px solid var(--color-navy);
+    box-shadow:
+      0 1px 0 rgba(9,75,119,0.04) inset,
+      0 1px 2px rgba(9,75,119,0.06);
+  }
+  .secondary:hover{
+    background:var(--color-navy-100);          /* #DCEAF3 — keeps text >12:1 */
+    border-color:var(--color-navy-900);
+    transform: translateY(-1px);
+    box-shadow:
+      0 4px 10px rgba(9,75,119,0.14),
+      0 8px 18px rgba(9,75,119,0.08);
+  }
+  .secondary:active{
+    background:#C8DEEC;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(9,75,119,0.08) inset;
+  }
+
+  .accent{
+    background:var(--color-aqua);color:var(--color-navy-900);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.35) inset,
+      0 1px 2px rgba(31,168,201,0.18),
+      0 2px 6px rgba(50,203,237,0.22);
+  }
+  .accent:hover{
+    background:#1FA8C9;color:#fff;
+    transform:translateY(-1px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.20) inset,
+      0 4px 10px rgba(31,168,201,0.32),
+      0 8px 18px rgba(31,168,201,0.20);
+  }
+  .accent:active{transform:translateY(0);background:#168AA8;color:#fff;box-shadow:0 1px 2px rgba(22,138,168,0.30) inset;}
+
+  .ghost{background:transparent;color:var(--color-navy);border-color:transparent;}
+  .ghost:hover{background:var(--color-grey-100);}
+
+  .danger{
+    background:#D6492F;color:#fff;
+    box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 6px rgba(214,73,47,0.22);
+  }
+  .danger:hover{background:#B83C24;transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 14px rgba(214,73,47,0.28);}
+
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(50,203,237,0.55);}
+
+  .sm{padding:8px 14px;font-size:13px;}
+  .lg{padding:14px 24px;font-size:15px;}
+  .arrow{font-family:var(--font-sans);font-weight:400;}
+
+  .hint{font-size:11px;color:var(--fg-3);margin-top:-6px;margin-bottom:14px;}
+</style>
+</head>
+<body>
+  <h2>Variants</h2>
+  <div class="row">
+    <button class="btn primary">Open AIC <span class="arrow">→</span></button>
+    <button class="btn secondary">Learn more</button>
+    <button class="btn accent">Request demo</button>
+    <button class="btn ghost">Cancel</button>
+    <button class="btn danger">Delete iBOM</button>
+  </div>
+  <p class="hint">Hover any button to see the lift &amp; shadow grow. Secondary uses navy-900 text on white (~12.7:1) with a 1.5px navy border.</p>
+
+  <h2 style="margin-top:14px">Sizes</h2>
+  <div class="row">
+    <button class="btn primary sm">Small</button>
+    <button class="btn primary">Medium</button>
+    <button class="btn primary lg">Large</button>
+  </div>
+</body>
+</html>

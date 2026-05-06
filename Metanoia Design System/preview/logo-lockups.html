@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Logo — Lockups</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  .card{display:grid;grid-template-columns:1.6fr 1fr;gap:1px;background:var(--border-subtle);height:240px;}
+  .tile{background:#fff;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;}
+  .tile img{max-width:100%;max-height:160px;}
+  .label{position:absolute;left:12px;bottom:10px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);font-weight:600;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="tile"><img src="../assets/logo-lockup-horiz.svg" alt=""><span class="label">Horizontal</span></div>
+    <div class="tile"><img src="../assets/logo-lockup-vert.svg" alt=""><span class="label">Vertical</span></div>
+  </div>
+</body>
+</html>

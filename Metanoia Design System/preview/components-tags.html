@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tags & Status</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:24px 28px;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  h2{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);margin:0 0 14px;}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;letter-spacing:0;}
+  .tag .dot{width:6px;height:6px;border-radius:50%;}
+  .tag.navy{background:#EDE7FB;color:#5A3FB8;}
+  .tag.aqua{background:var(--color-navy);color:#fff;}
+  .tag.success{background:#E1F4EB;color:#1F7A55;}
+  .tag.warn{background:#FCEFD8;color:#A56712;}
+  .tag.error{background:#FBE3DD;color:#A2351F;}
+  .tag.neutral{background:var(--color-grey-100);color:var(--color-grey-800);}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:6px 12px 6px 10px;border-radius:6px;border:1px solid var(--border-subtle);background:#fff;color:var(--fg-1);}
+  .chip .x{color:var(--fg-4);font-size:12px;}
+</style>
+</head>
+<body>
+  <h2>Status pills</h2>
+  <div class="row">
+    <span class="tag success"><span class="dot" style="background:#2E9E6E"></span>Published</span>
+    <span class="tag warn"><span class="dot" style="background:#E9A23B"></span>In review</span>
+    <span class="tag error"><span class="dot" style="background:#D6492F"></span>Action needed</span>
+    <span class="tag navy">v2.4 · Released</span>
+    <span class="tag aqua">iBOM</span>
+    <span class="tag neutral">Draft</span>
+  </div>
+  <h2 style="margin-top:6px">Filter chips</h2>
+  <div class="row">
+    <span class="chip">Pumps <span class="x">×</span></span>
+    <span class="chip">Houston Site <span class="x">×</span></span>
+    <span class="chip">2024–2025 <span class="x">×</span></span>
+    <span class="chip" style="border-style:dashed;color:var(--fg-3)">+ Add filter</span>
+  </div>
+</body>
+</html>

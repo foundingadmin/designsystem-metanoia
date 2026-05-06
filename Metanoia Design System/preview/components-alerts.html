@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Alert</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:24px 28px;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  .alert{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:flex-start;border:1px solid;border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+  .alert .ic{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;font-size:12px;font-family:var(--font-sans);}
+  .title{font-size:14px;font-weight:600;color:var(--fg-1);margin:0 0 2px;}
+  .body{font-size:13px;color:var(--fg-2);margin:0;line-height:1.45;}
+  .x{color:var(--fg-3);cursor:pointer;font-size:14px;line-height:1;background:none;border:0;padding:4px;}
+  .info{background:#F1ECFC;border-color:#DCD0F7;}
+  .info .ic{background:#7C5BD9;}
+  .success{background:#E8F6EE;border-color:#C6E5D2;}
+  .success .ic{background:#2E9E6E;}
+  .warn{background:#FCEFD8;border-color:#F2DDB1;}
+  .warn .ic{background:#E9A23B;}
+  .err{background:#FBE3DD;border-color:#F1C5BB;}
+  .err .ic{background:#D6492F;}
+</style>
+</head>
+<body>
+  <div class="alert info">
+    <div class="ic">i</div>
+    <div><div class="title">iBOM v2.4 is now available</div><p class="body">15 parts updated, 3 superseded. Review changes before publishing to your team.</p></div>
+    <button class="x">×</button>
+  </div>
+  <div class="alert warn">
+    <div class="ic">!</div>
+    <div><div class="title">3 parts have unresolved supersessions</div><p class="body">Review and confirm replacement parts to keep the iBOM accurate.</p></div>
+    <button class="x">×</button>
+  </div>
+  <div class="alert err">
+    <div class="ic">×</div>
+    <div><div class="title">Sync failed — check connection to your ERP</div><p class="body">Last successful sync: 2 hours ago.</p></div>
+    <button class="x">×</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Neutrals</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  .row{display:grid;grid-template-columns:repeat(7,1fr);height:160px;}
+  .sw{display:flex;flex-direction:column;justify-content:flex-end;padding:10px 12px;font-size:11px;}
+  .name{font-weight:600;letter-spacing:0;}
+  .hex{font-family:var(--font-mono);font-size:10px;opacity:0.7;margin-top:2px;}
+  .dark{color:#fff;}
+  .dark .hex{opacity:0.8;}
+  .b{border:1px solid var(--border-subtle);border-right:none;}
+  .b:last-child{border-right:1px solid var(--border-subtle);}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw b" style="background:#FFFFFF"><div class="name">White</div><div class="hex">#FFFFFF</div></div>
+    <div class="sw b" style="background:#F4F6F8"><div class="name">Grey-50</div><div class="hex">#F4F6F8</div></div>
+    <div class="sw b" style="background:#ECEFF2"><div class="name">Grey-100</div><div class="hex">#ECEFF2</div></div>
+    <div class="sw b" style="background:#D8DEE3"><div class="name">Grey-200</div><div class="hex">#D8DEE3</div></div>
+    <div class="sw b dark" style="background:#8C97A1"><div class="name">Grey</div><div class="hex">#8C97A1</div></div>
+    <div class="sw b dark" style="background:#56636F"><div class="name">Dark Grey</div><div class="hex">#56636F</div></div>
+    <div class="sw b dark" style="background:#131A21"><div class="name">Black</div><div class="hex">#131A21</div></div>
+  </div>
+</body>
+</html>

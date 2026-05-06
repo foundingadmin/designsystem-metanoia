@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shadows</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:32px 28px 40px;background:var(--bg-subtle);font-family:var(--font-sans);color:var(--fg-2);}
+  h2{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);margin:0 0 24px;}
+  .row{display:flex;gap:32px;align-items:center;justify-content:flex-start;}
+  .item{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .box{width:72px;height:72px;background:#fff;border-radius:10px;}
+  .xs{box-shadow:0 1px 2px rgba(9,75,119,0.06);}
+  .sm{box-shadow:0 2px 4px rgba(9,75,119,0.08), 0 1px 2px rgba(9,75,119,0.04);}
+  .md{box-shadow:0 6px 14px rgba(9,75,119,0.10), 0 2px 4px rgba(9,75,119,0.06);}
+  .lg{box-shadow:0 16px 32px rgba(9,75,119,0.12), 0 4px 8px rgba(9,75,119,0.06);}
+  .xl{box-shadow:0 28px 56px rgba(9,75,119,0.18), 0 8px 16px rgba(9,75,119,0.08);}
+  .lbl{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);}
+</style>
+</head>
+<body>
+  <h2>Elevation · navy-tinted</h2>
+  <div class="row">
+    <div class="item"><div class="box xs"></div><div class="lbl">xs</div></div>
+    <div class="item"><div class="box sm"></div><div class="lbl">sm</div></div>
+    <div class="item"><div class="box md"></div><div class="lbl">md</div></div>
+    <div class="item"><div class="box lg"></div><div class="lbl">lg</div></div>
+    <div class="item"><div class="box xl"></div><div class="lbl">xl</div></div>
+  </div>
+</body>
+</html>

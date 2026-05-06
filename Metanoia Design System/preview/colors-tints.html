@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Extended Tints</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;height:240px;}
+  .sw{padding:14px 16px;display:flex;flex-direction:column;justify-content:flex-end;font-size:11px;}
+  .name{font-weight:600;}
+  .hex{font-family:var(--font-mono);opacity:0.7;margin-top:2px;}
+  .dark{color:#fff;}
+  .row-label{grid-column:1/-1;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--fg-3);padding:8px 16px 4px;background:#fff;}
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="sw dark" style="background:#062F4A"><div class="name">Navy 900</div><div class="hex">#062F4A</div></div>
+    <div class="sw dark" style="background:#094B77"><div class="name">Navy 700</div><div class="hex">#094B77</div></div>
+    <div class="sw dark" style="background:#1F6EA0"><div class="name">Navy 500</div><div class="hex">#1F6EA0</div></div>
+    <div class="sw" style="background:#DCEAF3"><div class="name">Navy 100</div><div class="hex">#DCEAF3</div></div>
+    <div class="sw dark" style="background:#1FA8C9"><div class="name">Aqua 700</div><div class="hex">#1FA8C9</div></div>
+    <div class="sw" style="background:#32CBED;color:#062F4A"><div class="name">Aqua 500</div><div class="hex" style="opacity:.65">#32CBED</div></div>
+    <div class="sw" style="background:#BFF1FB"><div class="name">Aqua 200</div><div class="hex">#BFF1FB</div></div>
+    <div class="sw" style="background:#ECFAFD"><div class="name">Aqua 50</div><div class="hex">#ECFAFD</div></div>
+  </div>
+</body>
+</html>

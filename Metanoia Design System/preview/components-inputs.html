@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:24px 28px;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  h2{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);margin:0 0 14px;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  label{display:block;font-size:13px;font-weight:600;color:var(--fg-1);margin-bottom:6px;}
+
+  .input-wrap{position:relative;}
+  .input{
+    font-family:inherit;font-size:14px;width:100%;
+    padding:10px 14px;border:1px solid var(--border-default);
+    border-radius:8px;background:#fff;color:var(--fg-1);
+    box-sizing:border-box;display:block;
+  }
+  .input::placeholder{color:var(--fg-4);}
+  .input:focus{outline:none;border-color:var(--color-aqua);box-shadow:0 0 0 3px rgba(50,203,237,0.45);}
+  .input.focused{border-color:var(--color-aqua);box-shadow:0 0 0 3px rgba(50,203,237,0.45);}
+  .input.error{border-color:#D6492F;box-shadow:0 0 0 3px rgba(214,73,47,0.18);}
+  .help{font-size:12px;color:var(--fg-3);margin-top:6px;}
+  .help.err{color:#D6492F;}
+
+  /* Search: icon centered to the input only (not the label) */
+  .input-wrap.has-icon .input{padding-left:38px;}
+  .input-wrap.has-icon .icon{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    width:16px;height:16px;
+    color:var(--fg-3);
+    pointer-events:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div>
+      <label>Part number</label>
+      <div class="input-wrap"><input class="input" value="HX-4471-A" /></div>
+      <div class="help">Default state</div>
+    </div>
+    <div>
+      <label>Asset ID</label>
+      <div class="input-wrap"><input class="input focused" placeholder="e.g. PUMP-1102" /></div>
+      <div class="help">Focused — aqua ring</div>
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <label>Search iBOM</label>
+      <div class="input-wrap has-icon">
+        <span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        </span>
+        <input class="input" placeholder="Find a part, document or asset…" />
+      </div>
+    </div>
+    <div>
+      <label>Quantity</label>
+      <div class="input-wrap"><input class="input error" value="-2" /></div>
+      <div class="help err">Quantity must be a positive integer</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,284 @@
+/* ============================================================
+   Metanoia — Colors & Type Foundations
+   Tokens for the Metanoia design system. Source of truth: 
+   Metanoia Visual Identity Guide 2025 v1 (in /assets).
+   ============================================================ */
+
+@font-face {
+  font-family: "Figtree";
+  src: url("./fonts/Figtree-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Figtree";
+  src: url("./fonts/Figtree-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Brand Colors (from Identity Guide p.9) ---------- */
+
+  /* Primary */
+  --color-navy:        #094B77;   /* Primary brand color */
+  --color-aqua:        #32CBED;   /* Primary accent / brandmark highlight */
+  --color-light-aqua:  #9BEBF9;   /* Soft secondary, washes & backgrounds */
+
+  /* Secondary / System */
+  --color-white:       #FFFFFF;
+  --color-black:       #000000;
+  --color-grey:        #999999;   /* Mid */
+  --color-dark-grey:   #666666;   /* Body secondary */
+
+  /* Tints / supporting (extended to round out the palette) */
+  --color-navy-900:    #062F4A;   /* Deeper navy for headlines on light */
+  --color-navy-700:    #094B77;
+  --color-navy-500:    #1F6EA0;
+  --color-navy-100:    #DCEAF3;   /* Soft navy wash */
+
+  --color-aqua-700:    #1FA8C9;
+  --color-aqua-500:    #32CBED;
+  --color-aqua-200:    #BFF1FB;
+  --color-aqua-50:     #ECFAFD;
+
+  /* Cool greys — slight blue cast (~210° hue) to harmonize with navy + aqua */
+  --color-grey-900:    #131A21;
+  --color-grey-800:    #232C35;
+  --color-grey-700:    #3A4754;
+  --color-grey-600:    #56636F;   /* = dark grey, cool */
+  --color-grey-500:    #6E7A86;
+  --color-grey-400:    #8C97A1;   /* = grey, cool */
+  --color-grey-300:    #B6BEC6;
+  --color-grey-200:    #D8DEE3;
+  --color-grey-100:    #ECEFF2;
+  --color-grey-50:     #F4F6F8;
+
+  /* Semantic / status */
+  --color-success:     #2E9E6E;
+  --color-warning:     #E9A23B;
+  --color-error:       #D6492F;
+  --color-info:        #7C5BD9;   /* purple — distinct from aqua brand color */
+
+  /* ---------- Semantic surfaces ---------- */
+  --bg-canvas:         var(--color-white);
+  --bg-subtle:         var(--color-grey-50);
+  --bg-muted:          var(--color-grey-100);
+  --bg-inverse:        var(--color-navy);
+  --bg-inverse-deep:   var(--color-navy-900);
+  --bg-accent-soft:    var(--color-aqua-50);
+  --bg-accent:         var(--color-aqua);
+
+  /* ---------- Foreground / text ---------- */
+  --fg-1:              var(--color-navy-900);   /* High-contrast headings on light */
+  --fg-2:              var(--color-grey-800);   /* Body */
+  --fg-3:              var(--color-grey-600);   /* Secondary body / captions */
+  --fg-4:              var(--color-grey-400);   /* Tertiary / placeholder */
+  --fg-on-dark:        var(--color-white);
+  --fg-on-dark-2:      rgba(255,255,255,0.72);
+  --fg-on-dark-3:      rgba(255,255,255,0.48);
+  --fg-link:           var(--color-navy);
+  --fg-link-hover:     var(--color-aqua-700);
+  --fg-accent:         var(--color-aqua-700);
+
+  /* ---------- Borders ---------- */
+  --border-subtle:     var(--color-grey-200);
+  --border-default:    var(--color-grey-300);
+  --border-strong:     var(--color-grey-600);
+  --border-accent:     var(--color-aqua);
+  --border-on-dark:    rgba(255,255,255,0.16);
+
+  /* ---------- Typography ---------- */
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-brand: var(--font-sans);
+
+  /* Weights — Figtree is variable 300–900; we use a tight set */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* Type scale (1.250 major-third). Sized for product UI; for slides scale up. */
+  --fs-12:  0.75rem;    /* 12 — micro */
+  --fs-13:  0.8125rem;  /* 13 — caption */
+  --fs-14:  0.875rem;   /* 14 — small */
+  --fs-15:  0.9375rem;
+  --fs-16:  1rem;       /* 16 — body */
+  --fs-18:  1.125rem;   /* 18 — body large / subheading */
+  --fs-20:  1.25rem;
+  --fs-22:  1.375rem;
+  --fs-24:  1.5rem;     /* 24 — h4 */
+  --fs-28:  1.75rem;    /* 28 — h3 */
+  --fs-32:  2rem;
+  --fs-36:  2.25rem;    /* 36 — h2 */
+  --fs-44:  2.75rem;
+  --fs-56:  3.5rem;     /* 56 — h1 */
+  --fs-72:  4.5rem;     /* 72 — display */
+  --fs-96:  6rem;       /* 96 — hero display */
+
+  /* Line heights */
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.45;
+  --lh-relaxed: 1.6;
+
+  /* Letter spacing */
+  --ls-tight:    -0.02em;
+  --ls-snug:     -0.01em;
+  --ls-normal:   0;
+  --ls-wide:     0.04em;
+  --ls-eyebrow:  0.12em;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32:  128px;
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
+
+  /* ---------- Shadows ---------- */
+  --shadow-xs: 0 1px 2px rgba(9,75,119,0.06);
+  --shadow-sm: 0 2px 4px rgba(9,75,119,0.08), 0 1px 2px rgba(9,75,119,0.04);
+  --shadow-md: 0 6px 14px rgba(9,75,119,0.10), 0 2px 4px rgba(9,75,119,0.06);
+  --shadow-lg: 0 16px 32px rgba(9,75,119,0.12), 0 4px 8px rgba(9,75,119,0.06);
+  --shadow-xl: 0 28px 56px rgba(9,75,119,0.18), 0 8px 16px rgba(9,75,119,0.08);
+  --shadow-focus: 0 0 0 3px rgba(50,203,237,0.45);
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+  --ease-out: cubic-bezier(0, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+
+  /* ---------- Layout ---------- */
+  --container-narrow: 720px;
+  --container-default: 1120px;
+  --container-wide: 1440px;
+}
+
+/* ============================================================
+   Semantic type roles — apply directly via classes
+   ============================================================ */
+
+.t-display,
+.t-h1,
+.t-h2,
+.t-h3,
+.t-h4,
+.t-h5,
+.t-eyebrow,
+.t-lead,
+.t-body,
+.t-body-sm,
+.t-caption,
+.t-mono,
+.t-wordmark {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+}
+
+.t-display { font-size: 7.5rem; font-weight: var(--fw-semibold); line-height: 0.95; letter-spacing: -0.035em; text-wrap: balance; }
+.t-h1 { font-size: var(--fs-56); font-weight: var(--fw-bold); line-height: var(--lh-tight); letter-spacing: var(--ls-tight); text-wrap: balance; }
+.t-h2 { font-size: var(--fs-36); font-weight: var(--fw-bold); line-height: var(--lh-snug); letter-spacing: var(--ls-snug); text-wrap: balance; }
+.t-h3 { font-size: var(--fs-28); font-weight: var(--fw-semibold); line-height: var(--lh-snug); letter-spacing: var(--ls-snug); text-wrap: balance; }
+.t-h4 { font-size: var(--fs-22); font-weight: var(--fw-semibold); line-height: var(--lh-snug); text-wrap: balance; }
+.t-h5 { font-size: var(--fs-18); font-weight: var(--fw-semibold); line-height: var(--lh-snug); text-wrap: balance; }
+.t-lead { font-size: var(--fs-20); font-weight: var(--fw-regular); line-height: var(--lh-relaxed); color: var(--fg-2); text-wrap: pretty; }
+.t-body { font-size: var(--fs-16); font-weight: var(--fw-regular); line-height: var(--lh-relaxed); color: var(--fg-2); text-wrap: pretty; }
+
+.t-eyebrow {
+  font-size: var(--fs-13);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.t-lead {
+  font-size: var(--fs-20);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-2);
+}
+
+.t-body {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-2);
+}
+
+.t-body-sm {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+
+.t-caption {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--fg-3);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+
+/* The wordmark is ALWAYS lowercase, heavy Figtree, tight tracking. */
+.t-wordmark {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-black);
+  text-transform: lowercase;
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+  color: var(--color-navy);
+}
+
+/* Element defaults — opt-in via .metanoia-typography on a wrapper */
+.metanoia-typography {
+  font-family: var(--font-sans);
+  color: var(--fg-2);
+  font-size: var(--fs-16);
+  line-height: var(--lh-relaxed);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.metanoia-typography h1 { font-size: var(--fs-56); font-weight: var(--fw-bold); line-height: var(--lh-tight); letter-spacing: var(--ls-tight); color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography h2 { font-size: var(--fs-36); font-weight: var(--fw-bold); line-height: var(--lh-snug); letter-spacing: var(--ls-snug); color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography h3 { font-size: var(--fs-28); font-weight: var(--fw-semibold); line-height: var(--lh-snug); color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography h4 { font-size: var(--fs-22); font-weight: var(--fw-semibold); line-height: var(--lh-snug); color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography p  { margin: 0 0 var(--space-4); text-wrap: pretty; }
+.metanoia-typography a  { color: var(--fg-link); text-decoration: underline; text-underline-offset: 2px; }
+.metanoia-typography a:hover { color: var(--fg-link-hover); }
+.metanoia-typography code, .metanoia-typography pre { font-family: var(--font-mono); }

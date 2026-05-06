@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Logo — Brandmark</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
+  .card{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border-subtle);height:240px;}
+  .tile{background:#fff;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;}
+  .tile.dark{background:var(--color-navy);}
+  .tile.aqua{background:var(--color-light-aqua);}
+  .tile img{max-width:100%;max-height:120px;}
+  .label{position:absolute;left:12px;bottom:10px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);font-weight:600;}
+  .tile.dark .label{color:rgba(255,255,255,0.65);}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="tile"><img src="../assets/logo-brandmark.svg" alt=""><span class="label">Color · Light</span></div>
+    <div class="tile dark"><img src="../assets/logo-brandmark-white.svg" alt=""><span class="label">White · Dark</span></div>
+    <div class="tile aqua"><img src="../assets/logo-brandmark-navy.svg" alt=""><span class="label">Navy · Aqua wash</span></div>
+  </div>
+</body>
+</html>

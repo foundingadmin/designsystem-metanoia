@@ -374,7 +374,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '1.1.3';
+const VERSION      = '1.1.4';
 const LAST_UPDATED = 'May 6, 2026';
 
 /* ================================================================
@@ -383,6 +383,14 @@ const LAST_UPDATED = 'May 6, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '1.1.4',
+    date: '2026-05-06',
+    type: 'patch',
+    changes: [
+      'Fixed components-table.html mobile wrapping — reduced body padding to 12px horizontal, wrapped table in overflow-x:auto scroll container with min-width:420px, added white-space:nowrap to part numbers and status tags',
+    ],
+  },
   {
     version: '1.1.3',
     date: '2026-05-06',

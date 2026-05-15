@@ -206,6 +206,18 @@ body {
   background: var(--color-aqua-700); flex-shrink: 0; margin-top: 1px;
   display: inline-block;
 }
+.cl-hidden { display: none; }
+.cl-view-more {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 11px 18px; margin-top: 4px;
+  background: var(--bg-canvas); border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-lg); cursor: pointer;
+  font-size: var(--fs-13); font-weight: var(--fw-medium); color: var(--fg-3);
+  font-family: var(--font-sans);
+  transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+.cl-view-more:hover { background: var(--bg-subtle); color: var(--fg-2); border-color: var(--border-default); }
+.cl-view-more i { width: 14px; height: 14px; flex-shrink: 0; }
 
 /* ── Token count strip ── */
 .ds-stats {
@@ -821,12 +833,14 @@ function buildSections() {
 /* ── Build changelog ── */
 function buildChangelog() {
   const root = document.getElementById('changelog-root');
+  const VISIBLE = 3;
   let html = '';
 
   CHANGELOG.forEach((entry, i) => {
     const isOpen = i === 0;
+    const isHidden = i >= VISIBLE;
     html += `
-<div class="cl-entry${isOpen ? ' open' : ''}">
+<div class="cl-entry${isOpen ? ' open' : ''}${isHidden ? ' cl-hidden' : ''}">
   <div class="cl-header" onclick="this.parentElement.classList.toggle('open')">
     <span class="cl-version">v${entry.version}</span>
     <span class="cl-badge ${entry.type}">${entry.type}</span>
@@ -841,7 +855,21 @@ function buildChangelog() {
 </div>`;
   });
 
+  if (CHANGELOG.length > VISIBLE) {
+    html += `
+<button class="cl-view-more" id="cl-view-more-btn" onclick="clExpandAll()">
+  <i data-lucide="chevrons-down"></i>
+  View ${CHANGELOG.length - VISIBLE} older versions
+</button>`;
+  }
+
   root.innerHTML = html;
+}
+
+function clExpandAll() {
+  document.querySelectorAll('.cl-hidden').forEach(el => el.classList.remove('cl-hidden'));
+  const btn = document.getElementById('cl-view-more-btn');
+  if (btn) btn.remove();
 }
 
 /* ── Scrollspy ── */

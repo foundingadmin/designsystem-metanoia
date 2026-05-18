@@ -410,7 +410,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '1.3.1';
+const VERSION      = '1.4.0';
 const LAST_UPDATED = 'May 18, 2026';
 
 /* ================================================================
@@ -419,6 +419,15 @@ const LAST_UPDATED = 'May 18, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '1.4.0',
+    date: '2026-05-18',
+    type: 'minor',
+    changes: [
+      'Add 200/400/600/800/1000 scales for success, warning, error, and info system colors (20 new tokens)',
+      'Add Success, Warning, Error, Info scale entries to sync/token-map.js',
+    ],
+  },
   {
     version: '1.3.1',
     date: '2026-05-18',

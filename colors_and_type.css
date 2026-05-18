@@ -63,6 +63,34 @@
   --color-error:       #D6492F;
   --color-info:        #7C5BD9;   /* purple — distinct from aqua brand color */
 
+  /* Success scale */
+  --color-success-200: #C8F0DF;
+  --color-success-400: #6FCA9E;
+  --color-success-600: #2E9E6E;
+  --color-success-800: #1A6343;
+  --color-success-1000: #0A2B1D;
+
+  /* Warning scale */
+  --color-warning-200: #FDECD2;
+  --color-warning-400: #F5C073;
+  --color-warning-600: #E9A23B;
+  --color-warning-800: #9E6A1D;
+  --color-warning-1000: #3D280A;
+
+  /* Error scale */
+  --color-error-200: #FAD5CE;
+  --color-error-400: #E98474;
+  --color-error-600: #D6492F;
+  --color-error-800: #8F2D1C;
+  --color-error-1000: #3A0F09;
+
+  /* Info scale */
+  --color-info-200: #E6E0FA;
+  --color-info-400: #B09AEA;
+  --color-info-600: #7C5BD9;
+  --color-info-800: #4A30A8;
+  --color-info-1000: #1E1242;
+
   /* ---------- Semantic surfaces ---------- */
   --bg-canvas:         var(--color-white);
   --bg-subtle:         var(--color-grey-50);

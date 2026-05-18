@@ -53,6 +53,34 @@ const TOKEN_MAP = [
   { css: '--color-error',      figma: 'Status/Error' },
   { css: '--color-info',       figma: 'Status/Info' },
 
+  // ── Success Scale ─────────────────────────────────────────────────────────
+  { css: '--color-success-200',  figma: 'Success/200' },
+  { css: '--color-success-400',  figma: 'Success/400' },
+  { css: '--color-success-600',  figma: 'Success/600' },
+  { css: '--color-success-800',  figma: 'Success/800' },
+  { css: '--color-success-1000', figma: 'Success/1000' },
+
+  // ── Warning Scale ─────────────────────────────────────────────────────────
+  { css: '--color-warning-200',  figma: 'Warning/200' },
+  { css: '--color-warning-400',  figma: 'Warning/400' },
+  { css: '--color-warning-600',  figma: 'Warning/600' },
+  { css: '--color-warning-800',  figma: 'Warning/800' },
+  { css: '--color-warning-1000', figma: 'Warning/1000' },
+
+  // ── Error Scale ───────────────────────────────────────────────────────────
+  { css: '--color-error-200',  figma: 'Error/200' },
+  { css: '--color-error-400',  figma: 'Error/400' },
+  { css: '--color-error-600',  figma: 'Error/600' },
+  { css: '--color-error-800',  figma: 'Error/800' },
+  { css: '--color-error-1000', figma: 'Error/1000' },
+
+  // ── Info Scale ────────────────────────────────────────────────────────────
+  { css: '--color-info-200',  figma: 'Info/200' },
+  { css: '--color-info-400',  figma: 'Info/400' },
+  { css: '--color-info-600',  figma: 'Info/600' },
+  { css: '--color-info-800',  figma: 'Info/800' },
+  { css: '--color-info-1000', figma: 'Info/1000' },
+
   // ── Semantic Backgrounds ──────────────────────────────────────────────────
   { css: '--bg-canvas',        figma: 'Background/Canvas' },
   { css: '--bg-subtle',        figma: 'Background/Subtle' },

@@ -410,7 +410,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '1.4.0';
+const VERSION      = '1.4.1';
 const LAST_UPDATED = 'May 18, 2026';
 
 /* ================================================================
@@ -419,6 +419,14 @@ const LAST_UPDATED = 'May 18, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '1.4.1',
+    date: '2026-05-18',
+    type: 'patch',
+    changes: [
+      'Add alternate hero variant: split-panel, light left + navy right with feature list and trust stats',
+    ],
+  },
   {
     version: '1.4.0',
     date: '2026-05-18',
@@ -701,7 +709,8 @@ const SECTIONS = [
     desc: 'Full-bleed navy hero strip. Eyebrow + H1 + body + dual CTA. Brandmark watermark motif at 10% opacity.',
     cols: 1,
     cards: [
-      { src: 'preview/components-hero.html', label: 'Hero strip' },
+      { src: 'preview/components-hero.html',     label: 'Hero strip — dark' },
+      { src: 'preview/components-hero-alt.html', label: 'Hero strip — split panel' },
     ],
   },
   {

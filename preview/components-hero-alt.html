@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hero — alternate</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-subtle);font-family:var(--font-sans);color:var(--fg-2);}
+
+  /* ── Wrapper ── */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr;
+    min-height:320px;
+    border-top:3px solid var(--color-aqua);
+    box-shadow:var(--shadow-lg);
+    overflow:hidden;
+  }
+
+  /* ── Left panel — light ── */
+  .hero-body{
+    background:var(--bg-canvas);
+    padding:40px 28px 36px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:0;
+  }
+  .eyebrow{
+    font-size:var(--fs-12);
+    font-weight:var(--fw-semibold);
+    letter-spacing:var(--ls-eyebrow);
+    text-transform:uppercase;
+    color:var(--color-aqua-700);
+    margin:0 0 var(--space-3);
+  }
+  h1{
+    font-size:clamp(22px,5.5vw,38px);
+    font-weight:var(--fw-bold);
+    line-height:var(--lh-tight);
+    letter-spacing:var(--ls-tight);
+    color:var(--fg-1);
+    margin:0 0 var(--space-4);
+    text-wrap:balance;
+  }
+  h1 span{color:var(--color-navy-500);}
+  .body-text{
+    font-size:var(--fs-15);
+    color:var(--fg-3);
+    line-height:var(--lh-relaxed);
+    margin:0 0 var(--space-6);
+    max-width:38em;
+    text-wrap:pretty;
+  }
+
+  /* ── CTAs ── */
+  .cta-row{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;}
+  .btn{
+    font-family:var(--font-sans);
+    font-size:var(--fs-14);
+    font-weight:var(--fw-semibold);
+    line-height:1;
+    border:1.5px solid transparent;
+    border-radius:var(--radius-md);
+    padding:11px 20px;
+    cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:background var(--dur-fast) var(--ease-standard),
+               box-shadow  var(--dur-fast) var(--ease-standard);
+  }
+  .btn-primary{
+    background:var(--color-navy);
+    color:#fff;
+    border-color:var(--color-navy);
+  }
+  .btn-primary:hover{background:var(--color-navy-900);border-color:var(--color-navy-900);}
+  .btn-secondary{
+    background:transparent;
+    color:var(--color-navy);
+    border-color:var(--border-default);
+  }
+  .btn-secondary:hover{background:var(--bg-subtle);border-color:var(--border-strong);}
+
+  /* ── Trust strip ── */
+  .trust{
+    margin-top:var(--space-6);
+    padding-top:var(--space-5);
+    border-top:1px solid var(--border-subtle);
+    display:flex;flex-wrap:wrap;gap:var(--space-5);
+  }
+  .stat{display:flex;flex-direction:column;gap:2px;}
+  .stat-num{
+    font-size:var(--fs-22);
+    font-weight:var(--fw-bold);
+    color:var(--fg-1);
+    line-height:1;
+  }
+  .stat-label{
+    font-size:var(--fs-12);
+    font-weight:var(--fw-medium);
+    color:var(--fg-4);
+    letter-spacing:0.03em;
+  }
+  .stat-num span{color:var(--color-aqua-700);}
+
+  /* ── Right panel — dark ── */
+  .hero-panel{
+    display:none;
+    background:var(--color-navy);
+    padding:40px 28px;
+    flex-direction:column;
+    justify-content:center;
+    gap:var(--space-5);
+    position:relative;
+    overflow:hidden;
+  }
+  .panel-label{
+    font-size:var(--fs-12);
+    font-weight:var(--fw-semibold);
+    letter-spacing:var(--ls-eyebrow);
+    text-transform:uppercase;
+    color:var(--color-aqua);
+    margin:0;
+  }
+  .feature-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-4);
+  }
+  .feature-list li{
+    display:flex;
+    gap:var(--space-3);
+    align-items:flex-start;
+  }
+  .feature-icon{
+    flex-shrink:0;
+    width:32px;height:32px;
+    border-radius:var(--radius-sm);
+    background:rgba(50,203,237,0.12);
+    border:1px solid rgba(50,203,237,0.2);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--color-aqua);
+  }
+  .feature-icon i{width:16px;height:16px;}
+  .feature-text{}
+  .feature-title{
+    font-size:var(--fs-14);
+    font-weight:var(--fw-semibold);
+    color:#fff;
+    margin:0 0 2px;
+    line-height:var(--lh-snug);
+  }
+  .feature-desc{
+    font-size:var(--fs-13);
+    color:rgba(255,255,255,0.55);
+    margin:0;
+    line-height:var(--lh-normal);
+  }
+  /* Watermark */
+  .watermark{
+    position:absolute;
+    bottom:-32px;right:-32px;
+    width:200px;opacity:0.06;
+    pointer-events:none;
+  }
+
+  /* ── Desktop: two columns ── */
+  @media(min-width:640px){
+    .hero{grid-template-columns:1.15fr 1fr;}
+    .hero-panel{display:flex;}
+  }
+</style>
+</head>
+<body>
+  <div class="hero">
+
+    <!-- Left: light panel -->
+    <div class="hero-body">
+      <p class="eyebrow">Asset Information Center</p>
+      <h1>Parts data that works as hard as <span>your team</span> does.</h1>
+      <p class="body-text">One searchable platform for every catalog, iBOM, and interchange. Stop the PDF archaeology — give your engineers answers in seconds.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary">
+          <i data-lucide="calendar" style="width:14px;height:14px;"></i>
+          Book a demo
+        </button>
+        <button class="btn btn-secondary">See how it works</button>
+      </div>
+      <div class="trust">
+        <div class="stat">
+          <span class="stat-num">25<span>+</span></span>
+          <span class="stat-label">Years of conversions</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">2M<span>+</span></span>
+          <span class="stat-label">Parts cataloged</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">99<span>%</span></span>
+          <span class="stat-label">Data accuracy SLA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: dark feature panel -->
+    <div class="hero-panel">
+      <p class="panel-label">What's included</p>
+      <ul class="feature-list">
+        <li>
+          <div class="feature-icon"><i data-lucide="search"></i></div>
+          <div class="feature-text">
+            <p class="feature-title">Intelligent search</p>
+            <p class="feature-desc">Full-text and part-number lookup across every catalog version.</p>
+          </div>
+        </li>
+        <li>
+          <div class="feature-icon"><i data-lucide="git-merge"></i></div>
+          <div class="feature-text">
+            <p class="feature-title">Cross-reference engine</p>
+            <p class="feature-desc">Automatic OEM-to-aftermarket interchange, no manual mapping.</p>
+          </div>
+        </li>
+        <li>
+          <div class="feature-icon"><i data-lucide="file-text"></i></div>
+          <div class="feature-text">
+            <p class="feature-title">PDF → structured data</p>
+            <p class="feature-desc">Legacy catalogs converted and version-controlled in weeks.</p>
+          </div>
+        </li>
+        <li>
+          <div class="feature-icon"><i data-lucide="plug"></i></div>
+          <div class="feature-text">
+            <p class="feature-title">ERP integration</p>
+            <p class="feature-desc">REST API and flat-file export to fit your existing stack.</p>
+          </div>
+        </li>
+      </ul>
+      <img class="watermark" src="../assets/logo-brandmark-white.svg" alt="">
+    </div>
+
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

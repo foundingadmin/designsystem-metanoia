@@ -80,7 +80,7 @@ Current version: **v1.1.0**
 ## GitHub Pages
 
 The site is served from `index.html` at the repo root.  
-URL: `https://foundingadmin.github.io/designsystem-metanoia/`
+URL: `https://foundingadmin.github.io/metanoia-designsys/`
 
 Enable Pages in repo Settings → Pages → Source: **Deploy from branch**, branch: **main**, folder: **/ (root)**.
 

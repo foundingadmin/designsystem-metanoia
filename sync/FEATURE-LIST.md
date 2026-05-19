@@ -1,13 +1,48 @@
-# Feature: Figma-First Component Sync (figma → repo)
+# Sync Feature List
 
-**Status:** Scheduled / not started  
-**Origin:** Phase 3d build session — 2026-05-19  
+Running backlog of feature ideas for the Metanoia design system sync engine.
+Each entry follows the template below. Add new features at the top (newest first).
+
+**Scope:** anything that extends or improves the `sync/` pipeline — new sync
+directions, new token categories, CLI tooling, CI hooks, etc.
+
+---
+
+## How to add a feature
+
+Copy the template below, paste it above the most recent entry, fill it in.
+Status options: `Idea` · `Scheduled` · `In progress` · `Done`
+
+```md
+## Feature NNN — [Short title]
+
+**Status:** Idea
+**Origin:** [session / person / date]
+**Scope:** One sentence.
+
+### Problem
+### Goal
+### Rough approach
+### Acceptance criteria
+- [ ] ...
+
+### Related
+```
+
+---
+
+---
+
+## Feature 001 — Figma-First Component Sync (figma → repo)
+
+**Status:** Scheduled / not started
+**Origin:** Phase 3d build session — 2026-05-19
 **Scope:** Extend the existing token sync engine to also sync Figma component
 sets into repo code, completing a true bi-directional design ↔ code pipeline.
 
 ---
 
-## Problem
+### Problem
 
 The current sync (`sync-figma-to-repo.js` / `sync-repo-to-figma.js`) handles
 **design tokens only** — CSS custom properties ↔ Figma variables. Components
@@ -16,7 +51,7 @@ in the repo until someone manually writes it. This creates drift.
 
 ---
 
-## Goal
+### Goal
 
 One unified `sync-figma-to-repo.js` that handles both:
 1. Variable/token diffs → `tokens/*.css` (already works)
@@ -27,9 +62,9 @@ generates the matching HTML/CSS preview and (eventually) framework components.
 
 ---
 
-## Proposed Architecture
+### Proposed Architecture
 
-### New file: `sync/component-map.js`
+#### New file: `sync/component-map.js`
 
 Parallel to `token-map.js`. Maps Figma component set names to repo output files
 and describes how to translate variant properties to CSS classes.
@@ -72,7 +107,7 @@ module.exports.COMPONENT_MAP = [
 ];
 ```
 
-### Extended `sync-figma-to-repo.js`
+#### Extended `sync-figma-to-repo.js`
 
 Add a second pass after the existing token diff:
 
@@ -88,7 +123,7 @@ Phase 2 logic:
 4. Diff against the existing preview HTML
 5. If diffs exist, regenerate the HTML block and open a PR
 
-### What gets generated
+#### What gets generated
 
 For each component set, the generator produces:
 - An HTML section in the target preview file with all variant combinations
@@ -96,7 +131,7 @@ For each component set, the generator produces:
 - If Lucide icons are used in the Figma component, the generated HTML includes
   `<i data-lucide="...">` slots with `lucide.createIcons()` at the bottom
 
-### Framework output (phase 2, later)
+#### Framework output (phase 2, later)
 
 Once preview HTML generation is stable, add a secondary generator for:
 - **React**: one `.tsx` file per component with typed props from variant names
@@ -104,9 +139,9 @@ Once preview HTML generation is stable, add a secondary generator for:
 
 ---
 
-## Implementation Notes
+### Implementation Notes
 
-### Reading Figma component structure
+#### Reading Figma component structure
 
 ```js
 // In sync-figma-to-repo.js — new section
@@ -134,7 +169,7 @@ for (const set of compSets) {
 }
 ```
 
-### Reverse-mapping Figma variables → CSS
+#### Reverse-mapping Figma variables → CSS
 
 Use `TOKEN_MAP` from `token-map.js` in reverse:
 ```js
@@ -147,7 +182,7 @@ reference, with no hardcoded values in the output.
 
 ---
 
-## Files to Create / Modify
+### Files to Create / Modify
 
 | Action | File |
 |---|---|
@@ -159,7 +194,7 @@ reference, with no hardcoded values in the output.
 
 ---
 
-## Acceptance Criteria
+### Acceptance Criteria
 
 - [ ] Running "sync Figma → repo" also checks for component structure diffs
 - [ ] A Figma-first component (e.g. new Toggle variant) generates a matching
@@ -169,7 +204,7 @@ reference, with no hardcoded values in the output.
 
 ---
 
-## Related
+### Related
 
 - `sync/RUNDOC_v2.md` — manual build plan this feature will eventually automate
 - `sync/token-map.js` — existing variable mapping to extend

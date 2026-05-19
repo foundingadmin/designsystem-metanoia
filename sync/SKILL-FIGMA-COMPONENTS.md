@@ -560,3 +560,175 @@ If anything is missing, build it before proceeding. Missing primitives →
 buttons will have hardcoded colors. Missing text styles → button text will
 have no style binding. Missing Icon/Placeholder → icon slots will use
 raw rectangles that designers can't swap.
+
+---
+
+## Canvas Design Guidelines (use_figma page/screen builds)
+
+These rules apply whenever building UI frames directly on a Figma page
+(heroes, sections, screens, mockups) — not just when building the DS itself.
+
+### Rule 1 — Always bind every text node to a DS text style
+
+Never set `fontName`, `fontSize`, or `fontWeight` manually on a text node
+that belongs to a page design. Always use `textStyleId` bound to a DS style.
+
+```js
+// ✅ Correct — fetches the style key from getLocalTextStyles or importStyleByKeyAsync
+const leadStyle = await figma.importStyleByKeyAsync('4fda3fb5b62786c8ae422e4490f10171dd9bfe02');
+node.textStyleId = leadStyle.id;
+
+// ❌ Wrong — raw property overrides disconnect the node from the DS
+node.fontName = { family: 'Figtree', style: 'Regular' };
+node.fontSize = 20;
+```
+
+If no existing style fits exactly, choose the closest match. Never hardcode
+font properties just to hit a specific pixel size.
+
+### Rule 2 — Always check for an existing DS component before building custom
+
+Before constructing a badge, tag, chip, input, or any other element from
+scratch, search the DS with `search_design_system` or inspect the `ds` page.
+If a component exists, create an instance and override its text/properties —
+don't duplicate the component's structure manually.
+
+```js
+// ✅ Correct — use the DS component instance, then override the label text
+const tagComp = figma.getNodeById('120:410'); // Form/Tag Icon Color=Info
+const badge = tagComp.createInstance();
+const labelNode = badge.findOne(n => n.type === 'TEXT');
+if (labelNode) {
+  await figma.loadFontAsync(labelNode.fontName);
+  labelNode.characters = 'Your label here';
+}
+
+// ❌ Wrong — building a manual pill frame, dot, and text from scratch
+//    when Form/Tag Icon already exists in the DS
+```
+
+### Rule 3 — layoutSizingHorizontal / layoutSizingVertical must be set AFTER appendChild
+
+These properties are only valid on children of auto-layout frames. Setting
+them before the node is appended to an auto-layout parent throws:
+`"node must be an auto-layout frame or a child of an auto-layout frame"`.
+
+```js
+// ✅ Correct — append first, then set sizing
+parent.appendChild(node);
+node.layoutSizingHorizontal = 'FILL';
+
+// ❌ Wrong — throws error because node has no auto-layout parent yet
+node.layoutSizingHorizontal = 'FILL';
+parent.appendChild(node);
+```
+
+---
+
+## Metanoia DS Text Style Reference
+
+Use these keys with `figma.importStyleByKeyAsync(key)` or reference local IDs
+from `figma.getLocalTextStyles()`.
+
+| Style name | Size | Weight | Use for |
+|---|---|---|---|
+| `Display` | 120px | SemiBold | Hero headlines, oversized display copy |
+| `H1` | 56px | Bold | Page-level section titles |
+| `H2` | 36px | Bold | Sub-section headings |
+| `H3` | 28px | SemiBold | Card headings, panel titles |
+| `H4` | 24px | SemiBold | Widget headings |
+| `H5` | 18px | SemiBold | Small headings, sidebar labels |
+| `Lead` | 20px | Regular | Hero subheadlines, intro paragraphs |
+| `Body` | 16px | Regular | General body copy |
+| `Body SM` | 14px | Regular | Secondary body, tooltips |
+| `Caption` | 12px | Regular | Meta text, timestamps, helper text |
+| `Eyebrow` | 13px | SemiBold | Section labels, overlines, scroll hints |
+| `Button/LG` | 16px | SemiBold | Button labels (LG) |
+| `Button/MD` | 14px | SemiBold | Button labels (MD) |
+| `Button/SM` | 13px | SemiBold | Button labels (SM) |
+
+Style import keys (pass to `figma.importStyleByKeyAsync`):
+
+```js
+const STYLE_KEYS = {
+  Display:    '953cc7c70ecd20225ec1567de6eca312ec2950a9',
+  H1:         'fbf29ded61ada664d8e978eb541699c61fc8ad03',
+  H2:         'a74916e8929fcba3f9e91e83a4736ec0e321bc3b',
+  H3:         '7ba49e021ec8f1a355df99558f60f86c74730bd5',
+  H4:         'e7a6049a72fa9c8cd3d8f83c65e2e5d1ffaa0288',
+  H5:         '172797ec72f8a69492e51cd5ef2477fe2cc676b3',
+  Lead:       '4fda3fb5b62786c8ae422e4490f10171dd9bfe02',
+  Body:       '54fb83862a34c5ce0c05a672569d28bd5279129f',
+  BodySM:     '72056ef233cf71013d5feffc7d0240827e09c478',
+  Caption:    '47c93009606a68582c3da18475a8b62f60e38bb6',
+  Eyebrow:    '513fc5b8e12dc93b9ee2ac225850f76f7b8a9463',
+  ButtonLG:   '749be6e5903f421139d621cb0362f80414045be1',
+  ButtonMD:   'ef29637a567c1f3689d9ffd8c0bf15e64de2f9c5',
+  ButtonSM:   '6b67c23effcb998d52cd0df2c0669da2e630dfe7',
+};
+```
+
+---
+
+## Metanoia DS Component Reference (canvas use)
+
+These components exist in the DS file (`ds` page) and should always be
+preferred over manually constructed equivalents.
+
+| Component | Node IDs (variants) | Use for |
+|---|---|---|
+| `Button` | Set: `91:489` | All CTAs — use `Type`, `Size`, `Icon`, `State` variant props |
+| `Button` Primary LG Default | `91:89` | Hero primary CTA |
+| `Button` Ghost LG Default | `91:329` | Hero secondary CTA |
+| `Button` Secondary LG Default | `91:209` | Secondary hero/section CTA |
+| `Form/Tag Icon` Color=Info | `120:410` | Accent/aqua overline badges, labels |
+| `Form/Tag Icon` Color=Neutral | `120:416` | Neutral overline labels |
+| `Form/Tags` Info SM Subtle | `117:386` | Small status/info tags |
+| `Form/Tags` Info MD Subtle | `117:401` | Medium status/info tags |
+| `Icon/Placeholder` | Set: `97:23` | Icon slots (Size=16/20/24) |
+
+**Button variant matrix** — `Type` × `Size` × `Icon` × `State` = 180 variants:
+- Type: Primary, Secondary, Ghost, Destructive
+- Size: SM, MD, LG
+- Icon: None, Leading, Trailing
+- State: Default, Hover, Active, Focus, Disabled
+
+**Form/Tag Icon** — `Color` variants: Success, Warning, Error, Info, Neutral
+
+**Form/Tags** — `Color` × `Size` × `Style` variants:
+- Color: Success, Warning, Error, Info, Neutral
+- Size: SM, MD
+- Style: Subtle, Bold
+
+---
+
+## Semantic Variable Reference (canvas color bindings)
+
+All fills and strokes on page designs must use semantic variables from the
+`Semantic` collection so that light/dark mode switching works automatically.
+
+Import with `figma.variables.importVariableByKeyAsync(key)`.
+
+```js
+const SEMANTIC_KEYS = {
+  // Background
+  'Background/Canvas':      '159cc782cb7c31b4b91f49b052c8646ad625dbcd',
+  'Background/Subtle':      'dab745b116f097c6ff5fc471cae1d5e8bce4bc4c',
+  'Background/Muted':       'cc4da4d3867ce625837de13a0753013e1e9cdcba',
+  'Background/Accent':      '0216a234bbbf94c9ed5a0fa8eefe2112e60d2455',
+  'Background/Accent Soft': '1ed61b769060661c5bba045261c38b1ff83992e3',
+  // Foreground
+  'Foreground/Primary':     'e64a5fa8357f5aa5ac0a1c2f21837b425d329c89',
+  'Foreground/Secondary':   'fc4d33132916e2a02c8d31e333b7e75e1bf94e59',
+  'Foreground/Body':        '3df3ae87ee4362e41878a8eaf8c599da10b8eadb',
+  'Foreground/Tertiary':    'b5b8905c72685a71d9d3e12484f08b20d3250828',
+  'Foreground/Accent':      '15ef0bf2b272f731df107919fc97ec4962931cca',
+  'Foreground/Link':        'c2c175656821ec59657c3d0b22fe0aeba941120f',
+  'Foreground/Link Hover':  'f33cb574a6101e566792c20b95c015f21746aa22',
+  // Border
+  'Border/Accent':          '26fcc1205c04d3d0d5e0ac196ce5fe068a4496aa',
+};
+```
+
+Never use raw primitive variables (e.g. `Navy/700`) for fills on page designs.
+Always route through semantic variables so the frame responds to mode changes.

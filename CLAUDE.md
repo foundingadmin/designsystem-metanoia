@@ -4,15 +4,37 @@
 
 ```
 /
-├── index.html              ← Single-page design system showcase (GitHub Pages root)
-├── colors_and_type.css     ← All design tokens — the source of truth
-├── README.md               ← Brand guidelines, voice, visual foundations
-├── SKILL.md                ← Claude Code skill manifest
-├── assets/                 ← Logos (SVG), identity guide PDF, type guide JPG
-├── fonts/                  ← Figtree variable + italic TTFs
-├── preview/                ← Individual component/token preview cards (HTML)
-└── uploads/                ← Original brand files from client
+├── index.html                   ← Single-page design system showcase (GitHub Pages root)
+├── colors_and_type.css          ← Barrel file: @imports tokens/* + typography-utilities.css
+├── typography-utilities.css     ← @font-face + .t-* classes (not synced with Figma)
+├── tokens/                      ← Atomic token files — source of truth for sync
+│   ├── color-primitives.css     ← Raw palette hex values (brand, navy, aqua, grey, status)
+│   ├── color-semantic.css       ← Role aliases: bg / fg / border (var() references)
+│   ├── typography.css           ← Font family, weight, size, line-height, letter-spacing
+│   ├── spacing.css              ← Space scale, radii, shadows, layout containers
+│   └── motion.css               ← Easing curves + duration tiers
+├── sync/                        ← Figma ↔ CSS sync scripts
+│   ├── token-map.js             ← CSS ↔ Figma variable mapping (organized by collection)
+│   ├── sync-figma-to-repo.js   ← Figma → tokens/* diff + PR
+│   └── sync-repo-to-figma.js   ← tokens/* → Figma diff + apply
+├── README.md                    ← Brand guidelines, voice, visual foundations
+├── SKILL.md                     ← Claude Code skill manifest
+├── assets/                      ← Logos (SVG), identity guide PDF, type guide JPG
+├── fonts/                       ← Figtree variable + italic TTFs
+├── preview/                     ← Individual component/token preview cards (HTML)
+└── uploads/                     ← Original brand files from client
 ```
+
+### Token file responsibilities
+
+| File | What it contains | Figma collections |
+|---|---|---|
+| `tokens/color-primitives.css` | Raw hex values only — never `var()` | Brand, Navy, Aqua, Grey, Status |
+| `tokens/color-semantic.css` | Role aliases (`var()` references) | Background, Foreground, Border |
+| `tokens/typography.css` | Font family, size, weight, line-height, letter-spacing | Font Size, Font Weight, Line Height, Letter Spacing |
+| `tokens/spacing.css` | Space scale, radii, shadows, container widths | Spacing, Radius, Shadow, Layout |
+| `tokens/motion.css` | Easing curves, duration tiers | Motion |
+| `typography-utilities.css` | `@font-face` + `.t-*` classes | **Not synced** |
 
 ## Versioning rules
 
@@ -44,7 +66,7 @@ This system uses **Semantic Versioning**: `MAJOR.MINOR.PATCH`
    ```
 3. Commit: `chore: bump to vX.Y.Z — <one-line summary>`
 
-Current version: **v1.1.0**
+Current version: **v1.5.0**
 
 ## Adding a new preview card
 
@@ -87,7 +109,7 @@ Enable Pages in repo Settings → Pages → Source: **Deploy from branch**, bran
 # DS Sync — Claude Code Instructions
 
 This section extends the main CLAUDE.md with instructions for running
-design token syncs between `colors_and_type.css` and the Figma file.
+design token syncs between `tokens/` and the Figma file.
 
 **Figma File Key:** `c3ayt4AFrNKOmSkGBIyFi4`
 **Sync scripts:** `sync/token-map.js`, `sync/sync-figma-to-repo.js`, `sync/sync-repo-to-figma.js`
@@ -142,7 +164,7 @@ Show the diff to the user. Then execute these shell commands in order:
 
 ```bash
 git checkout -b {result.branch}
-git add colors_and_type.css
+git add tokens/
 git commit -m "{result.commitMsg}"
 git push -u origin {result.branch}
 gh pr create \
@@ -190,9 +212,18 @@ Report: "✓ Updated X variables in Figma."
 
 ## Adding New Tokens
 
-When a new CSS var is added to `colors_and_type.css`, it also needs:
-1. A corresponding Figma variable created in the correct collection
-2. A new entry in `sync/token-map.js`
+When a new CSS var is added, three things must happen together:
+1. Add it to the correct file in `tokens/` (match the category)
+2. Create the corresponding Figma variable in the right collection
+3. Add a new entry in `sync/token-map.js` with the correct `type`
+
+| Token category | CSS file | Figma collection |
+|---|---|---|
+| Raw color | `tokens/color-primitives.css` | Brand / Navy / Aqua / Grey / Status |
+| Role color | `tokens/color-semantic.css` | Background / Foreground / Border |
+| Typography | `tokens/typography.css` | Font Size / Font Weight / Line Height / Letter Spacing |
+| Space / shape | `tokens/spacing.css` | Spacing / Radius / Shadow / Layout |
+| Motion | `tokens/motion.css` | Motion |
 
 Claude Code can handle all three steps when asked:
 "Add a new token --color-coral: #FF6B6B to the design system"

@@ -1,0 +1,17 @@
+/* ============================================================
+   Metanoia — Motion Tokens
+   Easing curves and duration tiers.
+   120–200–320ms; no bounces or spring overshoots.
+   ============================================================ */
+
+:root {
+  /* ── Easing ──────────────────────────────────────────────── */
+  --ease-standard:  cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+  --ease-out:       cubic-bezier(0, 0, 0, 1);
+
+  /* ── Duration ────────────────────────────────────────────── */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}

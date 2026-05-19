@@ -1,0 +1,109 @@
+/* ============================================================
+   Metanoia — Typography Utilities
+   @font-face declarations, semantic type-role classes,
+   and the .metanoia-typography content wrapper.
+   Not tokens — do not include in Figma variable sync.
+   ============================================================ */
+
+@font-face {
+  font-family: "Figtree";
+  src: url("./fonts/Figtree-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Figtree";
+  src: url("./fonts/Figtree-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Semantic type-role classes ─────────────────────────────── */
+
+.t-display,
+.t-h1,
+.t-h2,
+.t-h3,
+.t-h4,
+.t-h5,
+.t-eyebrow,
+.t-lead,
+.t-body,
+.t-body-sm,
+.t-caption,
+.t-mono,
+.t-wordmark {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+}
+
+.t-display  { font-size: var(--fs-120); font-weight: var(--fw-semibold); line-height: 0.95; letter-spacing: -0.035em; text-wrap: balance; }
+.t-h1       { font-size: var(--fs-56);  font-weight: var(--fw-bold);     line-height: var(--lh-tight);   letter-spacing: var(--ls-tight); text-wrap: balance; }
+.t-h2       { font-size: var(--fs-36);  font-weight: var(--fw-bold);     line-height: var(--lh-snug);    letter-spacing: var(--ls-snug);  text-wrap: balance; }
+.t-h3       { font-size: var(--fs-28);  font-weight: var(--fw-semibold); line-height: var(--lh-snug);    letter-spacing: var(--ls-snug);  text-wrap: balance; }
+.t-h4       { font-size: var(--fs-22);  font-weight: var(--fw-semibold); line-height: var(--lh-snug);    text-wrap: balance; }
+.t-h5       { font-size: var(--fs-18);  font-weight: var(--fw-semibold); line-height: var(--lh-snug);    text-wrap: balance; }
+.t-lead     { font-size: var(--fs-20);  font-weight: var(--fw-regular);  line-height: var(--lh-relaxed); color: var(--fg-2); text-wrap: pretty; }
+.t-body     { font-size: var(--fs-16);  font-weight: var(--fw-regular);  line-height: var(--lh-relaxed); color: var(--fg-2); text-wrap: pretty; }
+
+.t-eyebrow {
+  font-size: var(--fs-13);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.t-body-sm {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+
+.t-caption {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--fg-3);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+
+/* Wordmark is ALWAYS lowercase, heavy Figtree, tight tracking. */
+.t-wordmark {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  text-transform: lowercase;
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+  color: var(--color-navy);
+}
+
+/* ── Content wrapper ────────────────────────────────────────── */
+
+.metanoia-typography {
+  font-family: var(--font-sans);
+  color: var(--fg-2);
+  font-size: var(--fs-16);
+  line-height: var(--lh-relaxed);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.metanoia-typography h1 { font-size: var(--fs-56); font-weight: var(--fw-bold);     line-height: var(--lh-tight); letter-spacing: var(--ls-tight); color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography h2 { font-size: var(--fs-36); font-weight: var(--fw-bold);     line-height: var(--lh-snug);  letter-spacing: var(--ls-snug);  color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography h3 { font-size: var(--fs-28); font-weight: var(--fw-semibold); line-height: var(--lh-snug);  color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography h4 { font-size: var(--fs-22); font-weight: var(--fw-semibold); line-height: var(--lh-snug);  color: var(--fg-1); text-wrap: balance; }
+.metanoia-typography p  { margin: 0 0 var(--space-4); text-wrap: pretty; }
+.metanoia-typography a  { color: var(--fg-link); text-decoration: underline; text-underline-offset: 2px; }
+.metanoia-typography a:hover { color: var(--fg-link-hover); }
+.metanoia-typography code, .metanoia-typography pre { font-family: var(--font-mono); }

@@ -410,8 +410,8 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '1.4.1';
-const LAST_UPDATED = 'May 18, 2026';
+const VERSION      = '1.5.0';
+const LAST_UPDATED = 'May 19, 2026';
 
 /* ================================================================
    CHANGELOG
@@ -419,6 +419,18 @@ const LAST_UPDATED = 'May 18, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '1.5.0',
+    date: '2026-05-19',
+    type: 'minor',
+    changes: [
+      'Split colors_and_type.css into atomic token files: tokens/color-primitives.css, tokens/color-semantic.css, tokens/typography.css, tokens/spacing.css, tokens/motion.css',
+      'Extract typography utilities (.t-* classes, @font-face) into typography-utilities.css — not synced with Figma',
+      'colors_and_type.css is now a barrel @import file — all existing links continue to work',
+      'Add shadow, motion easing, motion duration, and layout container tokens to sync/token-map.js (16 new entries)',
+      'Sync scripts now read from tokens/* directly and support STRING variable type for shadows and easing curves',
+    ],
+  },
   {
     version: '1.4.1',
     date: '2026-05-18',

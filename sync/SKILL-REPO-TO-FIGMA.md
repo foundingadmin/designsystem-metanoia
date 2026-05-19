@@ -656,3 +656,162 @@ ico.fills = varFill('Foreground/Tertiary', '#8895A1');  // grey tint
 | Icon set name | `Icon Placeholder` (no slash) |
 | Button set name | `Button` |
 | Tag set name | `Form/Tags` |
+
+---
+
+## Canvas Design Guidelines (use_figma page/screen builds)
+
+These rules apply whenever building UI frames directly on a Figma page
+(heroes, sections, screens, mockups) — not just when building the DS itself.
+
+### Rule 1 — Always bind every text node to a DS text style
+
+Never set `fontName`, `fontSize`, or `fontWeight` manually on a text node
+that belongs to a page design. Always use `textStyleId` bound to a DS style.
+
+```js
+// ✅ Correct
+const leadStyle = await figma.importStyleByKeyAsync('4fda3fb5b62786c8ae422e4490f10171dd9bfe02');
+node.textStyleId = leadStyle.id;
+node.fills = vf(varFgSecondary); // color is separate — styles don't carry it
+
+// ❌ Wrong — raw overrides disconnect the node from the DS
+node.fontName = { family: 'Figtree', style: 'Regular' };
+node.fontSize = 20;
+```
+
+If no style fits exactly, choose the closest match — never hardcode font
+properties just to hit a specific pixel size.
+
+### Rule 2 — Always use an existing DS component before building custom
+
+Before constructing a badge, tag, input, or any element from scratch, check
+`search_design_system` or inspect the `ds` page. If a component exists,
+create an instance and override its text/properties.
+
+```js
+// ✅ Correct — DS component instance with overridden label
+const tagComp = figma.getNodeById('120:410'); // Form/Tag Icon Color=Info
+const badge = tagComp.createInstance();
+const labelNode = badge.findOne(n => n.type === 'TEXT');
+if (labelNode) {
+  await figma.loadFontAsync(labelNode.fontName);
+  labelNode.characters = 'Now in early access';
+}
+
+// ❌ Wrong — hand-rolling a pill frame + dot + text when Form/Tag Icon exists
+```
+
+### Rule 3 — Set layoutSizingHorizontal/Vertical AFTER appendChild
+
+These properties are only valid on children of auto-layout frames. Setting
+them before the node is appended throws an error.
+
+```js
+// ✅ Correct
+parent.appendChild(node);
+node.layoutSizingHorizontal = 'FILL';
+
+// ❌ Wrong — throws "node must be an auto-layout frame or a child of one"
+node.layoutSizingHorizontal = 'FILL';
+parent.appendChild(node);
+```
+
+---
+
+## Metanoia DS Text Style Reference
+
+Import keys for `figma.importStyleByKeyAsync(key)`.
+
+| Style | Size | Weight | Use for |
+|---|---|---|---|
+| `Display` | 120px | SemiBold | Hero headlines, oversized display copy |
+| `H1` | 56px | Bold | Page-level section titles |
+| `H2` | 36px | Bold | Sub-section headings |
+| `H3` | 28px | SemiBold | Card headings, panel titles |
+| `H4` | 24px | SemiBold | Widget headings |
+| `H5` | 18px | SemiBold | Small headings, sidebar labels |
+| `Lead` | 20px | Regular | Hero subheadlines, intro paragraphs |
+| `Body` | 16px | Regular | General body copy |
+| `Body SM` | 14px | Regular | Secondary body, tooltips |
+| `Caption` | 12px | Regular | Meta text, timestamps, helper text |
+| `Eyebrow` | 13px | SemiBold | Section labels, overlines, scroll hints |
+| `Button/LG` | 16px | SemiBold | Button labels (LG) |
+| `Button/MD` | 14px | SemiBold | Button labels (MD) |
+| `Button/SM` | 13px | SemiBold | Button labels (SM) |
+
+```js
+const STYLE_KEYS = {
+  Display:   '953cc7c70ecd20225ec1567de6eca312ec2950a9',
+  H1:        'fbf29ded61ada664d8e978eb541699c61fc8ad03',
+  H2:        'a74916e8929fcba3f9e91e83a4736ec0e321bc3b',
+  H3:        '7ba49e021ec8f1a355df99558f60f86c74730bd5',
+  H4:        'e7a6049a72fa9c8cd3d8f83c65e2e5d1ffaa0288',
+  H5:        '172797ec72f8a69492e51cd5ef2477fe2cc676b3',
+  Lead:      '4fda3fb5b62786c8ae422e4490f10171dd9bfe02',
+  Body:      '54fb83862a34c5ce0c05a672569d28bd5279129f',
+  BodySM:    '72056ef233cf71013d5feffc7d0240827e09c478',
+  Caption:   '47c93009606a68582c3da18475a8b62f60e38bb6',
+  Eyebrow:   '513fc5b8e12dc93b9ee2ac225850f76f7b8a9463',
+  ButtonLG:  '749be6e5903f421139d621cb0362f80414045be1',
+  ButtonMD:  'ef29637a567c1f3689d9ffd8c0bf15e64de2f9c5',
+  ButtonSM:  '6b67c23effcb998d52cd0df2c0669da2e630dfe7',
+};
+```
+
+---
+
+## Metanoia DS Component Reference (canvas use)
+
+Prefer these over manually constructed equivalents. Use `figma.getNodeById(id)`
+to reference local components; override text via `instance.findOne(n => n.type === 'TEXT')`.
+
+| Component | Node ID | Use for |
+|---|---|---|
+| `Button` Primary LG Default | `91:89` | Hero primary CTA |
+| `Button` Ghost LG Default | `91:329` | Hero secondary / ghost CTA |
+| `Button` Secondary LG Default | `91:209` | Secondary section CTA |
+| `Form/Tag Icon` Color=Info | `120:410` | Accent/aqua overline badge |
+| `Form/Tag Icon` Color=Neutral | `120:416` | Neutral overline label |
+| `Form/Tags` Info SM Subtle | `117:386` | Small status/info tag |
+| `Form/Tags` Info MD Subtle | `117:401` | Medium status/info tag |
+| `Icon/Placeholder` (set) | `97:23` | Icon slots (Size=16/20/24) |
+
+**Button variants** — `Type` × `Size` × `Icon` × `State` = 180 total:
+- Type: Primary, Secondary, Ghost, Destructive
+- Size: SM, MD, LG — Icon: None, Leading, Trailing — State: Default → Disabled
+
+**Form/Tag Icon** — Color: Success, Warning, Error, Info, Neutral
+
+**Form/Tags** — Color × Size (SM/MD) × Style (Subtle/Bold) = 20 variants
+
+---
+
+## Semantic Variable Reference (canvas color bindings)
+
+All fills and strokes on page designs must use semantic variables so that
+light/dark mode switching works. Import via `figma.variables.importVariableByKeyAsync(key)`.
+
+```js
+const SEMANTIC_KEYS = {
+  // Background
+  'Background/Canvas':      '159cc782cb7c31b4b91f49b052c8646ad625dbcd',
+  'Background/Subtle':      'dab745b116f097c6ff5fc471cae1d5e8bce4bc4c',
+  'Background/Muted':       'cc4da4d3867ce625837de13a0753013e1e9cdcba',
+  'Background/Accent':      '0216a234bbbf94c9ed5a0fa8eefe2112e60d2455',
+  'Background/Accent Soft': '1ed61b769060661c5bba045261c38b1ff83992e3',
+  // Foreground
+  'Foreground/Primary':     'e64a5fa8357f5aa5ac0a1c2f21837b425d329c89',
+  'Foreground/Secondary':   'fc4d33132916e2a02c8d31e333b7e75e1bf94e59',
+  'Foreground/Body':        '3df3ae87ee4362e41878a8eaf8c599da10b8eadb',
+  'Foreground/Tertiary':    'b5b8905c72685a71d9d3e12484f08b20d3250828',
+  'Foreground/Accent':      '15ef0bf2b272f731df107919fc97ec4962931cca',
+  'Foreground/Link':        'c2c175656821ec59657c3d0b22fe0aeba941120f',
+  'Foreground/Link Hover':  'f33cb574a6101e566792c20b95c015f21746aa22',
+  // Border
+  'Border/Accent':          '26fcc1205c04d3d0d5e0ac196ce5fe068a4496aa',
+};
+```
+
+Never use raw primitive variables (e.g. `Navy/700`) for fills on page designs —
+always route through semantic variables so frames respond to mode changes.

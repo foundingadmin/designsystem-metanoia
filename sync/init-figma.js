@@ -85,8 +85,8 @@ function buildScript1() {
 
   const lines = [
     '// ── Script 1: Create Primitives collection ──────────────────────────────────',
-    `// ${entries.length} COLOR variables — raw hex/rgba values from color-primitives.css`,
-    '// Run this first. Scripts 2 depends on these variables existing.',
+    `// ${entries.length} TOKEN_MAP entries → unique Figma COLOR variables`,
+    '// Run this first. Script 2 depends on these variables existing.',
     '',
     "const col  = figma.variables.createVariableCollection('Primitives');",
     'const mode = col.modes[0].modeId;',
@@ -94,6 +94,7 @@ function buildScript1() {
     'const created = {};',
     '',
     'function mk(name, r, g, b, a) {',
+    '  if (created[name]) return; // deduplicate (multiple CSS vars → same Figma name)',
     "  const v = figma.variables.createVariable(name, col, 'COLOR');",
     '  v.setValueForMode(mode, {r, g, b, a});',
     '  created[name] = v;',
@@ -101,6 +102,7 @@ function buildScript1() {
     '',
   ];
 
+  const seen = new Set();
   for (const entry of entries) {
     const rawVal = primVars[entry.css];
     const rgba   = cssColorToFigma(rawVal);
@@ -108,6 +110,11 @@ function buildScript1() {
       lines.push(`// SKIP ${entry.css} = ${rawVal} (not a parseable color)`);
       continue;
     }
+    if (seen.has(entry.figma)) {
+      lines.push(`// DEDUP ${entry.css} → ${entry.figma} (already created above)`);
+      continue;
+    }
+    seen.add(entry.figma);
     const { r, g, b, a } = rgba;
     lines.push(
       `mk(${JSON.stringify(entry.figma)}, ${r.toFixed(4)}, ${g.toFixed(4)}, ${b.toFixed(4)}, ${a.toFixed(4)});`

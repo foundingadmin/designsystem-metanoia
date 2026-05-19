@@ -237,3 +237,29 @@ Claude Code can handle all three steps when asked:
 | `CSS_MISSING` | Token in map but not in CSS | Add to CSS or remove from map |
 | `FIGMA_MISSING` | Token in map but not in Figma | Create variable in Figma or remove from map |
 | `NOT_A_COLOR` | CSS value isn't a parseable color | Check for var() alias chain or non-color token |
+
+---
+
+## Figma Build Quality Check (MANDATORY after every `use_figma` call)
+
+After **any** `use_figma` session that creates or modifies Figma components, frames, or variables, always run a visual QA pass before reporting the work as done:
+
+### Step 1 — Collect node IDs
+Query the page for IDs of every node you just created or modified:
+```js
+figma.currentPage.children.find(n => n.name === '...').id
+```
+
+### Step 2 — Screenshot everything
+Call `get_screenshot` on **each** created node. Use `maxDimension: 2000` for component sets (need to see all variants); `maxDimension: 800` for individual components or bars.
+
+### Step 3 — Inspect against this checklist
+- [ ] **Layout** — Component sets are not flat/collapsed (check rendered height vs expected). If a component set is only as tall as one variant, the counter-axis sizing is stuck on `FIXED` → switch to `layoutMode = 'NONE'` and arrange variants in a grid.
+- [ ] **State differentiation** — Every state (Default / Hover / Active / Disabled) is visually distinct at a glance. If two states look identical, adjust fill, opacity, or text weight.
+- [ ] **Color fills** — Semantic variable tokens are applied (not hardcoded hex). Spot-check: does Active use accent/primary fills, does Disabled look faded?
+- [ ] **Badge / count legibility** — Any badge or count chip must be readable against its parent background. Near-same-value pairs (e.g. `Background/Subtle` badge on `Background/Canvas` parent) are invisible — use `Background/Accent Soft` or `Background/Muted` instead.
+- [ ] **Text styles** — Labels use the correct text style (e.g. `Body SM`). Active/selected items use `Semi Bold` override where specified.
+- [ ] **Bar compositions** — If a bar component uses instances, verify tab labels updated from "Label" to real strings and the Active instance shows the correct state.
+
+### Step 4 — Apply fixes and re-screenshot
+Fix every issue found in a single follow-up `use_figma` call. Then take one final screenshot of each fixed node to confirm resolution before closing the task.

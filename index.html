@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Metanoia Design System</title>
 <link rel="stylesheet" href="colors_and_type.css">
+<script>(function(){const t=localStorage.getItem('ds-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}());</script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -95,6 +96,44 @@ body {
 .sidebar-item i { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.65; }
 .sidebar-item.active i { opacity: 1; }
 .sidebar-divider { height: 1px; background: var(--border-subtle); margin: 8px 10px; }
+
+/* ── Theme toggle ── */
+.sidebar-theme-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 10px 8px;
+}
+.sidebar-theme-label {
+  font-size: 10px; font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide); text-transform: uppercase;
+  color: var(--fg-4);
+}
+.theme-pill {
+  display: flex;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 2px; gap: 2px;
+}
+.theme-btn {
+  display: flex; align-items: center; gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  border: none; background: transparent;
+  color: var(--fg-3);
+  font-size: 11px; font-weight: var(--fw-medium);
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard),
+              box-shadow var(--dur-fast) var(--ease-standard);
+  line-height: 1;
+}
+.theme-btn i { width: 11px; height: 11px; flex-shrink: 0; }
+.theme-btn.active {
+  background: var(--bg-canvas);
+  color: var(--fg-1);
+  box-shadow: var(--shadow-xs);
+}
 
 /* ── Main ── */
 .ds-main { flex: 1; min-width: 0; padding: 52px 52px 96px; }
@@ -839,6 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollspy();
   initIframeLazy();
   initMobileNav();
+  initThemeToggle();
 
   lucide.createIcons();
 });
@@ -847,7 +887,19 @@ document.addEventListener('DOMContentLoaded', () => {
 function buildSidebar() {
   const sidebar = document.getElementById('sidebar');
   let currentGroup = null;
-  let html = '';
+  let html = `
+    <div class="sidebar-theme-row">
+      <span class="sidebar-theme-label">Appearance</span>
+      <div class="theme-pill" id="theme-pill">
+        <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light')" aria-label="Light mode">
+          <i data-lucide="sun"></i>Light
+        </button>
+        <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark')" aria-label="Dark mode">
+          <i data-lucide="moon"></i>Dark
+        </button>
+      </div>
+    </div>
+    <div class="sidebar-divider" style="margin-top:0;"></div>`;
 
   SECTIONS.forEach(s => {
     if (s.group !== currentGroup) {
@@ -1053,6 +1105,19 @@ function initMobileNav() {
       document.body.style.overflow = '';
     }
   });
+}
+
+/* ── Theme toggle ── */
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('ds-theme', theme);
+  document.getElementById('theme-btn-light').classList.toggle('active', theme === 'light');
+  document.getElementById('theme-btn-dark').classList.toggle('active',  theme === 'dark');
+}
+
+function initThemeToggle() {
+  const saved = localStorage.getItem('ds-theme') || 'light';
+  setTheme(saved);
 }
 
 /* ── Util ── */

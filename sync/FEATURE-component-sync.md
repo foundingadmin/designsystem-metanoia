@@ -171,6 +171,6 @@ reference, with no hardcoded values in the output.
 
 ## Related
 
-- `sync/PRINT-DS-IN-FIGMA.md` — manual build plan this feature will eventually automate
+- `sync/RUNDOC_v2.md` — manual build plan this feature will eventually automate
 - `sync/token-map.js` — existing variable mapping to extend
 - `sync/sync-figma-to-repo.js` — file to extend (do not create a separate script)

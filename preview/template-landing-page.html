@@ -1,0 +1,1312 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Product Name] — Landing Page Template</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ─────────────────────────────────────────────────────────
+   Reset & base
+───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html, body {
+  font-family: var(--font-sans);
+  background: var(--bg-canvas);
+  color: var(--fg-2);
+  font-size: 16px;
+  line-height: var(--lh-relaxed);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; }
+button { font-family: inherit; cursor: pointer; border: none; }
+
+/* ─────────────────────────────────────────────────────────
+   Layout containers
+───────────────────────────────────────────────────────── */
+.container {
+  max-width: var(--container-default);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+@media (max-width: 600px) {
+  .container, .container-narrow { padding: 0 var(--space-5); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Navigation
+───────────────────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 64px;
+  background: var(--color-navy);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  display: flex;
+  align-items: center;
+}
+.nav-inner {
+  max-width: var(--container-default);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  margin-right: var(--space-6);
+}
+.nav-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--color-aqua);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-navy);
+  flex-shrink: 0;
+}
+.nav-logo-name {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
+  color: #fff;
+  letter-spacing: var(--ls-snug);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
+}
+.nav-link {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-medium);
+  color: rgba(255,255,255,0.72);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: background 140ms var(--ease-standard), color 140ms var(--ease-standard);
+  white-space: nowrap;
+}
+.nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.btn-ghost-nav {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semibold);
+  color: rgba(255,255,255,0.80);
+  background: transparent;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.20);
+  transition: background 140ms var(--ease-standard), border-color 140ms var(--ease-standard), color 140ms var(--ease-standard);
+}
+.btn-ghost-nav:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.35); color: #fff; }
+.btn-primary-nav {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semibold);
+  color: var(--color-navy);
+  background: var(--color-aqua);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  transition: background 140ms var(--ease-standard);
+}
+.btn-primary-nav:hover { background: var(--color-aqua-300); }
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .btn-ghost-nav { display: none; }
+  .nav-inner { padding: 0 var(--space-5); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Hero
+───────────────────────────────────────────────────────── */
+.hero {
+  background: var(--color-navy);
+  padding: var(--space-24) 0 var(--space-20);
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-mark {
+  position: absolute;
+  right: -80px;
+  bottom: -80px;
+  width: 480px;
+  opacity: 0.07;
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: var(--container-default);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-aqua);
+  background: rgba(50,203,237,0.12);
+  border: 1px solid rgba(50,203,237,0.25);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-6);
+}
+.hero-eyebrow i { width: 12px; height: 12px; }
+.hero-headline {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: #fff;
+  max-width: 18ch;
+  margin-bottom: var(--space-6);
+  text-wrap: balance;
+}
+.hero-headline em {
+  font-style: normal;
+  color: var(--color-aqua);
+}
+.hero-sub {
+  font-size: clamp(var(--fs-16), 2vw, var(--fs-18));
+  color: rgba(255,255,255,0.72);
+  line-height: var(--lh-relaxed);
+  max-width: 52ch;
+  margin-bottom: var(--space-10);
+  text-wrap: pretty;
+}
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-16);
+}
+.btn-primary-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-15);
+  font-weight: var(--fw-semibold);
+  color: var(--color-navy);
+  background: var(--color-aqua);
+  padding: 14px var(--space-6);
+  border-radius: var(--radius-md);
+  border: none;
+  transition: background 140ms var(--ease-standard);
+  white-space: nowrap;
+}
+.btn-primary-lg:hover { background: var(--color-aqua-300); }
+.btn-primary-lg i { width: 16px; height: 16px; }
+.btn-ghost-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-15);
+  font-weight: var(--fw-semibold);
+  color: rgba(255,255,255,0.85);
+  background: transparent;
+  padding: 14px var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.24);
+  transition: background 140ms var(--ease-standard), border-color 140ms var(--ease-standard);
+  white-space: nowrap;
+}
+.btn-ghost-lg:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.40); }
+.btn-ghost-lg i { width: 16px; height: 16px; }
+.hero-stats {
+  display: flex;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+  padding-top: var(--space-8);
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.hero-stat-value {
+  font-size: var(--fs-32);
+  font-weight: var(--fw-bold);
+  color: #fff;
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+.hero-stat-label {
+  font-size: var(--fs-13);
+  color: rgba(255,255,255,0.55);
+  line-height: var(--lh-normal);
+}
+@media (max-width: 600px) {
+  .hero { padding: var(--space-16) 0 var(--space-12); }
+  .hero-inner { padding: 0 var(--space-5); }
+  .hero-stats { gap: var(--space-8); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Trusted by strip
+───────────────────────────────────────────────────────── */
+.logos-strip {
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-8) 0;
+}
+.logos-strip-inner {
+  max-width: var(--container-default);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+.logos-label {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.logos-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+.logo-pill {
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-4);
+  letter-spacing: var(--ls-snug);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+}
+@media (max-width: 600px) {
+  .logos-strip-inner { padding: 0 var(--space-5); gap: var(--space-5); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Section shared styles
+───────────────────────────────────────────────────────── */
+.section { padding: var(--space-24) 0; }
+.section-alt { background: var(--bg-subtle); }
+.section-dark { background: var(--color-navy-900); }
+
+.section-eyebrow {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-accent);
+  margin-bottom: var(--space-3);
+}
+.section-eyebrow-light {
+  color: var(--color-aqua);
+}
+.section-headline {
+  font-size: clamp(var(--fs-28), 3vw, var(--fs-44));
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-1);
+  margin-bottom: var(--space-4);
+  text-wrap: balance;
+}
+.section-headline-light { color: #fff; }
+.section-sub {
+  font-size: var(--fs-16);
+  color: var(--fg-3);
+  line-height: var(--lh-relaxed);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+.section-sub-light { color: rgba(255,255,255,0.65); }
+.section-header { margin-bottom: var(--space-12); }
+.section-header-centered { text-align: center; }
+.section-header-centered .section-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Pain points — 3-column icon + text
+───────────────────────────────────────────────────────── */
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+.pain-card {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-xs);
+}
+.pain-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--color-status-error-50, #FEF2F2);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DC2626;
+  margin-bottom: var(--space-4);
+}
+.pain-icon i { width: 20px; height: 20px; }
+.pain-title {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-1);
+  margin-bottom: var(--space-2);
+  line-height: var(--lh-snug);
+}
+.pain-body {
+  font-size: var(--fs-14);
+  color: var(--fg-3);
+  line-height: var(--lh-relaxed);
+}
+@media (max-width: 900px) { .pain-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px) { .pain-grid { grid-template-columns: 1fr; } }
+
+/* ─────────────────────────────────────────────────────────
+   Features — alternating media + text rows
+───────────────────────────────────────────────────────── */
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+  margin-bottom: var(--space-20);
+}
+.feature-row:last-child { margin-bottom: 0; }
+.feature-row.reverse .feature-visual { order: 2; }
+.feature-row.reverse .feature-copy  { order: 1; }
+.feature-visual {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.feature-visual-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-3);
+  color: var(--fg-4);
+}
+.feature-visual-inner i { width: 48px; height: 48px; }
+.feature-visual-label {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+.feature-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-accent);
+  margin-bottom: var(--space-3);
+}
+.feature-tag i { width: 12px; height: 12px; }
+.feature-title {
+  font-size: clamp(var(--fs-22), 2.5vw, var(--fs-32));
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-1);
+  margin-bottom: var(--space-4);
+  text-wrap: balance;
+}
+.feature-body {
+  font-size: var(--fs-15);
+  color: var(--fg-3);
+  line-height: var(--lh-relaxed);
+  margin-bottom: var(--space-6);
+  text-wrap: pretty;
+}
+.feature-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--fs-14);
+  color: var(--fg-2);
+  line-height: var(--lh-normal);
+}
+.feature-list li i {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--color-aqua-700);
+  margin-top: 2px;
+}
+.feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-14);
+  font-weight: var(--fw-semibold);
+  color: var(--color-navy);
+  transition: gap 160ms var(--ease-standard), color 160ms var(--ease-standard);
+}
+.feature-link:hover { color: var(--fg-accent); gap: var(--space-3); }
+.feature-link i { width: 16px; height: 16px; }
+@media (max-width: 800px) {
+  .feature-row { grid-template-columns: 1fr; gap: var(--space-8); }
+  .feature-row.reverse .feature-visual { order: 0; }
+  .feature-row.reverse .feature-copy  { order: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   How it works — numbered steps
+───────────────────────────────────────────────────────── */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: calc(16.66% + 22px);
+  right: calc(16.66% + 22px);
+  height: 1px;
+  background: var(--border-subtle);
+  z-index: 0;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+.step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--color-navy);
+  color: #fff;
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: var(--space-5);
+}
+.step-title {
+  font-size: var(--fs-18);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-1);
+  margin-bottom: var(--space-2);
+  line-height: var(--lh-snug);
+}
+.step-body {
+  font-size: var(--fs-14);
+  color: var(--fg-3);
+  line-height: var(--lh-relaxed);
+  text-wrap: pretty;
+}
+@media (max-width: 720px) {
+  .steps-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+  .steps-grid::before { display: none; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Testimonial
+───────────────────────────────────────────────────────── */
+.testimonial-section {
+  background: var(--color-navy);
+  padding: var(--space-24) 0;
+}
+.testimonial-wrap {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  text-align: center;
+}
+.quote-mark {
+  font-size: var(--fs-72);
+  line-height: 1;
+  color: var(--color-aqua);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-4);
+  display: block;
+  font-family: Georgia, serif;
+}
+.quote-text {
+  font-size: clamp(var(--fs-18), 2.5vw, var(--fs-24));
+  font-weight: var(--fw-medium);
+  color: rgba(255,255,255,0.92);
+  line-height: var(--lh-relaxed);
+  margin-bottom: var(--space-8);
+  text-wrap: pretty;
+}
+.quote-byline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+.quote-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  background: rgba(50,203,237,0.18);
+  border: 2px solid rgba(50,203,237,0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
+  color: var(--color-aqua);
+  flex-shrink: 0;
+}
+.quote-name {
+  font-size: var(--fs-15);
+  font-weight: var(--fw-semibold);
+  color: #fff;
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+.quote-title {
+  font-size: var(--fs-13);
+  color: rgba(255,255,255,0.55);
+}
+@media (max-width: 600px) {
+  .testimonial-wrap { padding: 0 var(--space-5); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Mini feature cards (3-up grid)
+───────────────────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+.mini-card {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: box-shadow 160ms var(--ease-standard), border-color 160ms var(--ease-standard);
+}
+.mini-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-accent);
+}
+.mini-card-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-accent-soft);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-aqua-700);
+  flex-shrink: 0;
+}
+.mini-card-icon i { width: 18px; height: 18px; }
+.mini-card-title {
+  font-size: var(--fs-15);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-1);
+  line-height: var(--lh-snug);
+}
+.mini-card-body {
+  font-size: var(--fs-13);
+  color: var(--fg-3);
+  line-height: var(--lh-relaxed);
+}
+@media (max-width: 800px) { .cards-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .cards-grid { grid-template-columns: 1fr; } }
+
+/* ─────────────────────────────────────────────────────────
+   CTA banner
+───────────────────────────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy) 60%, #0B5C90 100%);
+  padding: var(--space-24) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(50,203,237,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-inner {
+  position: relative;
+  z-index: 1;
+}
+.cta-headline {
+  font-size: clamp(var(--fs-28), 4vw, var(--fs-44));
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: #fff;
+  margin-bottom: var(--space-4);
+  text-wrap: balance;
+}
+.cta-sub {
+  font-size: var(--fs-16);
+  color: rgba(255,255,255,0.65);
+  margin-bottom: var(--space-8);
+  max-width: 44ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: var(--lh-relaxed);
+  text-wrap: pretty;
+}
+.cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.cta-note {
+  margin-top: var(--space-5);
+  font-size: var(--fs-13);
+  color: rgba(255,255,255,0.40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+}
+.cta-note span { display: flex; align-items: center; gap: var(--space-2); }
+.cta-note i { width: 14px; height: 14px; }
+
+/* ─────────────────────────────────────────────────────────
+   Footer
+───────────────────────────────────────────────────────── */
+.footer {
+  background: var(--color-navy-900);
+  padding: var(--space-16) 0 var(--space-8);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-12);
+  padding-bottom: var(--space-12);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: var(--space-8);
+}
+.footer-brand-name {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-bold);
+  color: #fff;
+  margin-bottom: var(--space-3);
+}
+.footer-brand-desc {
+  font-size: var(--fs-13);
+  color: rgba(255,255,255,0.45);
+  line-height: var(--lh-relaxed);
+  max-width: 28ch;
+  text-wrap: pretty;
+}
+.footer-col-title {
+  font-size: var(--fs-12);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.40);
+  margin-bottom: var(--space-4);
+}
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.footer-links a {
+  font-size: var(--fs-14);
+  color: rgba(255,255,255,0.60);
+  transition: color 140ms var(--ease-standard);
+}
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.footer-copy {
+  font-size: var(--fs-13);
+  color: rgba(255,255,255,0.30);
+}
+.footer-legal {
+  display: flex;
+  gap: var(--space-6);
+}
+.footer-legal a {
+  font-size: var(--fs-13);
+  color: rgba(255,255,255,0.30);
+  transition: color 140ms var(--ease-standard);
+}
+.footer-legal a:hover { color: rgba(255,255,255,0.65); }
+@media (max-width: 800px) {
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .footer-top { grid-template-columns: 1fr; gap: var(--space-8); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   Template annotation overlay (remove in production)
+───────────────────────────────────────────────────────── */
+.t-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  background: rgba(255,100,100,0.15);
+  color: #C02020;
+  border: 1px dashed rgba(200,60,60,0.35);
+  border-radius: 3px;
+  padding: 1px 5px;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  line-height: 1.6;
+}
+.t-placeholder {
+  background: rgba(255,180,50,0.12);
+  border: 1px dashed rgba(200,140,30,0.35);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #8B6000;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVIGATION
+     Replace logo mark, product name, and nav links.
+     Remove .t-label annotations before production.
+═══════════════════════════════════════════════════════ -->
+<header>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <div class="nav-logo-mark" aria-hidden="true">
+          <i data-lucide="layers" style="width:16px;height:16px;"></i>
+        </div>
+        <span class="nav-logo-name">[Product Name]</span>
+      </a>
+      <div class="nav-links" role="list">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#how-it-works">How It Works</a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+        <a class="nav-link" href="#">Resources</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-ghost-nav">Sign in</button>
+        <button class="btn-primary-nav">Get started</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+     Persona eyebrow → Headline → Subheadline → CTAs → Stats
+     Replace all [bracket] copy with real content.
+═══════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Hero">
+  <div class="hero-inner">
+
+    <!-- Eyebrow pill — name the persona or job role -->
+    <div class="hero-eyebrow">
+      <i data-lucide="target"></i>
+      <span>[For Plant Maintenance Managers]</span>
+    </div>
+
+    <!-- Primary headline — max 10 words, lead with the outcome -->
+    <h1 class="hero-headline">
+      Find the right part. <em>Every time.</em> In seconds.
+    </h1>
+
+    <!-- Supporting copy — 2 sentences max, problem + resolution -->
+    <p class="hero-sub">
+      [Product Name] gives maintenance teams a searchable, always-current parts catalog
+      linked to live inventory — so you spend less time hunting and more time fixing.
+    </p>
+
+    <!-- CTA row — primary action + secondary (demo / video) -->
+    <div class="hero-cta-row">
+      <button class="btn-primary-lg">
+        <i data-lucide="calendar"></i>
+        Request a demo
+      </button>
+      <button class="btn-ghost-lg">
+        <i data-lucide="play-circle"></i>
+        Watch 2-min overview
+      </button>
+    </div>
+
+    <!-- Social proof stats — replace with real numbers -->
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">[3.2M]</div>
+        <div class="hero-stat-label">Parts indexed</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">[40+]</div>
+        <div class="hero-stat-label">Asset classes</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">[12s]</div>
+        <div class="hero-stat-label">Avg. search to result</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">[98%]</div>
+        <div class="hero-stat-label">Data accuracy</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Background watermark — swap src for brand asset -->
+  <img class="hero-bg-mark" src="../assets/logo-brandmark-white.svg" alt="">
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TRUSTED BY STRIP
+     Replace logo pills with real company names or SVG logos.
+═══════════════════════════════════════════════════════ -->
+<div class="logos-strip" aria-label="Trusted by">
+  <div class="logos-strip-inner">
+    <span class="logos-label">Trusted by teams at</span>
+    <div class="logos-row">
+      <span class="logo-pill">[Company A]</span>
+      <span class="logo-pill">[Company B]</span>
+      <span class="logo-pill">[Company C]</span>
+      <span class="logo-pill">[Company D]</span>
+      <span class="logo-pill">[Company E]</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAIN POINTS
+     3 problems your persona faces today. Lead with emotion.
+═══════════════════════════════════════════════════════ -->
+<section class="section" id="pain" aria-label="Pain points">
+  <div class="container">
+
+    <div class="section-header">
+      <p class="section-eyebrow">[The problem]</p>
+      <h2 class="section-headline">Parts searches shouldn't take half a shift</h2>
+      <p class="section-sub">
+        Maintenance teams lose hours every week to scattered PDFs, outdated catalogs,
+        and phone calls to suppliers. [Product Name] fixes all three.
+      </p>
+    </div>
+
+    <div class="pain-grid">
+
+      <div class="pain-card">
+        <div class="pain-icon">
+          <i data-lucide="file-x"></i>
+        </div>
+        <p class="pain-title">[Pain point 1 — e.g. "Outdated paper catalogs"]</p>
+        <p class="pain-body">
+          Printed part books go stale the moment a supersession is issued.
+          Your technicians are ordering discontinued parts and not finding out until the box arrives.
+        </p>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-icon">
+          <i data-lucide="map-pin-off"></i>
+        </div>
+        <p class="pain-title">[Pain point 2 — e.g. "Parts scattered across sites"]</p>
+        <p class="pain-body">
+          With [X] sites on your network, knowing which warehouse holds a spare part
+          means calling each site individually — if anyone picks up.
+        </p>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-icon">
+          <i data-lucide="clock-alert"></i>
+        </div>
+        <p class="pain-title">[Pain point 3 — e.g. "Unplanned downtime costs"]</p>
+        <p class="pain-body">
+          Every hour of unplanned downtime costs your operation real money.
+          The bottleneck isn't always the repair — it's finding the right part number first.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FEATURES — alternating rows
+     2–3 rows. Each pairs a visual placeholder with copy + bullets.
+═══════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="features" aria-label="Features">
+  <div class="container">
+
+    <div class="section-header">
+      <p class="section-eyebrow">[How it helps]</p>
+      <h2 class="section-headline">One platform. Every part. All sites.</h2>
+    </div>
+
+    <!-- Feature 1 — visual left, copy right -->
+    <div class="feature-row">
+      <div class="feature-visual">
+        <div class="feature-visual-inner">
+          <i data-lucide="search"></i>
+          <span class="feature-visual-label">[Screenshot / UI mockup]</span>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <p class="feature-tag"><i data-lucide="search"></i>[Feature category 1]</p>
+        <h3 class="feature-title">Instant full-text search across your entire catalog</h3>
+        <p class="feature-body">
+          Stop opening PDFs one at a time. [Product Name] indexes every part number,
+          description, and drawing note so your team can find anything in under 15 seconds.
+        </p>
+        <ul class="feature-list">
+          <li><i data-lucide="check"></i>[Benefit 1 — e.g. "Cross-reference OEM and aftermarket numbers"]</li>
+          <li><i data-lucide="check"></i>[Benefit 2 — e.g. "Automatic supersession alerts"]</li>
+          <li><i data-lucide="check"></i>[Benefit 3 — e.g. "Fuzzy search tolerates partial part numbers"]</li>
+        </ul>
+        <a class="feature-link" href="#">
+          Learn more <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Feature 2 — copy left, visual right -->
+    <div class="feature-row reverse">
+      <div class="feature-copy">
+        <p class="feature-tag"><i data-lucide="map"></i>[Feature category 2]</p>
+        <h3 class="feature-title">Live inventory across every site in your network</h3>
+        <p class="feature-body">
+          See exactly how many units of a part are on hand at which site —
+          no phone calls, no spreadsheets, no waiting.
+          [Product Name] syncs with your ERP so the count is always current.
+        </p>
+        <ul class="feature-list">
+          <li><i data-lucide="check"></i>[Benefit 1 — e.g. "ERP-synced quantities updated hourly"]</li>
+          <li><i data-lucide="check"></i>[Benefit 2 — e.g. "Reserve parts for scheduled maintenance"]</li>
+          <li><i data-lucide="check"></i>[Benefit 3 — e.g. "Reorder alerts before stock hits zero"]</li>
+        </ul>
+        <a class="feature-link" href="#">
+          Learn more <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+      <div class="feature-visual">
+        <div class="feature-visual-inner">
+          <i data-lucide="map"></i>
+          <span class="feature-visual-label">[Screenshot / UI mockup]</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 3 — visual left, copy right -->
+    <div class="feature-row">
+      <div class="feature-visual">
+        <div class="feature-visual-inner">
+          <i data-lucide="file-text"></i>
+          <span class="feature-visual-label">[Screenshot / UI mockup]</span>
+        </div>
+      </div>
+      <div class="feature-copy">
+        <p class="feature-tag"><i data-lucide="file-text"></i>[Feature category 3]</p>
+        <h3 class="feature-title">Interactive iBOM with full asset history</h3>
+        <p class="feature-body">
+          Every asset gets an interactive bill of materials with exploded views,
+          service records, and supersession history — linked to the parts
+          your storeroom actually carries.
+        </p>
+        <ul class="feature-list">
+          <li><i data-lucide="check"></i>[Benefit 1 — e.g. "Exploded-view diagrams with click-to-part"]</li>
+          <li><i data-lucide="check"></i>[Benefit 2 — e.g. "Full revision and supersession history"]</li>
+          <li><i data-lucide="check"></i>[Benefit 3 — e.g. "PDF export for field technicians"]</li>
+        </ul>
+        <a class="feature-link" href="#">
+          Learn more <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SUPPORTING CAPABILITIES — 3-up mini cards
+═══════════════════════════════════════════════════════ -->
+<section class="section" aria-label="Additional capabilities">
+  <div class="container">
+    <div class="section-header section-header-centered">
+      <p class="section-eyebrow">[Everything included]</p>
+      <h2 class="section-headline">Built for how maintenance teams actually work</h2>
+      <p class="section-sub">
+        [Product Name] ships with every capability your team needs on day one —
+        no add-on modules, no hidden fees.
+      </p>
+    </div>
+    <div class="cards-grid">
+      <div class="mini-card">
+        <div class="mini-card-icon"><i data-lucide="shield-check"></i></div>
+        <p class="mini-card-title">[Capability 1 — e.g. "Role-based permissions"]</p>
+        <p class="mini-card-body">
+          Control who can view, request, or approve parts with granular permission tiers for every role.
+        </p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-icon"><i data-lucide="plug"></i></div>
+        <p class="mini-card-title">[Capability 2 — e.g. "ERP and CMMS integrations"]</p>
+        <p class="mini-card-body">
+          Pre-built connectors for [SAP / Maximo / Oracle] and an open API for custom integrations.
+        </p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-icon"><i data-lucide="smartphone"></i></div>
+        <p class="mini-card-title">[Capability 3 — e.g. "Mobile-ready for the shop floor"]</p>
+        <p class="mini-card-body">
+          Works on any device — scan a barcode, pull up the part, submit a request without leaving the asset.
+        </p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-icon"><i data-lucide="bar-chart-2"></i></div>
+        <p class="mini-card-title">[Capability 4 — e.g. "Spend and usage analytics"]</p>
+        <p class="mini-card-body">
+          Track part usage, supplier lead times, and cost per asset to find where savings are hiding.
+        </p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-icon"><i data-lucide="bell"></i></div>
+        <p class="mini-card-title">[Capability 5 — e.g. "Proactive alerts"]</p>
+        <p class="mini-card-body">
+          Get notified when a supersession is issued, a part goes end-of-life, or stock drops below your threshold.
+        </p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-icon"><i data-lucide="lock"></i></div>
+        <p class="mini-card-title">[Capability 6 — e.g. "SOC 2 Type II certified"]</p>
+        <p class="mini-card-body">
+          Enterprise-grade security with SSO, audit logs, and data residency options for regulated industries.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     HOW IT WORKS — 3 steps
+═══════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="how-it-works" aria-label="How it works">
+  <div class="container">
+    <div class="section-header section-header-centered">
+      <p class="section-eyebrow">How it works</p>
+      <h2 class="section-headline">Up and running in [30 days]</h2>
+      <p class="section-sub">
+        No six-month implementation. Our catalog conversion team handles the heavy lifting
+        so your team starts finding parts faster in [X] weeks.
+      </p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p class="step-title">[Step 1 — e.g. "Send us your catalogs"]</p>
+        <p class="step-body">
+          Share your existing PDFs, spreadsheets, or OEM files. Our team digitizes and
+          structures them into a clean, searchable catalog — no work on your end.
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p class="step-title">[Step 2 — e.g. "Connect your systems"]</p>
+        <p class="step-body">
+          We integrate with your ERP and CMMS to pull live inventory levels, site data,
+          and asset records. Most integrations take under [48 hours].
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p class="step-title">[Step 3 — e.g. "Your team starts searching"]</p>
+        <p class="step-body">
+          Invite your technicians and storeroom staff. We run a 2-hour onboarding session
+          and provide a dedicated customer success contact for the first [90 days].
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TESTIMONIAL
+     Replace all [bracket] fields with real customer quote.
+═══════════════════════════════════════════════════════ -->
+<section class="testimonial-section" aria-label="Customer testimonial">
+  <div class="testimonial-wrap">
+    <span class="quote-mark" aria-hidden="true">"</span>
+    <blockquote class="quote-text">
+      [Full customer quote — 2–3 sentences. Lead with the outcome, not the feature.
+      Example: "Before [Product Name], our technicians were spending two hours per shift
+      just tracking down part numbers. Now they find what they need in under a minute,
+      and our unplanned downtime has dropped by [X]%."]
+    </blockquote>
+    <div class="quote-byline">
+      <div class="quote-avatar" aria-hidden="true">[IN]</div>
+      <div style="text-align: left;">
+        <p class="quote-name">[Customer Full Name]</p>
+        <p class="quote-title">[Job Title] · [Company Name]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     CTA SECTION
+     Final conversion moment — mirror the hero CTA.
+═══════════════════════════════════════════════════════ -->
+<section class="cta-section" id="pricing" aria-label="Call to action">
+  <div class="container-narrow">
+    <div class="cta-inner">
+      <h2 class="cta-headline">Ready to cut parts search time in half?</h2>
+      <p class="cta-sub">
+        See [Product Name] with your own catalog in a 30-minute live demo.
+        No commitment, no IT project required.
+      </p>
+      <div class="cta-actions">
+        <button class="btn-primary-lg">
+          <i data-lucide="calendar"></i>
+          Book a demo
+        </button>
+        <button class="btn-ghost-lg">
+          <i data-lucide="message-circle"></i>
+          Talk to sales
+        </button>
+      </div>
+      <div class="cta-note">
+        <span><i data-lucide="shield-check"></i> No credit card required</span>
+        <span><i data-lucide="clock"></i> Setup in [30 days]</span>
+        <span><i data-lucide="users"></i> Dedicated onboarding</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<footer class="footer" aria-label="Footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <p class="footer-brand-name">[Product Name]</p>
+        <p class="footer-brand-desc">
+          [One-sentence brand description — what you do and who you serve.]
+        </p>
+      </div>
+      <div>
+        <p class="footer-col-title">Product</p>
+        <ul class="footer-links">
+          <li><a href="#">Features</a></li>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Resources</p>
+        <ul class="footer-links">
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Case Studies</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">API Reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© [YYYY] [Company Name]. All rights reserved.</p>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -145,6 +145,20 @@ Component set names (for `figma.root.findOne`):
 
 ---
 
+### Component Set Registry — Code Connect
+
+Populated incrementally during Phase 3–5 build sessions. One row added per `use_figma` session that creates a component set. At Phase 6 this becomes the source of truth for `sync/component-map.js`.
+
+**How to add a row:** After the Build Quality Check (Step 5 in CODE-TO-VISUAL.md), append one row here. The `componentSetNodeId` is the parent COMPONENT_SET node, not an individual variant.
+
+| figmaName | componentSetNodeId | cssClass | previewFile |
+|---|---|---|---|
+| `Button` | TBD | `btn` | `preview/components-buttons.html` |
+| `Form/Tags` | TBD | `tag` | `preview/components-tags.html` |
+| `Icon Placeholder` | `97:23` | — | `preview/iconography.html` |
+
+---
+
 ## Semantic Variable Reference
 
 Import keys for `figma.variables.importVariableByKeyAsync(key)`.

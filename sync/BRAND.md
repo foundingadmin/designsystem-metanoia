@@ -159,7 +159,7 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 | `Button` | TBD | `btn` | `preview/components-buttons.html` |
 | `Form/Tags` | TBD | `tag` | `preview/components-tags.html` |
 | `Icon Placeholder` | `97:23` | — | `preview/iconography.html` |
-| `Icon` | TBD (set after use_figma build) | `ds-icon` | `preview/iconography.html` |
+| `Icon` | `270:467` | `ds-icon` | `preview/iconography.html` |
 
 ---
 

@@ -14,7 +14,7 @@ The coded DS has 5 atomic token files. The Figma file (key: `c3ayt4AFrNKOmSkGBIy
 
 | Phase | What | Where |
 | :---- | :---- | :---- |
-| 0 | Token corrections \+ dark mode in CSS | tokens/\*.css, token-map.js, typography-utilities.css |
+| 0 | Token corrections \+ dark mode in CSS | tokens/\*.css, token-map.js, styles/typography-utilities.css |
 | 1 | Bootstrap 5 Figma variable collections (Light \+ Dark modes) | sync/init-figma.js → use\_figma |
 | 2 | Text styles (11) \+ Effect styles (6) | use\_figma |
 | 3 | Atoms: Buttons, Inputs, Tags, Icon library | use\_figma per component |
@@ -57,7 +57,7 @@ Add to `sync/token-map.js`:
 Changes needed:
 
 - `tokens/typography.css`: rename `--ls-wide` → `--ls-loose`, `--ls-eyebrow` → `--ls-wide`  
-- `typography-utilities.css`: update `.t-eyebrow { letter-spacing: var(--ls-wide); }` (was `--ls-eyebrow`)  
+- `styles/typography-utilities.css`: update `.t-eyebrow { letter-spacing: var(--ls-wide); }` (was `--ls-eyebrow`)  
 - `sync/token-map.js`: update both entries with new CSS var names and new Figma names  
 - Any preview HTML using `--ls-eyebrow` or `--ls-wide` directly
 
@@ -416,7 +416,7 @@ This gives the team a persistent, in-Figma record of build state without needing
 
 - **MODIFY** `tokens/typography.css` — add `--lh-display`, `--ls-display`; rename `--ls-wide` → `--ls-loose`, `--ls-eyebrow` → `--ls-wide`  
 - **MODIFY** `tokens/color-semantic.css` — add dark mode overrides, remove inverse/on-dark tokens  
-- **MODIFY** `typography-utilities.css` — update `.t-eyebrow` letter-spacing var reference; update `.t-wordmark` if using removed vars  
+- **MODIFY** `styles/typography-utilities.css` — update `.t-eyebrow` letter-spacing var reference; update `.t-wordmark` if using removed vars  
 - **MODIFY** `sync/token-map.js` — add display tokens, rename ls- entries, remove inverse/on-dark entries, add dark mode Figma mode references  
 - **MODIFY** `preview/*.html` — replace removed `--bg-inverse`, `--fg-on-dark*`, `--border-on-dark` references  
 - **MODIFY** `index.html` — version bump v2.0.0 \+ changelog entry

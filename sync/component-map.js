@@ -81,7 +81,7 @@ const COMPONENT_MAP = [
     figmaName: 'Icon',
     previewFile: 'preview/iconography.html',
     cssClass: 'ds-icon',
-    figmaNodeId: null, // TBD — set after use_figma build session, then update BRAND.md
+    figmaNodeId: '270:467', // Set 2026-05-20 — Icon COMPONENT_SET, 48 icons × 3 sizes (144 variants)
     variantProps: {
       // Size variant maps to CSS modifier class
       Size: { '16': 'ds-icon--sm', '20': 'ds-icon--md', '24': 'ds-icon--lg' },

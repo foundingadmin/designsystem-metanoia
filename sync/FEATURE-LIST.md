@@ -33,6 +33,62 @@ Status options: `Idea` · `Scheduled` · `In progress` · `Done`
 
 ---
 
+## Feature 002 — Code Connect via MCP (code → Figma Dev Mode)
+
+**Status:** Scheduled — Phase 6 (after RUNDOC_v2 Phases 3–5 complete)
+**Origin:** Code Connect proposal review — 2026-05-20
+**Scope:** Publish real component code snippets to Figma Dev Mode so inspecting engineers see the exact HTML class to use, not auto-generated CSS.
+
+### Problem
+
+When a developer opens Figma Dev Mode and inspects a component, Figma generates raw CSS from visual properties. They want `<button class="btn btn--primary">`, not `background-color: var(--navy-700); display: flex; border-radius: 8px`. The disconnect slows implementation and causes drift.
+
+### Goal
+
+After each Phase 3–5 `use_figma` build session, automatically publish Code Connect mappings so Dev Mode shows real HTML snippets. No CLI install, no npm, no package.json — runs entirely through the existing Figma MCP tools.
+
+### Approach
+
+**No npm needed.** The Figma MCP server exposes:
+- `send_code_connect_mappings` — publishes component→code mappings to Dev Mode
+- `add_code_connect_map` / `get_code_connect_map` — CRUD for the registry
+- `get_code_connect_suggestions` — AI-suggested mappings from the Figma file
+- `get_context_for_code_connect` — reads component structure to inform mapping
+
+**Registry:** `sync/component-map.js` (designed in Feature 001) gets a `figmaNodeId` field added to each entry. This makes it serve both Feature 001 (Figma → HTML preview) and Code Connect (code → Dev Mode) from one source of truth.
+
+**Phased delivery:**
+```
+6a. Spike: load send_code_connect_mappings schema, test publish on Button
+6b. Formalize BRAND.md Component Set Registry → sync/component-map.js
+6c. Write sync/sync-components-to-connect.js (reads map, calls MCP)
+6d. Publish atoms (Button, Form/Input, Tags, Icon)
+6e. Publish molecules (Cards, Alerts, Breadcrumb, Pagination, Tabs)
+6f. Publish organisms (Nav, Modal, Table, Hero, Empty States)
+6g. Update SYNC-MASTER.md routing + CLAUDE.md trigger phrase
+```
+
+**Variant coverage:** Map the 6–10 developer-relevant combinations per component (e.g. Primary/Secondary/Destructive × SM/MD/LG for Button). Exhaustive coverage of all 180 button variants is an anti-pattern — it obscures usage guidance.
+
+**Pre-Phase 6 prerequisite:** During every Phase 3–5 build session, Step 5 of the Build Quality Check records each component set's node ID into the Component Set Registry in `sync/BRAND.md`. Phase 6 starts with a complete registry rather than requiring a retroactive Figma audit.
+
+### Acceptance criteria
+
+- [ ] Figma Dev Mode shows `<button class="btn btn--primary">` when inspecting a Button
+- [ ] `sync/component-map.js` serves both Feature 001 (Figma → HTML) and Code Connect (code → Dev Mode) with no duplication
+- [ ] Running "publish code connect" trigger phrase calls `sync/sync-components-to-connect.js` end-to-end
+- [ ] All 15 component types covered across atoms / molecules / organisms
+- [ ] No npm, package.json, or CLI tooling required
+
+### Related
+
+- `sync/BRAND.md` — Component Set Registry (data source, built up during Phases 3–5)
+- `sync/FEATURE-LIST.md` — Feature 001 (`component-map.js` schema this extends)
+- `sync/CODE-TO-VISUAL.md` — Build Quality Check Step 5 (node ID persistence)
+- `sync/RUNDOC_v2.md` — Phase 3–5 build plan that must complete first
+
+---
+
 ## Feature 001 — Figma-First Component Sync (figma → repo)
 
 **Status:** Scheduled / not started

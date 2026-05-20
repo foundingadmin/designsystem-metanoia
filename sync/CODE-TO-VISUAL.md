@@ -955,3 +955,16 @@ Call `get_screenshot` on **each** created node. Use `maxDimension: 2000` for com
 ### Step 4 — Apply fixes and re-screenshot
 Fix every issue found in a single follow-up `use_figma` call. Then take one final screenshot
 of each fixed node to confirm resolution before closing the task.
+
+### Step 5 — Record component set entry to BRAND.md registry
+After confirming the build is correct, append one row to the **Component Set Registry** table in `sync/BRAND.md`:
+
+| figmaName | componentSetNodeId | cssClass | previewFile |
+| (COMPONENT_SET.name in Figma) | (Step 1 node ID of the set container) | (root CSS class) | (matching preview/ path) |
+
+- **figmaName**: the component set name exactly as it appears in Figma (e.g. `Form/Tags`, `Button`)
+- **componentSetNodeId**: the node ID from Step 1 for the set container — **not** an individual variant
+- **cssClass**: the root CSS class used in the repo preview file (e.g. `tag`, `btn`, `input`)
+- **previewFile**: the matching `preview/components-*.html` path
+
+Skip this step for sessions that only modify variables, text styles, or layout frames (no component sets).

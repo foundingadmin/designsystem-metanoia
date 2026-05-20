@@ -66,6 +66,19 @@ function parseCssVars(cssText) {
   return vars;
 }
 
+/**
+ * Parse only variables defined inside :root {} blocks.
+ * Scoping to :root prevents dark-mode override blocks ([data-theme="dark"],
+ * @media prefers-color-scheme) from shadowing light-mode values during diff.
+ */
+function parseCssRootVars(cssText) {
+  let rootContent = '';
+  const rootRe = /:root\s*\{([^}]*)\}/gs;
+  let m;
+  while ((m = rootRe.exec(cssText)) !== null) rootContent += m[1] + '\n';
+  return parseCssVars(rootContent || cssText);
+}
+
 function resolveCssAlias(value, allVars) {
   const ref = value.match(/^var\((--[a-z0-9-]+)\)$/);
   if (ref) return allVars[ref[1]] ?? value;
@@ -90,12 +103,13 @@ function escapeRegex(str) {
  * updatedFiles: same shape as tokenFiles but with patched content
  */
 function diffAndPatch(figmaVars, tokenMap, tokenFiles) {
-  // Merge all CSS into one map for alias resolution
+  // Merge all CSS, scoped to :root blocks only — prevents dark-mode overrides
+  // ([data-theme="dark"], @media prefers-color-scheme) from shadowing light values.
   const allCssText = tokenFiles.map(f => f.content).join('\n');
-  const allVars    = parseCssVars(allCssText);
+  const allVars    = parseCssRootVars(allCssText);
 
-  // Build per-file var maps for patching
-  const fileVars = tokenFiles.map(f => ({ ...f, vars: parseCssVars(f.content) }));
+  // Build per-file var maps (also :root-scoped, for finding which file owns a token)
+  const fileVars = tokenFiles.map(f => ({ ...f, vars: parseCssRootVars(f.content) }));
 
   const figmaByName = {};
   for (const v of figmaVars) figmaByName[v.name] = v;
@@ -118,6 +132,10 @@ function diffAndPatch(figmaVars, tokenMap, tokenFiles) {
       warnings.push({ css: mapping.css, figma: mapping.figma, status: 'CSS_MISSING' });
       continue;
     }
+
+    // Skip alias variables: CSS var() references (semantic/button tokens) must not
+    // be replaced with raw hex values — their alias chains are maintained by hand.
+    if (/^var\(--/.test(cssRaw)) continue;
 
     // Find which file owns this token
     const fileIdx = fileVars.findIndex(f => f.vars[mapping.css] !== undefined);

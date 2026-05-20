@@ -12,6 +12,9 @@
     --logo-mark:     var(--color-navy);
     --logo-accent:   var(--color-aqua);
   }
+  [data-theme="dark"] {
+    --logo-mark: var(--color-white);
+  }
 
   /* ── SVG fill classes ── */
   .logo-mark   { fill: var(--logo-mark); }
@@ -45,13 +48,6 @@
     font-weight: 600;
   }
 
-  /* ── Dark context tiles ── */
-  .tile-dark {
-    --logo-mark:   var(--color-white);
-    background: var(--color-grey-900);
-  }
-  .tile-dark .label { color: rgba(255,255,255,0.55); }
-
   /* ── Download button ── */
   .dl-btn {
     position: absolute;
@@ -67,7 +63,6 @@
     transition: opacity 140ms, transform 140ms;
     backdrop-filter: blur(4px);
   }
-  .tile-dark .dl-btn { background: rgba(0,0,0,0.35); color: var(--color-white); border-color: rgba(255,255,255,0.2); }
   .tile:hover .dl-btn { opacity: 1; transform: translateY(0); }
   .dl-btn:active { opacity: 0.8; }
   .dl-btn svg { flex-shrink: 0; }
@@ -82,51 +77,26 @@
         <path class="logo-accent" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
         <path class="logo-mark"   d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
       </svg>
-      <span class="label">Full Color · Light</span>
+      <span class="label">Full Color</span>
       <a class="dl-btn" href="../assets/logo-brandmark.svg" download="metanoia-brandmark-color.svg">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         SVG
       </a>
     </div>
 
-    <!-- Full Color / Dark -->
-    <div class="tile tile-dark">
-      <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, full color on dark">
-        <path class="logo-accent" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
-        <path class="logo-mark"   d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
-      </svg>
-      <span class="label">Full Color · Dark</span>
-      <a class="dl-btn" href="../assets/logo-brandmark.svg" download="metanoia-brandmark-color.svg">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        SVG
-      </a>
-    </div>
-
-    <!-- One Color / Light -->
+    <!-- One Color -->
     <div class="tile">
       <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, one color">
         <path class="logo-mark" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
         <path class="logo-mark" d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
       </svg>
-      <span class="label">One Color · Light</span>
+      <span class="label">One Color</span>
       <a class="dl-btn" href="../assets/logo-brandmark-navy.svg" download="metanoia-brandmark-navy.svg">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         SVG
       </a>
     </div>
 
-    <!-- One Color / Dark -->
-    <div class="tile tile-dark">
-      <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, one color on dark">
-        <path class="logo-mark" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
-        <path class="logo-mark" d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
-      </svg>
-      <span class="label">One Color · Dark</span>
-      <a class="dl-btn" href="../assets/logo-brandmark-white.svg" download="metanoia-brandmark-white.svg">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        SVG
-      </a>
-    </div>
 
   </div>
 </body>

@@ -5,8 +5,10 @@
 ```
 /
 ├── index.html                   ← Single-page design system showcase (GitHub Pages root)
-├── colors_and_type.css          ← Barrel file: @imports tokens/* + typography-utilities.css
-├── typography-utilities.css     ← @font-face + .t-* classes (not synced with Figma)
+├── colors_and_type.css          ← Barrel file: @imports tokens/* + styles/*
+├── styles/                      ← Utility/component CSS — not sync-eligible
+│   ├── typography-utilities.css ← @font-face + .t-* classes (not synced with Figma)
+│   └── icon-utilities.css       ← .ds-icon component class (Lucide, 2px stroke)
 ├── tokens/                      ← Atomic token files — source of truth for sync
 │   ├── color-primitives.css     ← Raw palette hex values (brand, navy, aqua, grey, status)
 │   ├── color-semantic.css       ← Role aliases: bg / fg / border (var() references)
@@ -43,7 +45,8 @@
 | `tokens/typography.css` | Font family, size, weight, line-height, letter-spacing | Font Size, Font Weight, Line Height, Letter Spacing |
 | `tokens/spacing.css` | Space scale, radii, shadows, container widths | Spacing, Radius, Shadow, Layout |
 | `tokens/motion.css` | Easing curves, duration tiers | Motion |
-| `typography-utilities.css` | `@font-face` + `.t-*` classes | **Not synced** |
+| `styles/typography-utilities.css` | `@font-face` + `.t-*` classes | **Not synced** |
+| `styles/icon-utilities.css` | `.ds-icon` component class | **Not synced** |
 
 ## Versioning rules
 

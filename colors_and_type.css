@@ -13,8 +13,8 @@
      tokens/motion.css            — easing curves + duration tiers
 
    Not synced with Figma variables:
-     typography-utilities.css     — @font-face + .t-* classes
-     icon-utilities.css           — .ds-icon component class (Lucide, 2px stroke)
+     styles/typography-utilities.css  — @font-face + .t-* classes
+     styles/icon-utilities.css        — .ds-icon component class (Lucide, 2px stroke)
    ============================================================ */
 
 @import url('./tokens/color-primitives.css');
@@ -22,5 +22,5 @@
 @import url('./tokens/typography.css');
 @import url('./tokens/spacing.css');
 @import url('./tokens/motion.css');
-@import url('./typography-utilities.css');
-@import url('./icon-utilities.css');
+@import url('./styles/typography-utilities.css');
+@import url('./styles/icon-utilities.css');

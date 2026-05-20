@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.4.0';
+const VERSION      = '2.4.1';
 const LAST_UPDATED = 'May 20, 2026';
 
 /* ================================================================
@@ -465,6 +465,14 @@ const LAST_UPDATED = 'May 20, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.4.1',
+    date: '2026-05-20',
+    type: 'patch',
+    changes: [
+      'Fix 8 icon names in sync/component-map.js to match Lucide 1.x canonical names (grid-2x2, chart-column, pencil, circle-check, circle-alert, triangle-alert, circle-x, house)',
+    ],
+  },
   {
     version: '2.4.0',
     date: '2026-05-20',

@@ -27,7 +27,7 @@ const ICON_CATALOG = [
   { name: 'search',         category: 'Actions' },
   { name: 'plus',           category: 'Actions' },
   { name: 'minus',          category: 'Actions' },
-  { name: 'edit-2',         category: 'Actions' },
+  { name: 'pencil',         category: 'Actions' },
   { name: 'trash-2',        category: 'Actions' },
   { name: 'copy',           category: 'Actions' },
   { name: 'download',       category: 'Actions' },
@@ -35,11 +35,11 @@ const ICON_CATALOG = [
 
   // Status
   { name: 'check',          category: 'Status' },
-  { name: 'check-circle',   category: 'Status' },
-  { name: 'alert-circle',   category: 'Status' },
-  { name: 'alert-triangle', category: 'Status' },
+  { name: 'circle-check',   category: 'Status' },
+  { name: 'circle-alert',   category: 'Status' },
+  { name: 'triangle-alert', category: 'Status' },
   { name: 'info',           category: 'Status' },
-  { name: 'x-circle',       category: 'Status' },
+  { name: 'circle-x',       category: 'Status' },
   { name: 'clock',          category: 'Status' },
   { name: 'refresh-cw',     category: 'Status' },
 
@@ -54,20 +54,20 @@ const ICON_CATALOG = [
   { name: 'mail',           category: 'Content' },
 
   // UI
-  { name: 'home',           category: 'UI' },
+  { name: 'house',          category: 'UI' },
   { name: 'settings',       category: 'UI' },
   { name: 'user',           category: 'UI' },
   { name: 'lock',           category: 'UI' },
   { name: 'eye',            category: 'UI' },
   { name: 'eye-off',        category: 'UI' },
-  { name: 'grid',           category: 'UI' },
+  { name: 'grid-2x2',       category: 'UI' },
   { name: 'list',           category: 'UI' },
 
   // Data
   { name: 'package',        category: 'Data' },
   { name: 'wrench',         category: 'Data' },
   { name: 'trending-up',    category: 'Data' },
-  { name: 'bar-chart-2',    category: 'Data' },
+  { name: 'chart-column',   category: 'Data' },
   { name: 'monitor',        category: 'Data' },
   { name: 'table',          category: 'Data' },
   { name: 'external-link',  category: 'Data' },

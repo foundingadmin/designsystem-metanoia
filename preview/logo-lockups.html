@@ -13,6 +13,10 @@
     --logo-accent:   var(--color-aqua);
     --logo-wordmark: var(--color-navy);
   }
+  [data-theme="dark"] {
+    --logo-mark:     var(--color-white);
+    --logo-wordmark: var(--color-white);
+  }
 
   /* ── SVG fill classes ── */
   .logo-mark     { fill: var(--logo-mark); }
@@ -47,14 +51,6 @@
     font-weight: 600;
   }
 
-  /* ── Dark context tiles ── */
-  .tile-dark {
-    --logo-mark:     var(--color-white);
-    --logo-wordmark: var(--color-white);
-    background: var(--color-grey-900);
-  }
-  .tile-dark .label { color: rgba(255,255,255,0.55); }
-
   /* ── Download button ── */
   .dl-btn {
     position: absolute;
@@ -70,7 +66,6 @@
     transition: opacity 140ms, transform 140ms;
     backdrop-filter: blur(4px);
   }
-  .tile-dark .dl-btn { background: rgba(0,0,0,0.35); color: var(--color-white); border-color: rgba(255,255,255,0.2); }
   .tile:hover .dl-btn { opacity: 1; transform: translateY(0); }
   .dl-btn:active { opacity: 0.8; }
   .dl-btn svg { flex-shrink: 0; }

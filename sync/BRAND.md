@@ -151,12 +151,15 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 
 **How to add a row:** After the Build Quality Check (Step 5 in CODE-TO-VISUAL.md), append one row here. The `componentSetNodeId` is the parent COMPONENT_SET node, not an individual variant.
 
+> **Note:** This registry is being formalized into `sync/component-map.js` (Feature 001 — in progress). BRAND.md remains the human-readable reference; `component-map.js` is the machine-readable source of truth used by sync scripts and Code Connect (Feature 002).
+
 | figmaName | componentSetNodeId | cssClass | previewFile |
 |---|---|---|---|
 | `Logo` | `257:308` | `logo-mark` / `logo-accent` / `logo-wordmark` | `preview/logo-brandmark.html`, `preview/logo-lockups.html`, `preview/logo-wordmark.html` |
 | `Button` | TBD | `btn` | `preview/components-buttons.html` |
 | `Form/Tags` | TBD | `tag` | `preview/components-tags.html` |
 | `Icon Placeholder` | `97:23` | — | `preview/iconography.html` |
+| `Icon` | TBD (set after use_figma build) | `ds-icon` | `preview/iconography.html` |
 
 ---
 

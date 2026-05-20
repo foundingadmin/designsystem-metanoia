@@ -1,0 +1,35 @@
+/* ============================================================
+   Metanoia — Icon Component
+   .ds-icon wraps a Lucide <i data-lucide="name"> element.
+   Lucide replaces <i> with <svg>; this stylesheet governs sizing
+   and ensures 2px stroke / currentColor / never filled.
+
+   Usage:
+     <span class="ds-icon ds-icon--md"><i data-lucide="search"></i></span>
+
+   Sizes: --sm (16px) · --md (20px, default) · --lg (24px)
+   ============================================================ */
+
+.ds-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.ds-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.ds-icon--sm { width: 16px; height: 16px; }
+.ds-icon--md { width: 20px; height: 20px; }
+.ds-icon--lg { width: 24px; height: 24px; }

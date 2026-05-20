@@ -246,6 +246,11 @@ const TOKEN_MAP = [
   { css: '--container-default', figma: 'Layout/Container Default', type: 'FLOAT', transform: pxToNum },
   { css: '--container-wide',    figma: 'Layout/Container Wide',    type: 'FLOAT', transform: pxToNum },
 
+  // ── Icon stroke weight ────────────────────────────────────────
+  { css: '--icon-stroke-sm', figma: 'Spacing/Icon Stroke/SM', type: 'FLOAT', transform: pxToNum },
+  { css: '--icon-stroke-md', figma: 'Spacing/Icon Stroke/MD', type: 'FLOAT', transform: pxToNum },
+  { css: '--icon-stroke-lg', figma: 'Spacing/Icon Stroke/LG', type: 'FLOAT', transform: pxToNum },
+
   // ════════════════════════════════════════════════════════════════
   // MOTION — tokens/motion.css
   // ════════════════════════════════════════════════════════════════

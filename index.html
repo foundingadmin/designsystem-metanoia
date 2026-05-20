@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.5.0';
+const VERSION      = '2.6.0';
 const LAST_UPDATED = 'May 20, 2026';
 
 /* ================================================================
@@ -465,6 +465,17 @@ const LAST_UPDATED = 'May 20, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.6.0',
+    date: '2026-05-20',
+    type: 'minor',
+    changes: [
+      'Add icon stroke weight tokens: --icon-stroke-sm/md/lg in tokens/spacing.css',
+      'Wire icon-utilities.css stroke-width to token variables (per-size control)',
+      'Add Spacing/Icon Stroke/SM·MD·LG FLOAT variables in Figma, bound to strokeWeight on all 363 icon vectors',
+      'Add token-map.js entries for visual-to-code sync of icon stroke tokens',
+    ],
+  },
   {
     version: '2.5.0',
     date: '2026-05-20',

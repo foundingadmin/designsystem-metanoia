@@ -145,6 +145,44 @@ iconInstance.layoutSizingVertical   = 'FIXED';
 regularFrame.layoutSizingHorizontal = 'HUG'; // throws: HUG can only be set on auto-layout frames
 ```
 
+### HUG on non-frame/non-text nodes (runtime error)
+
+`'HUG'` throws `"HUG can only be set on auto-layout frames or text children of auto-layout frames"`
+when assigned to: `Ellipse`, `Rectangle`, `Line`, `Polygon`, `Vector`, or any
+`ComponentInstance` that is not itself an auto-layout frame.
+
+Fix: use `'FIXED'` for all of these node types — always.
+
+```js
+// ❌ Wrong — throws on Ellipse, Rectangle, Vector, etc.
+ellipse.layoutSizingHorizontal = 'HUG'; // runtime error
+
+// ✅ Correct
+ellipse.layoutSizingHorizontal = 'FIXED';
+ellipse.layoutSizingVertical   = 'FIXED';
+```
+
+### Sub-frame FILL-child collapse bug
+
+If a sub-frame (auto-layout) contains children with `layoutSizingHorizontal = 'FILL'`
+and that sub-frame is then given `layoutSizingHorizontal = 'HUG'` in its parent,
+the sub-frame collapses to ~150–200px — a circular sizing dependency.
+The frame wants to hug its children; the children want to fill the frame.
+
+Fix: use `'FIXED'` (never `'HUG'`) on any sub-frame whose children include at least
+one `'FILL'` node. Call `resize()` to set the target width, then apply `'FIXED'`.
+
+```js
+// ❌ Wrong — sub-frame collapses if any child uses FILL
+parent.appendChild(subFrame);
+subFrame.layoutSizingHorizontal = 'HUG'; // collapses to ~150px
+
+// ✅ Correct — pin the width so FILL children have a known container
+subFrame.resize(targetWidth, subFrame.height);
+parent.appendChild(subFrame);
+subFrame.layoutSizingHorizontal = 'FIXED'; // stays at targetWidth
+```
+
 ### Binding variables to fill/stroke colors
 
 There are two API paths. Use **Method A** (paint object) as the default — it
@@ -680,6 +718,139 @@ node.layoutSizingHorizontal = 'FILL';
 node.layoutSizingHorizontal = 'FILL';
 parent.appendChild(node);
 ```
+
+---
+
+## Canvas Build Patterns
+
+These patterns apply when building a full page or multi-section design on canvas
+(landing pages, screens, mockups) — distinct from building DS components on the DS page.
+
+### Page detection — always by name, never by index
+
+Page order changes whenever a designer reorders pages in the panel. Never use array index.
+
+```js
+// ✅ Correct — find by exact name provided in the task
+const page = figma.root.children.find(p => p.name === '<page name from task>');
+if (!page) return 'ERROR: page not found — confirm name with user';
+await figma.setCurrentPageAsync(page);
+// Call setCurrentPageAsync at the top of EVERY call, even when you believe the
+// page is already current. A prior call may have moved the cursor, causing new
+// instances or frames to land on the wrong page.
+
+// ❌ Wrong — position changes silently when user reorders pages
+const page = figma.root.children[1];
+```
+
+### Creating a new page
+
+```js
+// ✅ Correct — top-level API call
+const newPage = figma.createPage();
+newPage.name = 'My Page Name';
+
+// ❌ Wrong — throws "no such property 'createPage' on DOCUMENT node"
+const newPage = figma.root.createPage();
+```
+
+### Sections as Components
+
+Create top-level canvas sections with `figma.createComponent()` rather than
+`figma.createFrame()`. This makes each section immediately available in the
+component panel as `Section/XYZ`, instanceable for organism reuse, and addressable
+by name for targeted revisions.
+
+```js
+const sec = figma.createComponent();
+sec.name = 'Section/Hero'; // consistent Section/XYZ naming convention
+```
+
+### Multi-call structure for full-page builds
+
+Break a full-page build into 3–5 `use_figma` calls (2–3 sections each):
+- Each call is an atomic failure unit — a script error only loses that call's work
+- Re-import all variables and styles at the top of every call (no state persists between calls)
+- Return `nextY` from every call so the next call knows where to place the next section
+
+```js
+// End of every section-build call:
+return { sectionId: sec.id, y: sec.y, h: sec.height, nextY: sec.y + sec.height };
+```
+
+---
+
+## Canvas Revision Pattern
+
+Use for targeted edits to an already-built canvas page. The `Section/XYZ` naming
+convention (set at build time with `figma.createComponent()`) is the stable selector —
+prefer it over node IDs, which go stale when a file is duplicated or pages are
+manually consolidated by a designer.
+
+### Setup
+
+```js
+// Always detect page by name — never by index
+const page = figma.root.children.find(p => p.name === '<page name from task>');
+if (!page) return 'ERROR: page not found';
+await figma.setCurrentPageAsync(page);
+await Promise.all([ /* load all font weights */ ]);
+// Import only the variables/styles you will actually change in this call
+```
+
+### Target a section
+
+```js
+// Primary — naming convention is the durable selector
+const sec = page.children.find(n => n.name === 'Section/CTA Band');
+
+// Fallback — node ID is a hint, not a contract (goes stale on file duplication)
+const sec = figma.getNodeById('<id from prior build>') ||
+            page.children.find(n => n.name === 'Section/CTA Band');
+```
+
+### Revise a text node
+
+```js
+// Search by content — most resilient selector across layout changes
+const node = sec.findOne(n => n.type === 'TEXT' && n.characters.startsWith('Ready'));
+await figma.loadFontAsync(node.fontName); // always load before mutating characters
+node.characters = 'New copy here';
+// textStyleId is preserved automatically — do NOT re-apply the style
+```
+
+### Revise a background fill
+
+```js
+// Always rebind to a semantic variable — never set a raw hex fill
+// Variable key: from sync/BRAND.md → SEMANTIC_KEYS
+const v = await figma.variables.importVariableByKeyAsync(SEMANTIC_KEYS['Background/Subtle']);
+sec.fills = [{ type: 'SOLID', color: hexRgb('<fallback hex>'),
+  boundVariables: { color: { type: 'VARIABLE_ALIAS', id: v.id } } }];
+```
+
+### Revise a button instance label
+
+```js
+const inst = sec.findOne(n => n.type === 'INSTANCE' &&
+             n.mainComponent?.parent?.name === 'Button');
+const lbl  = inst.findOne(n => n.type === 'TEXT');
+await figma.loadFontAsync(lbl.fontName);
+lbl.characters = 'New label';
+```
+
+### Swap a component variant
+
+```js
+// Component node IDs: from sync/BRAND.md → Component Node ID Reference
+const newMain = figma.getNodeById(COMPONENT_IDS['Button Primary LG Default']);
+inst.swapComponent(newMain);
+```
+
+### QA after any revision
+
+Always screenshot the modified section before closing — never skip.
+Return `{ sectionName, nodeId: sec.id, revised: true }` to confirm the node was reached.
 
 ---
 

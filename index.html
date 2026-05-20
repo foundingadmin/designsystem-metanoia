@@ -456,8 +456,8 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.2.0';
-const LAST_UPDATED = 'May 19, 2026';
+const VERSION      = '2.3.0';
+const LAST_UPDATED = 'May 20, 2026';
 
 /* ================================================================
    CHANGELOG
@@ -465,6 +465,19 @@ const LAST_UPDATED = 'May 19, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.3.0',
+    date: '2026-05-20',
+    type: 'minor',
+    changes: [
+      'Figma: build Logo component set — Brandmark, Horizontal, Vertical, Wordmark × Full Color / One Color (8 variants)',
+      'Add Logo/Accent, Logo/Mark, Logo/Wordmark semantic color variables — Logo/Mark and Logo/Wordmark flip Navy→White in dark mode; Logo/Accent stays Aqua',
+      'Rewrite preview/logo-brandmark.html — inline SVG with semantic CSS variables, 4 contextual tiles (Full Color and One Color on light and dark)',
+      'Rewrite preview/logo-lockups.html — inline SVG with semantic CSS variables, full color horizontal and vertical lockups',
+      'Add preview/logo-wordmark.html — standalone wordmark tile (light and dark context)',
+      'Update Logos section in index.html — add Wordmark card, cols 2→3',
+    ],
+  },
   {
     version: '2.2.0',
     date: '2026-05-19',
@@ -756,11 +769,12 @@ const SECTIONS = [
   {
     id: 'logos', group: 'Foundations', icon: 'image',
     label: 'Logos',
-    desc: 'Brandmark and lockups. The interlocking M is the only geometric motif. The wordmark "metanoia" is always lowercase Figtree Bold.',
-    cols: 2,
+    desc: 'Brandmark, horizontal and vertical lockups, and standalone wordmark. Two colorways — Full Color and One Color — driven by semantic Logo/* tokens that flip Navy→White in dark mode.',
+    cols: 3,
     cards: [
       { src: 'preview/logo-brandmark.html', label: 'Brandmark' },
       { src: 'preview/logo-lockups.html',   label: 'Lockups' },
+      { src: 'preview/logo-wordmark.html',  label: 'Wordmark' },
     ],
   },
   /* ── Components ── */

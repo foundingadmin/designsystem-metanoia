@@ -42,7 +42,7 @@ Primitive collections (raw hex values):
 `Brand` | `Navy` | `Aqua` | `Grey` | `Status`
 
 Semantic collections (role aliases):
-`Background` | `Foreground` | `Border`
+`Background` | `Foreground` | `Border` | `Logo`
 
 Other collections:
 `Font Size` | `Font Weight` | `Line Height` | `Letter Spacing` | `Spacing` | `Radius` | `Shadow` | `Layout` | `Motion`
@@ -153,6 +153,7 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 
 | figmaName | componentSetNodeId | cssClass | previewFile |
 |---|---|---|---|
+| `Logo` | `257:308` | `logo-mark` / `logo-accent` / `logo-wordmark` | `preview/logo-brandmark.html`, `preview/logo-lockups.html`, `preview/logo-wordmark.html` |
 | `Button` | TBD | `btn` | `preview/components-buttons.html` |
 | `Form/Tags` | TBD | `tag` | `preview/components-tags.html` |
 | `Icon Placeholder` | `97:23` | — | `preview/iconography.html` |
@@ -182,6 +183,10 @@ const SEMANTIC_KEYS = {
   'Foreground/Link Hover':  'f33cb574a6101e566792c20b95c015f21746aa22',
   // Border
   'Border/Accent':          '26fcc1205c04d3d0d5e0ac196ce5fe068a4496aa',
+  // Logo (added v2.3.0 — import keys TBD after next sync)
+  // 'Logo/Accent':         'TBD',
+  // 'Logo/Mark':           'TBD',
+  // 'Logo/Wordmark':       'TBD',
 };
 ```
 

@@ -6,59 +6,128 @@
 <link rel="stylesheet" href="../colors_and_type.css">
 <style>
   html,body{margin:0;padding:0;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
-  .card{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border-subtle);height:240px;}
-  .tile{background:#fff;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden;}
-  .tile.dark{background:var(--color-navy);}
-  .tile.aqua{background:var(--color-light-aqua);}
-  .tile img{max-width:100%;max-height:120px;}
-  .label{position:absolute;left:12px;bottom:10px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);font-weight:600;}
-  .tile.dark .label{color:rgba(255,255,255,0.65);}
 
-  .dl-btn{
-    position:absolute;top:10px;right:10px;
-    display:flex;align-items:center;gap:5px;
-    padding:5px 10px;border-radius:6px;
-    font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;
-    text-decoration:none;
-    background:rgba(255,255,255,0.85);color:#094B77;
-    border:1px solid rgba(9,75,119,0.18);
-    opacity:0;transform:translateY(-4px);
-    transition:opacity 140ms,transform 140ms;
-    backdrop-filter:blur(4px);
+  /* ── Semantic logo tokens (mirrors Figma Logo/* variables) ── */
+  :root {
+    --logo-mark:     var(--color-navy);
+    --logo-accent:   var(--color-aqua);
   }
-  .tile.dark .dl-btn{background:rgba(0,0,0,0.35);color:#fff;border-color:rgba(255,255,255,0.2);}
-  .tile.aqua .dl-btn{background:rgba(255,255,255,0.75);color:#094B77;border-color:rgba(9,75,119,0.18);}
-  .tile:hover .dl-btn{opacity:1;transform:translateY(0);}
-  .dl-btn:active{opacity:0.8;}
-  .dl-btn svg{flex-shrink:0;}
+
+  /* ── SVG fill classes ── */
+  .logo-mark   { fill: var(--logo-mark); }
+  .logo-accent { fill: var(--logo-accent); }
+
+  /* ── Grid ── */
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-subtle);
+  }
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    position: relative;
+    background: var(--bg-canvas);
+    height: 200px;
+  }
+  .tile svg { width: 120px; height: auto; display: block; }
+  .label {
+    position: absolute;
+    left: 12px;
+    bottom: 10px;
+    font-size: 11px;
+    letter-spacing: var(--ls-wide, 0.12em);
+    text-transform: uppercase;
+    color: var(--fg-3);
+    font-weight: 600;
+  }
+
+  /* ── Dark context tiles ── */
+  .tile-dark {
+    --logo-mark:   var(--color-white);
+    background: var(--color-grey-900);
+  }
+  .tile-dark .label { color: rgba(255,255,255,0.55); }
+
+  /* ── Download button ── */
+  .dl-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    display: flex; align-items: center; gap: 5px;
+    padding: 5px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    text-decoration: none;
+    background: rgba(255,255,255,0.85); color: var(--color-navy);
+    border: 1px solid rgba(9,75,119,0.18);
+    opacity: 0; transform: translateY(-4px);
+    transition: opacity 140ms, transform 140ms;
+    backdrop-filter: blur(4px);
+  }
+  .tile-dark .dl-btn { background: rgba(0,0,0,0.35); color: var(--color-white); border-color: rgba(255,255,255,0.2); }
+  .tile:hover .dl-btn { opacity: 1; transform: translateY(0); }
+  .dl-btn:active { opacity: 0.8; }
+  .dl-btn svg { flex-shrink: 0; }
 </style>
 </head>
 <body>
   <div class="card">
+
+    <!-- Full Color / Light -->
     <div class="tile">
-      <img src="../assets/logo-brandmark.svg" alt="">
-      <span class="label">Color · Light</span>
+      <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, full color">
+        <path class="logo-accent" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
+        <path class="logo-mark"   d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
+      </svg>
+      <span class="label">Full Color · Light</span>
       <a class="dl-btn" href="../assets/logo-brandmark.svg" download="metanoia-brandmark-color.svg">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         SVG
       </a>
     </div>
-    <div class="tile dark">
-      <img src="../assets/logo-brandmark-white.svg" alt="">
-      <span class="label">White · Dark</span>
-      <a class="dl-btn" href="../assets/logo-brandmark-white.svg" download="metanoia-brandmark-white.svg">
+
+    <!-- Full Color / Dark -->
+    <div class="tile tile-dark">
+      <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, full color on dark">
+        <path class="logo-accent" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
+        <path class="logo-mark"   d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
+      </svg>
+      <span class="label">Full Color · Dark</span>
+      <a class="dl-btn" href="../assets/logo-brandmark.svg" download="metanoia-brandmark-color.svg">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         SVG
       </a>
     </div>
-    <div class="tile aqua">
-      <img src="../assets/logo-brandmark-navy.svg" alt="">
-      <span class="label">Navy · Aqua wash</span>
+
+    <!-- One Color / Light -->
+    <div class="tile">
+      <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, one color">
+        <path class="logo-mark" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
+        <path class="logo-mark" d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
+      </svg>
+      <span class="label">One Color · Light</span>
       <a class="dl-btn" href="../assets/logo-brandmark-navy.svg" download="metanoia-brandmark-navy.svg">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         SVG
       </a>
     </div>
+
+    <!-- One Color / Dark -->
+    <div class="tile tile-dark">
+      <svg viewBox="0 0 206.995 135.041" xmlns="http://www.w3.org/2000/svg" aria-label="Metanoia brandmark, one color on dark">
+        <path class="logo-mark" d="M163.452,2.621l-52.268,52.268,32.567,32.567.171.171,13.456-13.456v60.871h49.617V11.216c0-6.194-5.022-11.216-11.216-11.216h-25.998c-2.374,0-4.65.943-6.329,2.621Z"/>
+        <path class="logo-mark" d="M103.497,62.576L43.543,2.621c-1.679-1.679-3.955-2.621-6.329-2.621H11.216C5.022,0,0,5.022,0,11.216v123.825h49.617v-60.871l53.709,53.709.171-.171,32.567-32.567-32.567-32.567Z"/>
+      </svg>
+      <span class="label">One Color · Dark</span>
+      <a class="dl-btn" href="../assets/logo-brandmark-white.svg" download="metanoia-brandmark-white.svg">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        SVG
+      </a>
+    </div>
+
   </div>
 </body>
 </html>

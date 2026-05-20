@@ -13,15 +13,19 @@
 │   ├── typography.css           ← Font family, weight, size, line-height, letter-spacing
 │   ├── spacing.css              ← Space scale, radii, shadows, layout containers
 │   └── motion.css               ← Easing curves + duration tiers
-├── sync/                        ← Figma ↔ CSS sync scripts + reference docs
-│   ├── token-map.js             ← CSS ↔ Figma variable mapping (organized by collection)
-│   ├── sync-figma-to-repo.js   ← Figma → tokens/* diff + PR
-│   ├── sync-repo-to-figma.js   ← tokens/* → Figma diff + apply
-│   ├── init-figma.js            ← One-time Figma variable bootstrap script
-│   ├── SKILL-REPO-TO-FIGMA.md  ← Figma Plugin API patterns + component build reference
-│   ├── RUNDOC_v2.md             ← Full Phase 0–5 DS build plan + verification checklists
+├── sync/                        ← Sweden sync engine — scripts + reference docs
+│   ├── token-map.js             ← CSS ↔ visual tool variable mapping (by collection)
+│   ├── sync-figma-to-repo.js   ← Visual → Code diff + PR
+│   ├── sync-repo-to-figma.js   ← Code → Visual diff + apply
+│   ├── init-figma.js            ← One-time visual tool variable bootstrap
+│   ├── SYNC-MASTER.md           ← Sweden architecture overview + routing table
+│   ├── CODE-TO-VISUAL.md        ← Code → Visual engine: Plugin API patterns + build reference
+│   ├── VISUAL-TO-CODE.md        ← Visual → Code engine: diff + PR workflow
+│   ├── BRAND.md                 ← Instance config: all brand-specific values (replace per deployment)
+│   ├── META.md                  ← Scaffold governance: rules, anti-patterns, installability
+│   ├── RUNDOC_v2.md             ← Current sprint plan (Phase 0–5)
 │   ├── FEATURE-LIST.md          ← Sync engine feature backlog
-│   └── SKILL-BIDIRECTIONAL-SYNC.md ← Legacy sync reference (superseded by DS Sync section below)
+│   └── archive/                 ← Completed sprint RUNDOCs
 ├── README.md                    ← Brand guidelines, voice, visual foundations
 ├── SKILL.md                     ← Claude Code skill manifest
 ├── assets/                      ← Logos (SVG), identity guide PDF, type guide JPG
@@ -111,203 +115,24 @@ URL: `https://foundingadmin.github.io/metanoia-designsys/`
 
 Enable Pages in repo Settings → Pages → Source: **Deploy from branch**, branch: **main**, folder: **/ (root)**.
 
-# DS Sync — Claude Code Instructions
+# Sweden Sync
 
-This section extends the main CLAUDE.md with instructions for running
-design token syncs between `tokens/` and the Figma file.
+Sweden is the bi-directional translation layer between the visual world and the code world.
+See `sync/SYNC-MASTER.md` for the full architecture overview and direction map.
 
-**Figma File Key:** `c3ayt4AFrNKOmSkGBIyFi4`
-**Sync scripts:** `sync/token-map.js`, `sync/sync-figma-to-repo.js`, `sync/sync-repo-to-figma.js`
+**Brand config (file key, tokens, component IDs, style keys):** `sync/BRAND.md`
 
----
+## Routing
 
-## Triggering a Sync
-
-| What you say | What runs |
+| What you say | Read this doc |
 |---|---|
-| "sync Figma → repo" | Reads Figma variables, diffs CSS, opens PR |
-| "sync repo → Figma" | Reads CSS, diffs Figma variables, updates Figma directly |
-| "show me the diff" | Runs either diff without writing anything |
+| "sync visual → code", "sync Figma → repo" | `sync/VISUAL-TO-CODE.md` |
+| "sync code → visual", "sync repo → Figma" | `sync/CODE-TO-VISUAL.md` |
+| "build in Figma", "generate components", "push to Figma" | `sync/CODE-TO-VISUAL.md` |
+| "add a new token" | `sync/CODE-TO-VISUAL.md` (Adding New Tokens section) |
+| "continue the DS build", "next phase", "run the build plan" | `sync/RUNDOC_v2.md` |
+| "what features are planned", "sync engine backlog" | `sync/FEATURE-LIST.md` |
+| "new brand setup", "install Sweden in a new repo" | `sync/META.md` |
 
----
-
-## Figma → Repo (opens PR)
-
-### Step 1 — Fetch Figma variables
-Use `Figma:use_figma` to read all local variables:
-
-```js
-const collections = figma.variables.getLocalVariableCollections();
-const allVars = [];
-for (const col of collections) {
-  for (const id of col.variableIds) {
-    const v = figma.variables.getVariableById(id);
-    const modeId = Object.keys(v.valuesByMode)[0];
-    const raw = v.valuesByMode[modeId];
-    allVars.push({
-      name: v.name,
-      resolvedType: v.resolvedType,
-      value: raw,
-    });
-  }
-}
-return allVars;
-```
-
-### Step 2 — Run the diff
-```js
-const { TOKEN_MAP } = require('./sync/token-map.js');
-const { run } = require('./sync/sync-figma-to-repo.js');
-const result = run(figmaVars, TOKEN_MAP); // figmaVars from Step 1
-```
-
-### Step 3 — If no changes
-Report "✓ CSS is in sync with Figma." and stop.
-
-### Step 4 — If changes found
-Show the diff to the user. Then execute these shell commands in order:
-
-```bash
-git checkout -b {result.branch}
-git add tokens/
-git commit -m "{result.commitMsg}"
-git push -u origin {result.branch}
-gh pr create \
-  --title "DS Sync: {summary}" \
-  --body "{result.prBody}" \
-  --base main \
-  --head {result.branch}
-```
-
-Report the PR URL to the user. Done — human reviews and merges.
-
-### Version bump
-After the PR is merged, remind the user to bump the version in `index.html`
-per the versioning rules in CLAUDE.md (`PATCH` for value changes, `MAJOR` for renames).
-
----
-
-## Repo → Figma (writes directly, no PR)
-
-### Step 1 — Fetch Figma variables
-Same as above (Step 1 of Figma→Repo).
-
-### Step 2 — Run the diff
-```js
-const { TOKEN_MAP } = require('./sync/token-map.js');
-const { run } = require('./sync/sync-repo-to-figma.js');
-const result = run(figmaVars, TOKEN_MAP);
-```
-
-### Step 3 — Dry run first
-**Always show the diff and ask for confirmation before writing to Figma.**
-Say: "I found X variable(s) that differ. Here's what will change: [list].
-Shall I apply these updates to Figma?"
-
-### Step 4 — Apply via Figma MCP
-Execute `result.script` using `Figma:use_figma`:
-```js
-// result.script is ready-to-run Figma plugin JS
-// Pass it directly as the `code` parameter
-```
-
-Report: "✓ Updated X variables in Figma."
-
----
-
-## Adding New Tokens
-
-When a new CSS var is added, three things must happen together:
-1. Add it to the correct file in `tokens/` (match the category)
-2. Create the corresponding Figma variable in the right collection
-3. Add a new entry in `sync/token-map.js` with the correct `type`
-
-| Token category | CSS file | Figma collection |
-|---|---|---|
-| Raw color | `tokens/color-primitives.css` | Brand / Navy / Aqua / Grey / Status |
-| Role color | `tokens/color-semantic.css` | Background / Foreground / Border |
-| Typography | `tokens/typography.css` | Font Size / Font Weight / Line Height / Letter Spacing |
-| Space / shape | `tokens/spacing.css` | Spacing / Radius / Shadow / Layout |
-| Motion | `tokens/motion.css` | Motion |
-
-Claude Code can handle all three steps when asked:
-"Add a new token --color-coral: #FF6B6B to the design system"
-
----
-
-## Warnings to watch for
-
-| Warning | Meaning | Action |
-|---|---|---|
-| `CSS_MISSING` | Token in map but not in CSS | Add to CSS or remove from map |
-| `FIGMA_MISSING` | Token in map but not in Figma | Create variable in Figma or remove from map |
-| `NOT_A_COLOR` | CSS value isn't a parseable color | Check for var() alias chain or non-color token |
-
----
-
-## /sync Reference Docs — When to Read
-
-These files are **not auto-loaded**. Read them explicitly (via the `Read` tool) when a trigger condition below applies. They are the authoritative source for anything not covered by the DS Sync section above.
-
-### `sync/SKILL-REPO-TO-FIGMA.md` — Figma Component Build Skill
-
-Read this file whenever:
-- Building or generating any component in Figma via `use_figma`
-- User says "build in Figma", "generate components", "push to Figma", "initialize the Figma file"
-- Constructing any atom, molecule, or organism: icons, buttons, inputs, tags, cards, alerts, breadcrumb, pagination, tabs, nav, modal, table, hero, empty states
-- Debugging `combineAsVariants`, layout sizing modes, fill/stroke variable binding, or line height in `use_figma` scripts
-- Needing text style import keys (`STYLE_KEYS`), component node IDs, or semantic variable import keys (`SEMANTIC_KEYS`)
-- Building UI frames directly on a Figma page (screens, mocks, heroes, sections)
-
-Contains: mandatory build order, script skeleton, Plugin API correct values, line-height gotcha + fix, button anatomy, Icon/Placeholder code, combineAsVariants layout patterns, molecule patterns, canvas design guidelines, full text style / component / semantic variable reference tables.
-
-### `sync/RUNDOC_v2.md` — Full DS Build Plan (Phases 0–5)
-
-Read this file whenever:
-- User asks to "continue the DS build", "what's the next phase", "where are we in the Figma build", or "run the build plan"
-- Working on Phase 0 (token corrections + dark mode), Phase 1 (variable init via `init-figma.js`), Phase 2 (text + effect styles), or Phases 3–5 (atoms → molecules → organisms)
-- Needing the exact component variant matrix (e.g. Button: 180 variants, Form Inputs: 6 components × states)
-- Needing the verification checklist to confirm a phase completed correctly
-- Questions about the sprint/RunDoc frame system in Figma
-
-Contains: token corrections before Figma bootstrap, `init-figma.js` config block, text style specs (14 styles), shadow specs (6 effects), full component variant matrices, organism breakdowns (Table: 3 types, Hero: Light/Dark modes), sprint RunDoc template.
-
-### `sync/FEATURE-LIST.md` — Sync Engine Feature Backlog
-
-Read this file whenever:
-- User asks what features are planned or in the pipeline for the sync engine
-- Adding a new feature entry to the backlog
-- Questions about Figma-first component sync (Feature 001: `component-map.js` architecture)
-- Asking whether a sync capability exists or is planned
-
-Contains: backlog template, Feature 001 (component-map.js + Phase 2 extension to `sync-figma-to-repo.js` for syncing Figma component structure → preview HTML).
-
-### `sync/SKILL-BIDIRECTIONAL-SYNC.md` — Legacy Sync Reference
-
-Superseded by the DS Sync section in this file. Only read when diagnosing a sync edge case not covered above. **Note:** this file references `colors_and_type.css` as the sync target — the correct path is `tokens/` (atomic files). Treat the DS Sync section in this CLAUDE.md as authoritative for file paths and git commands.
-
----
-
-## Figma Build Quality Check (MANDATORY after every `use_figma` call)
-
-After **any** `use_figma` session that creates or modifies Figma components, frames, or variables, always run a visual QA pass before reporting the work as done:
-
-### Step 1 — Collect node IDs
-Query the page for IDs of every node you just created or modified:
-```js
-figma.currentPage.children.find(n => n.name === '...').id
-```
-
-### Step 2 — Screenshot everything
-Call `get_screenshot` on **each** created node. Use `maxDimension: 2000` for component sets (need to see all variants); `maxDimension: 800` for individual components or bars.
-
-### Step 3 — Inspect against this checklist
-- [ ] **Layout** — Component sets are not flat/collapsed (check rendered height vs expected). If a component set is only as tall as one variant, the counter-axis sizing is stuck on `FIXED` → switch to `layoutMode = 'NONE'` and arrange variants in a grid.
-- [ ] **State differentiation** — Every state (Default / Hover / Active / Disabled) is visually distinct at a glance. If two states look identical, adjust fill, opacity, or text weight.
-- [ ] **Color fills** — Semantic variable tokens are applied (not hardcoded hex). Spot-check: does Active use accent/primary fills, does Disabled look faded?
-- [ ] **Badge / count legibility** — Any badge or count chip must be readable against its parent background. Near-same-value pairs (e.g. `Background/Subtle` badge on `Background/Canvas` parent) are invisible — use `Background/Accent Soft` or `Background/Muted` instead.
-- [ ] **Text styles** — Labels use the correct text style (e.g. `Body SM`). Active/selected items use `Semi Bold` override where specified.
-- [ ] **Bar compositions** — If a bar component uses instances, verify tab labels updated from "Label" to real strings and the Active instance shows the correct state.
-
-### Step 4 — Apply fixes and re-screenshot
-Fix every issue found in a single follow-up `use_figma` call. Then take one final screenshot of each fixed node to confirm resolution before closing the task.
+After any `use_figma` call → Build Quality Check in `sync/CODE-TO-VISUAL.md`.
+Before editing any `sync/` doc → read `sync/META.md`.

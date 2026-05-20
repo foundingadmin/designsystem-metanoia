@@ -1,21 +1,26 @@
 ---
-name: figma-component-build
+name: code-to-visual
 description: >
-  Use this skill when building or rebuilding Figma components from this
-  design system repo. Covers the exact Figma Plugin API patterns, known gotchas,
-  build order, variable binding patterns, and script structure required to
-  generate a correct, variable-bound component set on the first attempt.
-  Trigger: whenever asked to "build in Figma", "generate components", "push to Figma",
-  or "initialize the Figma file" from repo source.
+  Use this skill when translating code, design tokens, or repo state into
+  visual representations in a design tool. Covers Plugin API patterns, gotchas,
+  build order, variable binding, and script structure for generating correct,
+  variable-bound components on the first attempt. Also covers the Code → Visual
+  token sync pipeline and Adding New Tokens.
+  Trigger: "build in Figma", "generate components", "push to Figma",
+  "sync repo → Figma", "sync code → visual", "add a new token",
+  "initialize the visual file".
 user-invocable: true
 ---
 
-# Figma Component Build Skill
-## Design System — Code-to-Figma Reference
+# Code → Visual — Engine Reference
+## Design System — Code-to-Visual Reference
 
-This skill captures every lesson learned from building a Button component set
-in Figma from repo CSS tokens. Follow these rules exactly to avoid the errors
-that were hit in practice.
+This file is **engine-only**. It contains universal patterns for building visual components
+from code and syncing design tokens from the repo into the visual tool.
+
+**Brand-specific values** (font family, token names, text style SHA keys, component node IDs,
+semantic variable keys, color values) all live in `sync/BRAND.md`.
+**Read `sync/BRAND.md` before any `use_figma` session.**
 
 ---
 
@@ -25,13 +30,13 @@ Variables and styles must exist BEFORE any component that references them.
 Run these phases in strict sequence — never skip ahead.
 
 ```
-1. Figma Variables       — primitives first, then semantic aliases
-2. Text Styles           — after variables (font binding requires variable IDs)
-3. Effect Styles         — shadows from spacing.css
+1. Visual Variables     — primitives first, then semantic aliases
+2. Text Styles          — after variables (font binding requires variable IDs)
+3. Effect Styles        — shadows from spacing.css
 4. Icon/Placeholder atom — before ANY component that uses icon slots
-5. Atoms                 — Button, Input, Tag, Badge
-6. Molecules             — Card, Alert, Breadcrumb, Pagination, Tabs
-7. Organisms             — Nav, Modal, Table, Hero, Empty States
+5. Atoms                — Button, Input, Tag, Badge
+6. Molecules            — Card, Alert, Breadcrumb, Pagination, Tabs
+7. Organisms            — Nav, Modal, Table, Hero, Empty States
 ```
 
 To check what already exists before building, run:
@@ -53,6 +58,7 @@ Every `use_figma` call should start with this structure:
 
 ```js
 // ── 1. Load ALL fonts before touching any text ────────────────────
+// Brand font family: see sync/BRAND.md (Font section)
 await Promise.all([
   figma.loadFontAsync({ family: 'Figtree', style: 'Light' }),
   figma.loadFontAsync({ family: 'Figtree', style: 'Regular' }),
@@ -99,6 +105,7 @@ function bindStrokeColor(node, variable) {
 }
 
 // ── 3. Navigate to the correct page ──────────────────────────────
+// Page names: see sync/BRAND.md (Visual Tool Page Names section)
 let dsPage = figma.root.children.find(p => p.name.toLowerCase() === 'ds')
           || figma.root.children.find(p => p.name.toLowerCase() === 'components')
           || figma.root.children[0];
@@ -148,6 +155,7 @@ object reference from `figma.variables`.
 
 ```js
 // Works on FrameNode, ComponentNode, TextNode, VectorNode — everything.
+// Variable name: see sync/BRAND.md for this brand's token names
 const colorVar = findVar('Brand/Navy');
 
 node.fills = [{
@@ -178,7 +186,7 @@ node.fills = [paint];
 
 ```js
 // ❌ node.setBoundVariableForPaint(...) — throws "no such property" on
-//    ComponentNode and some other node types. Unreliable across Figma versions.
+//    ComponentNode and some other node types. Unreliable across versions.
 node.setBoundVariableForPaint('fills', 0, 'color', colorVar); // ← do not use
 
 // ❌ setBoundVariable does not work for fill/stroke color
@@ -201,7 +209,7 @@ node.setBoundVariable('itemSpacing',  spacingVar);
 
 ## Line Height: The Critical Gotcha
 
-**The problem:** Figma interprets FLOAT variables bound to `lineHeight` as
+**The problem:** The visual tool interprets FLOAT variables bound to `lineHeight` as
 **pixel values**, NOT percentage multipliers. If the variable stores `1.45`,
 the line height is `1.45px` (essentially nothing → text appears as 2px tall).
 If you change it to `145`, the line height is `145px` (enormous).
@@ -216,24 +224,14 @@ textStyle.lineHeight = { unit: 'PERCENT', value: 145 }; // = 1.45×
 // ✅ Correct — explicit PIXELS unit (use when you know the exact px value)
 textStyle.lineHeight = { unit: 'PIXELS', value: 20 };
 
-// ❌ Wrong — variable binding makes Figma use px, not %
+// ❌ Wrong — variable binding makes the tool use px, not %
 textStyle.setBoundVariable('lineHeight', lhVar); // lhVar=1.45 → 1.45px line height
 
 // ❌ Wrong — ×100 trick doesn't help
 // lhVar=145 → 145px line height (still broken)
 ```
 
-**Reference line height values for Metanoia text styles:**
-
-| Style | PERCENT value |
-|---|---|
-| Display | 95% |
-| H1 | 105% |
-| H2, H3, H4, H5 | 120% |
-| Eyebrow | 120% |
-| Lead, Body | 160% |
-| Body SM, Caption | 145% |
-| Button/SM, Button/MD, Button/LG | 145% |
+**Line height reference values for this brand:** see `sync/BRAND.md` (Line Height Reference section).
 
 Line height FLOAT variables in the Typography collection store the CSS
 unitless multiplier (e.g. `1.45`) for sync purposes only — they are not
@@ -248,7 +246,7 @@ be wrong:
 
 ```js
 const txt = figma.createText();
-txt.fontName         = { family: 'Figtree', style: 'SemiBold' };
+txt.fontName         = { family: 'Figtree', style: 'SemiBold' }; // brand font — see BRAND.md
 txt.fontSize         = 14;                                  // or from variable
 txt.lineHeight       = { unit: 'PERCENT', value: 145 };    // explicit — never variable-bound
 txt.textAutoResize   = 'WIDTH_AND_HEIGHT';                  // REQUIRED — prevents 2px height bug
@@ -297,7 +295,7 @@ COMPONENT_SET  name='Button'
               layoutSizingVertical='FIXED'
 ```
 
-**Variant naming format** (Figma creates properties from this):
+**Variant naming format** (the tool creates properties from this):
 ```
 Type=Primary, Size=MD, Icon=None, State=Default
 ```
@@ -308,25 +306,14 @@ Type=Primary, Size=MD, Icon=None, State=Default
 - Icon: None, Leading, Trailing
 - State: Default, Hover, Active, Focus, Disabled
 
-**Size specs matching HTML CSS (`preview/components-buttons.html`):**
-
-| Size | paddingV | paddingH | gap | iconSize | Radius var |
-|---|---|---|---|---|---|
-| SM | 8px (Spacing/2) | 14px (explicit) | 8px | 16px | Radius/MD |
-| MD | 12px (Spacing/3) | 20px (Spacing/5) | 8px | 16px | Radius/MD |
-| LG | 14px (explicit) | 24px (Spacing/6) | 8px | 20px | Radius/MD |
-
-**Expected rendered heights** (after line height fix):
-- SM: 35px (8 + 19 + 8)
-- MD: 44px (12 + 20 + 12)
-- LG: 51px (14 + 23 + 14)
+**Size specs** — see `sync/BRAND.md` (Button Size Specifications section) for authoritative values.
 
 ---
 
 ## Icon/Placeholder Component
 
 Must be created BEFORE building buttons. Designers swap this component instance
-in the properties panel to replace placeholders with actual Lucide icons.
+in the properties panel to replace placeholders with actual icons.
 
 ```js
 function makeIconPlaceholder(size) {
@@ -339,8 +326,8 @@ function makeIconPlaceholder(size) {
   comp.primaryAxisSizingMode = 'FIXED';
   comp.counterAxisSizingMode = 'FIXED';
   comp.cornerRadius = 3;
-  comp.fills   = [{ type: 'SOLID', color: hexRgb('#ECEFF2') }]; // grey-100
-  comp.strokes = [{ type: 'SOLID', color: hexRgb('#B6BEC6') }]; // grey-300
+  comp.fills   = [{ type: 'SOLID', color: hexRgb('#ECEFF2') }]; // grey-100 — see BRAND.md
+  comp.strokes = [{ type: 'SOLID', color: hexRgb('#B6BEC6') }]; // grey-300 — see BRAND.md
   comp.strokeWeight = 1;
   comp.strokeAlign = 'INSIDE';
   comp.clipsContent = true;
@@ -351,11 +338,11 @@ function makeIconPlaceholder(size) {
   cf.name = 'cross'; cf.resize(cs, cs); cf.fills = []; cf.layoutMode = 'NONE';
 
   const hb = figma.createRectangle();
-  hb.resize(cs, 2); hb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }];
+  hb.resize(cs, 2); hb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }]; // cross color — see BRAND.md
   hb.cornerRadius = 1; hb.x = 0; hb.y = Math.round((cs - 2) / 2);
 
   const vb = figma.createRectangle();
-  vb.resize(2, cs); vb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }];
+  vb.resize(2, cs); vb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }]; // cross color — see BRAND.md
   vb.cornerRadius = 1; vb.x = Math.round((cs - 2) / 2); vb.y = 0;
 
   cf.appendChild(hb); cf.appendChild(vb);
@@ -448,26 +435,10 @@ for (let i = toReplace.length - 1; i >= 0; i--) {
 
 ---
 
-## Color Token Reference for Buttons
+## Button Color Token Mapping
 
-| Button type + state | Background variable | Text variable | Border variable |
-|---|---|---|---|
-| Primary / Default | Navy/700 | Brand/White | — |
-| Primary / Hover | Navy/500 | Brand/White | — |
-| Primary / Active | Navy/900 | Brand/White | — |
-| Secondary / Default | Brand/White | Navy/900 | Navy/700 |
-| Secondary / Hover | Navy/100 | Navy/900 | Navy/900 |
-| Ghost / Default | transparent | Navy/700 | Grey/300 |
-| Ghost / Hover | Grey/100 | Navy/700 | Grey/300 |
-| Destructive / Default | Status/Error/600 | Brand/White | — |
-| Destructive / Hover | Status/Error/700 | Brand/White | — |
-| Destructive / Active | Status/Error/800 | Brand/White | — |
-| Any / Focus | default bg | default text | + focus ring effect |
-| Any / Disabled | default bg at 40% opacity | default text at 40% opacity | — |
-
-Status/Error/700 (`#B83C24`) was MISSING from the original token scale and
-had to be added. Always check that hover/active states have a corresponding
-primitive variable before referencing them in a component.
+See `sync/BRAND.md` (Button Color Token Mapping section) for this brand's
+fill/stroke variable assignments per button type and state.
 
 ---
 
@@ -487,10 +458,10 @@ const focusRing = [
     visible: true,
     blendMode: 'NORMAL',
   },
-  // Outer colored ring — aqua brand color
+  // Outer brand ring — color from sync/BRAND.md (Focus Ring section)
   {
     type: 'DROP_SHADOW',
-    color: { r: 0.196, g: 0.796, b: 0.929, a: 0.85 }, // aqua #32CBED at 85%
+    color: { r: 0.196, g: 0.796, b: 0.929, a: 0.85 }, // brand focus color — see BRAND.md
     offset: { x: 0, y: 0 },
     radius: 1,
     spread: 4,
@@ -507,10 +478,10 @@ comp.effects = focusRing;
 
 When semantic variables (Background, Foreground, Border collections) alias
 primitive variables, they must be set as VARIABLE_ALIAS values, not direct
-colors. Semantic variables need to exist in the correct collection with the
-alias pointing to the current primitive variable ID.
+colors.
 
 ```js
+// Variable names: see sync/BRAND.md (Semantic Variable Reference section)
 const primVar = findVar('Navy/700');
 const semanticVar = findVar('Background/Primary'); // or create it
 
@@ -531,18 +502,19 @@ semantic collection, looking up fresh IDs via `findVar()`.
 ## Pre-flight Checklist (run before building any component)
 
 ```js
-// Verify everything needed is in place
-const allVars = figma.variables.getLocalVariables();
+// Brand-specific variable and style names — load from sync/BRAND.md
+// (Pre-flight Required Variables section)
 const required = [
-  'Brand/Navy', 'Brand/White', 'Navy/700', 'Navy/900', 'Navy/500', 'Navy/100',
-  'Status/Error/600', 'Status/Error/700', 'Status/Error/800',
-  'Grey/100', 'Grey/300',
-  'Radius/MD', 'Spacing/2', 'Spacing/3', 'Spacing/5', 'Spacing/6',
+  /* paste required[] array from sync/BRAND.md */
 ];
+
+const allVars = figma.variables.getLocalVariables();
 const missing = required.filter(name => !allVars.find(v => v.name === name));
 
 const textStyles = figma.getLocalTextStyles();
-const requiredStyles = ['Button/SM', 'Button/MD', 'Button/LG', 'Body', 'Body SM'];
+const requiredStyles = [
+  /* required text style names from sync/BRAND.md */
+];
 const missingStyles = requiredStyles.filter(
   name => !textStyles.find(s => s.name === name || s.name.endsWith('/' + name))
 );
@@ -638,30 +610,20 @@ fill AFTER appending to parent:
 ```js
 const ico = iconPlh16.createInstance();
 parent.appendChild(ico);
-ico.fills = varFill('Foreground/Tertiary', '#8895A1');  // grey tint
+ico.fills = varFill('Foreground/Tertiary', '#8895A1');  // variable name — see BRAND.md
 // For white (on colored badge): ico.fills = [{ type:'SOLID', color:{r:1,g:1,b:1} }];
 ```
 
-### Named Figma vars for this DS
+### Named variable roles for this brand
 
-| Token role | Variable name |
-|---|---|
-| Canvas bg | `Background/Canvas` |
-| Subtle bg | `Background/Subtle` |
-| Subtle border | `Border/Subtle` |
-| Primary text | `Foreground/Primary` |
-| Body text | `Foreground/Body` |
-| Secondary text | `Foreground/Secondary` |
-| Tertiary / muted | `Foreground/Tertiary` |
-| Icon set name | `Icon Placeholder` (no slash) |
-| Button set name | `Button` |
-| Tag set name | `Form/Tags` |
+See `sync/BRAND.md` (Semantic Variable Reference section) for this brand's
+full variable name → role mapping (Canvas bg, Subtle bg, Primary text, etc.).
 
 ---
 
 ## Canvas Design Guidelines (use_figma page/screen builds)
 
-These rules apply whenever building UI frames directly on a Figma page
+These rules apply whenever building UI frames directly on a page
 (heroes, sections, screens, mockups) — not just when building the DS itself.
 
 ### Rule 1 — Always bind every text node to a DS text style
@@ -671,6 +633,7 @@ that belongs to a page design. Always use `textStyleId` bound to a DS style.
 
 ```js
 // ✅ Correct
+// Text style key: from sync/BRAND.md (STYLE_KEYS — 'Lead')
 const leadStyle = await figma.importStyleByKeyAsync('4fda3fb5b62786c8ae422e4490f10171dd9bfe02');
 node.textStyleId = leadStyle.id;
 node.fills = vf(varFgSecondary); // color is separate — styles don't carry it
@@ -686,12 +649,13 @@ properties just to hit a specific pixel size.
 ### Rule 2 — Always use an existing DS component before building custom
 
 Before constructing a badge, tag, input, or any element from scratch, check
-`search_design_system` or inspect the `ds` page. If a component exists,
+`search_design_system` or inspect the DS page. If a component exists,
 create an instance and override its text/properties.
 
 ```js
 // ✅ Correct — DS component instance with overridden label
-const tagComp = figma.getNodeById('120:410'); // Form/Tag Icon Color=Info
+// Node ID: from sync/BRAND.md (Component Node ID Reference — 'Form/Tag Icon Color=Info')
+const tagComp = figma.getNodeById('120:410');
 const badge = tagComp.createInstance();
 const labelNode = badge.findOne(n => n.type === 'TEXT');
 if (labelNode) {
@@ -719,99 +683,104 @@ parent.appendChild(node);
 
 ---
 
-## Metanoia DS Text Style Reference
+## Text Style Reference
 
-Import keys for `figma.importStyleByKeyAsync(key)`.
-
-| Style | Size | Weight | Use for |
-|---|---|---|---|
-| `Display` | 120px | SemiBold | Hero headlines, oversized display copy |
-| `H1` | 56px | Bold | Page-level section titles |
-| `H2` | 36px | Bold | Sub-section headings |
-| `H3` | 28px | SemiBold | Card headings, panel titles |
-| `H4` | 24px | SemiBold | Widget headings |
-| `H5` | 18px | SemiBold | Small headings, sidebar labels |
-| `Lead` | 20px | Regular | Hero subheadlines, intro paragraphs |
-| `Body` | 16px | Regular | General body copy |
-| `Body SM` | 14px | Regular | Secondary body, tooltips |
-| `Caption` | 12px | Regular | Meta text, timestamps, helper text |
-| `Eyebrow` | 13px | SemiBold | Section labels, overlines, scroll hints |
-| `Button/LG` | 16px | SemiBold | Button labels (LG) |
-| `Button/MD` | 14px | SemiBold | Button labels (MD) |
-| `Button/SM` | 13px | SemiBold | Button labels (SM) |
-
-```js
-const STYLE_KEYS = {
-  Display:   '953cc7c70ecd20225ec1567de6eca312ec2950a9',
-  H1:        'fbf29ded61ada664d8e978eb541699c61fc8ad03',
-  H2:        'a74916e8929fcba3f9e91e83a4736ec0e321bc3b',
-  H3:        '7ba49e021ec8f1a355df99558f60f86c74730bd5',
-  H4:        'e7a6049a72fa9c8cd3d8f83c65e2e5d1ffaa0288',
-  H5:        '172797ec72f8a69492e51cd5ef2477fe2cc676b3',
-  Lead:      '4fda3fb5b62786c8ae422e4490f10171dd9bfe02',
-  Body:      '54fb83862a34c5ce0c05a672569d28bd5279129f',
-  BodySM:    '72056ef233cf71013d5feffc7d0240827e09c478',
-  Caption:   '47c93009606a68582c3da18475a8b62f60e38bb6',
-  Eyebrow:   '513fc5b8e12dc93b9ee2ac225850f76f7b8a9463',
-  ButtonLG:  '749be6e5903f421139d621cb0362f80414045be1',
-  ButtonMD:  'ef29637a567c1f3689d9ffd8c0bf15e64de2f9c5',
-  ButtonSM:  '6b67c23effcb998d52cd0df2c0669da2e630dfe7',
-};
-```
+Read `sync/BRAND.md` for this brand's text style reference table
+(`STYLE_KEYS` for `figma.importStyleByKeyAsync`, style names, sizes, and weights).
 
 ---
 
-## Metanoia DS Component Reference (canvas use)
+## Component Reference
 
-Prefer these over manually constructed equivalents. Use `figma.getNodeById(id)`
-to reference local components; override text via `instance.findOne(n => n.type === 'TEXT')`.
-
-| Component | Node ID | Use for |
-|---|---|---|
-| `Button` Primary LG Default | `91:89` | Hero primary CTA |
-| `Button` Ghost LG Default | `91:329` | Hero secondary / ghost CTA |
-| `Button` Secondary LG Default | `91:209` | Secondary section CTA |
-| `Form/Tag Icon` Color=Info | `120:410` | Accent/aqua overline badge |
-| `Form/Tag Icon` Color=Neutral | `120:416` | Neutral overline label |
-| `Form/Tags` Info SM Subtle | `117:386` | Small status/info tag |
-| `Form/Tags` Info MD Subtle | `117:401` | Medium status/info tag |
-| `Icon/Placeholder` (set) | `97:23` | Icon slots (Size=16/20/24) |
-
-**Button variants** — `Type` × `Size` × `Icon` × `State` = 180 total:
-- Type: Primary, Secondary, Ghost, Destructive
-- Size: SM, MD, LG — Icon: None, Leading, Trailing — State: Default → Disabled
-
-**Form/Tag Icon** — Color: Success, Warning, Error, Info, Neutral
-
-**Form/Tags** — Color × Size (SM/MD) × Style (Subtle/Bold) = 20 variants
+Read `sync/BRAND.md` for this brand's component node ID reference
+(node IDs, component set names, and variant breakdowns).
 
 ---
 
-## Semantic Variable Reference (canvas color bindings)
+## Semantic Variable Reference
 
-All fills and strokes on page designs must use semantic variables so that
-light/dark mode switching works. Import via `figma.variables.importVariableByKeyAsync(key)`.
-
-```js
-const SEMANTIC_KEYS = {
-  // Background
-  'Background/Canvas':      '159cc782cb7c31b4b91f49b052c8646ad625dbcd',
-  'Background/Subtle':      'dab745b116f097c6ff5fc471cae1d5e8bce4bc4c',
-  'Background/Muted':       'cc4da4d3867ce625837de13a0753013e1e9cdcba',
-  'Background/Accent':      '0216a234bbbf94c9ed5a0fa8eefe2112e60d2455',
-  'Background/Accent Soft': '1ed61b769060661c5bba045261c38b1ff83992e3',
-  // Foreground
-  'Foreground/Primary':     'e64a5fa8357f5aa5ac0a1c2f21837b425d329c89',
-  'Foreground/Secondary':   'fc4d33132916e2a02c8d31e333b7e75e1bf94e59',
-  'Foreground/Body':        '3df3ae87ee4362e41878a8eaf8c599da10b8eadb',
-  'Foreground/Tertiary':    'b5b8905c72685a71d9d3e12484f08b20d3250828',
-  'Foreground/Accent':      '15ef0bf2b272f731df107919fc97ec4962931cca',
-  'Foreground/Link':        'c2c175656821ec59657c3d0b22fe0aeba941120f',
-  'Foreground/Link Hover':  'f33cb574a6101e566792c20b95c015f21746aa22',
-  // Border
-  'Border/Accent':          '26fcc1205c04d3d0d5e0ac196ce5fe068a4496aa',
-};
-```
+Read `sync/BRAND.md` for this brand's `SEMANTIC_KEYS` reference
+(all Background/Foreground/Border variable import keys).
 
 Never use raw primitive variables (e.g. `Navy/700`) for fills on page designs —
 always route through semantic variables so frames respond to mode changes.
+
+---
+
+## Code → Visual Sync (Token Variables)
+
+### Step 1 — Read current visual tool variables
+
+Same fetch script as VISUAL-TO-CODE.md Step 1 — read all local variables via `use_figma`.
+
+### Step 2 — Run the diff
+
+```js
+const { TOKEN_MAP } = require('./sync/token-map.js');
+const { run } = require('./sync/sync-repo-to-figma.js');
+const result = run(figmaVars, TOKEN_MAP);
+```
+
+### Step 3 — Dry run first
+
+**Always show the diff and ask for confirmation before writing to the visual tool.**
+Say: "I found X variable(s) that differ. Here's what will change: [list].
+Shall I apply these updates?"
+
+### Step 4 — Apply via MCP
+
+Execute `result.script` using `use_figma`:
+```js
+// result.script is ready-to-run plugin JS
+// Pass it directly as the `code` parameter
+```
+
+Report: "✓ Updated X variables."
+
+---
+
+## Adding New Tokens
+
+When a new CSS var is added, three things must happen together:
+1. Add it to the correct file in `tokens/` (match the category)
+2. Create the corresponding variable in the visual tool's correct collection
+3. Add a new entry in `sync/token-map.js` with the correct `type`
+
+| Token category | CSS file | Visual tool collection |
+|---|---|---|
+| Raw color | `tokens/color-primitives.css` | Brand / Navy / Aqua / Grey / Status |
+| Role color | `tokens/color-semantic.css` | Background / Foreground / Border |
+| Typography | `tokens/typography.css` | Font Size / Font Weight / Line Height / Letter Spacing |
+| Space / shape | `tokens/spacing.css` | Spacing / Radius / Shadow / Layout |
+| Motion | `tokens/motion.css` | Motion |
+
+Example prompt: "Add a new token `--color-coral: #FF6B6B` to the design system"
+
+---
+
+## Build Quality Check (MANDATORY after every `use_figma` call)
+
+After **any** `use_figma` session that creates or modifies components, frames, or variables,
+always run a visual QA pass before reporting the work as done:
+
+### Step 1 — Collect node IDs
+Query the page for IDs of every node you just created or modified:
+```js
+figma.currentPage.children.find(n => n.name === '...').id
+```
+
+### Step 2 — Screenshot everything
+Call `get_screenshot` on **each** created node. Use `maxDimension: 2000` for component sets
+(need to see all variants); `maxDimension: 800` for individual components or bars.
+
+### Step 3 — Inspect against this checklist
+- [ ] **Layout** — Component sets are not flat/collapsed (check rendered height vs expected). If a component set is only as tall as one variant, the counter-axis sizing is stuck on `FIXED` → switch to `layoutMode = 'NONE'` and arrange variants in a grid.
+- [ ] **State differentiation** — Every state (Default / Hover / Active / Disabled) is visually distinct at a glance. If two states look identical, adjust fill, opacity, or text weight.
+- [ ] **Color fills** — Semantic variable tokens are applied (not hardcoded hex). Spot-check: does Active use accent/primary fills, does Disabled look faded?
+- [ ] **Badge / count legibility** — Any badge or count chip must be readable against its parent background. Near-same-value pairs (e.g. `Background/Subtle` badge on `Background/Canvas` parent) are invisible — use `Background/Accent Soft` or `Background/Muted` instead.
+- [ ] **Text styles** — Labels use the correct text style (e.g. `Body SM`). Active/selected items use `Semi Bold` override where specified.
+- [ ] **Bar compositions** — If a bar component uses instances, verify tab labels updated from "Label" to real strings and the Active instance shows the correct state.
+
+### Step 4 — Apply fixes and re-screenshot
+Fix every issue found in a single follow-up `use_figma` call. Then take one final screenshot
+of each fixed node to confirm resolution before closing the task.

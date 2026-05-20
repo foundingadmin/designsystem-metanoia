@@ -14,6 +14,7 @@
 
    Not synced with Figma variables:
      typography-utilities.css     — @font-face + .t-* classes
+     icon-utilities.css           — .ds-icon component class (Lucide, 2px stroke)
    ============================================================ */
 
 @import url('./tokens/color-primitives.css');
@@ -22,3 +23,4 @@
 @import url('./tokens/spacing.css');
 @import url('./tokens/motion.css');
 @import url('./typography-utilities.css');
+@import url('./icon-utilities.css');

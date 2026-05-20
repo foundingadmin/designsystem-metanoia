@@ -4,30 +4,144 @@
 <meta charset="utf-8">
 <title>Iconography</title>
 <link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-  html,body{margin:0;padding:22px 28px;background:var(--bg-canvas);font-family:var(--font-sans);color:var(--fg-2);}
-  h2{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);margin:0 0 6px;}
-  .sub{font-size:12px;color:var(--fg-3);margin:0 0 14px;}
-  .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:14px 12px;}
-  @media(max-width:480px){.grid{grid-template-columns:repeat(4,1fr);}}
-  .item{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--fg-1);}
-  .item svg{stroke:var(--fg-1);width:24px;height:24px;}
-  .lbl{font-size:10px;color:var(--fg-3);font-family:var(--font-mono);}
-  .flag{font-size:11px;color:var(--color-aqua-700);background:var(--color-aqua-50);padding:3px 8px;border-radius:6px;display:inline-block;margin-left:8px;font-weight:600;}
+  html,body { margin:0; padding:20px 24px 32px; background:var(--bg-canvas); font-family:var(--font-sans); color:var(--fg-2); }
+
+  .spec {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--color-aqua-700); background:var(--color-aqua-50);
+    padding:3px 10px; border-radius:6px; margin-bottom:20px;
+  }
+
+  .category { margin-bottom:24px; }
+
+  .eyebrow {
+    font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--fg-3); margin:0 0 10px;
+    padding-bottom:6px; border-bottom:1px solid var(--border-subtle);
+  }
+
+  .icon-grid {
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:12px 8px;
+  }
+
+  .icon-cell {
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+
+  .icon-sizes {
+    display:flex; gap:5px; align-items:flex-end;
+    height:28px; /* fixed height so all cells align */
+  }
+
+  /* .ds-icon classes come from icon-utilities.css via colors_and_type.css */
+
+  .icon-name {
+    font-size:9px; color:var(--fg-3);
+    font-family:var(--font-mono, monospace);
+    text-align:center; word-break:break-all; line-height:1.3;
+  }
+
+  @media(max-width:600px) {
+    .icon-grid { grid-template-columns:repeat(4,1fr); }
+    html,body { padding:16px 16px 28px; }
+  }
 </style>
 </head>
 <body>
-  <h2>Iconography <span class="flag">Lucide · substitution — confirm</span></h2>
-  <p class="sub">2px stroke · 24px default · inherits color · never filled</p>
-  <div class="grid">
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><span class="lbl">search</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M9 13h6M9 17h6"></path></svg><span class="lbl">file-text</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span class="lbl">settings</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg><span class="lbl">wrench</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"></path></svg><span class="lbl">package</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m7 14 4-4 4 4 5-5"></path></svg><span class="lbl">trending-up</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg><span class="lbl">monitor</span></div>
-    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-7m7 5h-7m7 5h-7M4 7h.01M4 12h.01M4 17h.01"></path></svg><span class="lbl">list</span></div>
+
+<p class="spec">Lucide &middot; 2px stroke &middot; 16 / 20 / 24px &middot; currentColor &middot; never filled</p>
+
+<div class="category">
+  <h2 class="eyebrow">Navigation</h2>
+  <div class="icon-grid">
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="chevron-right"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="chevron-right"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="chevron-right"></i></span></div><span class="icon-name">chevron-right</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="chevron-left"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="chevron-left"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="chevron-left"></i></span></div><span class="icon-name">chevron-left</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="chevron-up"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="chevron-up"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="chevron-up"></i></span></div><span class="icon-name">chevron-up</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="chevron-down"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="chevron-down"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="chevron-down"></i></span></div><span class="icon-name">chevron-down</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="arrow-right"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="arrow-right"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="arrow-right"></i></span></div><span class="icon-name">arrow-right</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="arrow-left"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="arrow-left"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="arrow-left"></i></span></div><span class="icon-name">arrow-left</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="menu"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="menu"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="menu"></i></span></div><span class="icon-name">menu</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="x"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="x"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="x"></i></span></div><span class="icon-name">x</span></div>
   </div>
+</div>
+
+<div class="category">
+  <h2 class="eyebrow">Actions</h2>
+  <div class="icon-grid">
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="search"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="search"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="search"></i></span></div><span class="icon-name">search</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="plus"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="plus"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="plus"></i></span></div><span class="icon-name">plus</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="minus"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="minus"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="minus"></i></span></div><span class="icon-name">minus</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="edit-2"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="edit-2"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="edit-2"></i></span></div><span class="icon-name">edit-2</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="trash-2"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="trash-2"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="trash-2"></i></span></div><span class="icon-name">trash-2</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="copy"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="copy"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="copy"></i></span></div><span class="icon-name">copy</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="download"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="download"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="download"></i></span></div><span class="icon-name">download</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="upload"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="upload"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="upload"></i></span></div><span class="icon-name">upload</span></div>
+  </div>
+</div>
+
+<div class="category">
+  <h2 class="eyebrow">Status</h2>
+  <div class="icon-grid">
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="check"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="check"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="check"></i></span></div><span class="icon-name">check</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="check-circle"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="check-circle"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="check-circle"></i></span></div><span class="icon-name">check-circle</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="alert-circle"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="alert-circle"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="alert-circle"></i></span></div><span class="icon-name">alert-circle</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="alert-triangle"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="alert-triangle"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="alert-triangle"></i></span></div><span class="icon-name">alert-triangle</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="info"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="info"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="info"></i></span></div><span class="icon-name">info</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="x-circle"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="x-circle"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="x-circle"></i></span></div><span class="icon-name">x-circle</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="clock"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="clock"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="clock"></i></span></div><span class="icon-name">clock</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="refresh-cw"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="refresh-cw"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="refresh-cw"></i></span></div><span class="icon-name">refresh-cw</span></div>
+  </div>
+</div>
+
+<div class="category">
+  <h2 class="eyebrow">Content</h2>
+  <div class="icon-grid">
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="file"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="file"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="file"></i></span></div><span class="icon-name">file</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="file-text"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="file-text"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="file-text"></i></span></div><span class="icon-name">file-text</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="folder"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="folder"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="folder"></i></span></div><span class="icon-name">folder</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="image"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="image"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="image"></i></span></div><span class="icon-name">image</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="tag"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="tag"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="tag"></i></span></div><span class="icon-name">tag</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="inbox"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="inbox"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="inbox"></i></span></div><span class="icon-name">inbox</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="bell"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="bell"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="bell"></i></span></div><span class="icon-name">bell</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="mail"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="mail"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="mail"></i></span></div><span class="icon-name">mail</span></div>
+  </div>
+</div>
+
+<div class="category">
+  <h2 class="eyebrow">UI</h2>
+  <div class="icon-grid">
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="home"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="home"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="home"></i></span></div><span class="icon-name">home</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="settings"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="settings"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="settings"></i></span></div><span class="icon-name">settings</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="user"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="user"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="user"></i></span></div><span class="icon-name">user</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="lock"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="lock"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="lock"></i></span></div><span class="icon-name">lock</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="eye"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="eye"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="eye"></i></span></div><span class="icon-name">eye</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="eye-off"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="eye-off"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="eye-off"></i></span></div><span class="icon-name">eye-off</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="grid"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="grid"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="grid"></i></span></div><span class="icon-name">grid</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="list"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="list"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="list"></i></span></div><span class="icon-name">list</span></div>
+  </div>
+</div>
+
+<div class="category">
+  <h2 class="eyebrow">Data</h2>
+  <div class="icon-grid">
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="package"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="package"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="package"></i></span></div><span class="icon-name">package</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="wrench"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="wrench"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="wrench"></i></span></div><span class="icon-name">wrench</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="trending-up"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="trending-up"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="trending-up"></i></span></div><span class="icon-name">trending-up</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="bar-chart-2"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="bar-chart-2"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="bar-chart-2"></i></span></div><span class="icon-name">bar-chart-2</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="monitor"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="monitor"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="monitor"></i></span></div><span class="icon-name">monitor</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="table"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="table"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="table"></i></span></div><span class="icon-name">table</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="external-link"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="external-link"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="external-link"></i></span></div><span class="icon-name">external-link</span></div>
+    <div class="icon-cell"><div class="icon-sizes"><span class="ds-icon ds-icon--sm"><i data-lucide="share"></i></span><span class="ds-icon ds-icon--md"><i data-lucide="share"></i></span><span class="ds-icon ds-icon--lg"><i data-lucide="share"></i></span></div><span class="icon-name">share</span></div>
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
 </body>
 </html>

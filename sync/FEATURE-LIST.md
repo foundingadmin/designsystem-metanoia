@@ -91,7 +91,7 @@ After each Phase 3–5 `use_figma` build session, automatically publish Code Con
 
 ## Feature 001 — Figma-First Component Sync (figma → repo)
 
-**Status:** Scheduled / not started
+**Status:** In progress — `sync/component-map.js` bootstrapped with Icon, Button, Form/Tags entries (2026-05-20)
 **Origin:** Phase 3d build session — 2026-05-19
 **Scope:** Extend the existing token sync engine to also sync Figma component
 sets into repo code, completing a true bi-directional design ↔ code pipeline.

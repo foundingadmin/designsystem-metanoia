@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.3.0';
+const VERSION      = '2.4.0';
 const LAST_UPDATED = 'May 20, 2026';
 
 /* ================================================================
@@ -465,6 +465,18 @@ const LAST_UPDATED = 'May 20, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.4.0',
+    date: '2026-05-20',
+    type: 'minor',
+    changes: [
+      'Add icon-utilities.css — .ds-icon component class with --sm/--md/--lg size modifiers (2px stroke, currentColor, never filled)',
+      'Add sync/component-map.js — bootstraps Feature 001 with Icon (48-icon catalog, 6 categories), Button, and Form/Tags entries',
+      'Rebuild preview/iconography.html — Lucide CDN, all 3 sizes per icon (16/20/24), category grouping, light/dark theme',
+      'Update sync/BRAND.md Component Set Registry — add Icon row, link to component-map.js as machine-readable source',
+      'Update sync/FEATURE-LIST.md — Feature 001 status: Scheduled → In progress',
+    ],
+  },
   {
     version: '2.3.0',
     date: '2026-05-20',

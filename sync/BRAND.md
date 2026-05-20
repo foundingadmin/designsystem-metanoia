@@ -280,9 +280,18 @@ const required = [
 
 | Rule | Guidance |
 |---|---|
+| **No hyphens** | Never hyphenate compound modifiers — "enterprise grade" not "enterprise-grade", "world class" not "world-class", "asset intensive" not "asset-intensive". Exception: hyphenated proper nouns and part numbers only. |
 | **No em-dashes** | Do not use em-dashes (—) as mid-clause separators in body copy. Replace with a comma, restructure the sentence, or break into two sentences. Em-dashes are acceptable only in headlines or fragment-style headings where they serve as a period substitute. |
 | **Overlines** | Use the Eyebrow text style for section labels — no all-caps tag atom components. |
 | **Sentence fragments** | Fragments are encouraged for headlines and overlines. ("The Right Parts. The Right Data.") |
 | **Sentence case** | Headings use sentence case, not Title Case, unless the copy contains a product name or proper noun. |
 | **Tone** | Direct, declarative, industrial. Avoid: "empower", "unlock", "leverage", "seamless", "game-changing", exclamation marks. |
 | **Numbers** | Numerals for all counts and stats (25+, 2M+, 200+) — never spelled out. |
+
+---
+
+## Design Gotchas
+
+| Issue | Cause | Fix |
+|---|---|---|
+| **Shadow clipped by parent** | A parent frame has `clipsContent = true`, which clips drop shadows from child elements. | Either remove `clipsContent` on the parent, or move the shadow to the parent itself instead of the child. Never enable clip content on a container that has visually shadowed children. |

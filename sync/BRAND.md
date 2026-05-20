@@ -189,23 +189,43 @@ const SEMANTIC_KEYS = {
 
 ## Button Color Token Mapping
 
+Primary, Secondary, and Ghost buttons bind to `Button/*` semantic variables (light/dark mode aware).
+Destructive buttons bind directly to `Status/Error/*` primitives (red maintains contrast in both modes).
+
 | Button type + state | Background variable | Text variable | Border variable |
 |---|---|---|---|
-| Primary / Default | `Navy/700` | `Brand/White` | — |
-| Primary / Hover | `Navy/500` | `Brand/White` | — |
-| Primary / Active | `Navy/900` | `Brand/White` | — |
-| Secondary / Default | `Brand/White` | `Navy/900` | `Navy/700` |
-| Secondary / Hover | `Navy/100` | `Navy/900` | `Navy/900` |
-| Ghost / Default | transparent | `Navy/700` | `Grey/300` |
-| Ghost / Hover | `Grey/100` | `Navy/700` | `Grey/300` |
+| Primary / Default | `Button/Primary/BG` | `Button/Primary/Text` | — |
+| Primary / Hover | `Button/Primary/BG-Hover` | `Button/Primary/Text` | — |
+| Primary / Active | `Button/Primary/BG-Active` | `Button/Primary/Text` | — |
+| Primary / Disabled | `Button/Primary/BG-Disabled` | `Button/Primary/Text-Disabled` | — |
+| Secondary / Default | `Button/Secondary/BG` | `Button/Secondary/Text` | `Button/Secondary/Border` |
+| Secondary / Hover | `Button/Secondary/BG-Hover` | `Button/Secondary/Text` | `Button/Secondary/Border-Hover` |
+| Secondary / Active | `Button/Secondary/BG-Active` | `Button/Secondary/Text` | `Button/Secondary/Border-Active` |
+| Secondary / Disabled | `Button/Secondary/BG-Disabled` | `Button/Secondary/Text-Disabled` | `Button/Secondary/Border-Disabled` |
+| Ghost / Default | transparent | `Button/Ghost/Text` | `Button/Ghost/Border` |
+| Ghost / Hover | `Button/Ghost/BG-Hover` | `Button/Ghost/Text` | `Button/Ghost/Border` |
+| Ghost / Active | `Button/Ghost/BG-Active` | `Button/Ghost/Text` | `Button/Ghost/Border` |
+| Ghost / Disabled | transparent | `Button/Ghost/Text-Disabled` | `Button/Ghost/Border-Disabled` |
 | Destructive / Default | `Status/Error/600` | `Brand/White` | — |
 | Destructive / Hover | `Status/Error/700` | `Brand/White` | — |
 | Destructive / Active | `Status/Error/800` | `Brand/White` | — |
 | Any / Focus | default bg | default text | + focus ring effect |
-| Any / Disabled | default bg at 40% opacity | default text at 40% opacity | — |
 
-> `Status/Error/700` (`#B83C24`) was missing from the original token scale and had to be added.
-> Always check that hover/active states have a corresponding primitive variable before building.
+### Button semantic token values (light → dark)
+
+| Token | Light mode | Dark mode |
+|---|---|---|
+| `Button/Primary/BG` | `Navy/700` | `Navy/500` |
+| `Button/Primary/BG-Hover` | `Navy/500` | `Aqua/700` |
+| `Button/Primary/BG-Active` | `Navy/900` | `Navy/700` |
+| `Button/Secondary/BG` | `Brand/White` | `Grey/800` |
+| `Button/Secondary/Text` | `Navy/900` | `Brand/White` |
+| `Button/Secondary/Border` | `Navy/700` | `Grey/500` |
+| `Button/Ghost/Text` | `Navy/700` | `Brand/White` |
+| `Button/Ghost/Border` | `Grey/300` | `Grey/600` |
+
+> CSS equivalents: `--btn-primary-bg`, `--btn-secondary-bg`, etc. in `tokens/color-semantic.css`.
+> `Status/Error/700` (`#B83C24`) was added to the primitive scale to support the Destructive hover state.
 
 ---
 
@@ -294,9 +314,22 @@ const required = [
 
 | Rule | Guidance |
 |---|---|
+| **No hyphens** | Never hyphenate compound modifiers — "enterprise grade" not "enterprise-grade", "world class" not "world-class", "asset intensive" not "asset-intensive". Exception: hyphenated proper nouns and part numbers only. |
 | **No em-dashes** | Do not use em-dashes (—) as mid-clause separators in body copy. Replace with a comma, restructure the sentence, or break into two sentences. Em-dashes are acceptable only in headlines or fragment-style headings where they serve as a period substitute. |
-| **Overlines** | Use the Eyebrow text style for section labels — no all-caps tag atom components. |
+| **Overlines** | Section overlines at the top of a section use the Eyebrow text style and are written **ALL CAPS** (e.g. "WHAT WE DO", "PLATFORM"). They are bare text nodes — no tag/pill atom components. |
 | **Sentence fragments** | Fragments are encouraged for headlines and overlines. ("The Right Parts. The Right Data.") |
 | **Sentence case** | Headings use sentence case, not Title Case, unless the copy contains a product name or proper noun. |
 | **Tone** | Direct, declarative, industrial. Avoid: "empower", "unlock", "leverage", "seamless", "game-changing", exclamation marks. |
 | **Numbers** | Numerals for all counts and stats (25+, 2M+, 200+) — never spelled out. |
+
+---
+
+## Design Gotchas
+
+| Issue | Cause | Fix |
+|---|---|---|
+| **Shadow clipped by parent** | A parent frame has `clipsContent = true`, which clips drop shadows from child elements. | Either remove `clipsContent` on the parent, or move the shadow to the parent itself instead of the child. Never enable clip content on a container that has visually shadowed children. |
+| **Dark mode reveals unbound fills** | Text or frame fills using raw hex values don't respond to mode switching — they stay the same color in dark mode. | Always test dark mode after building a page: switch the Figma variable mode on the page frame to `dark` and look for anything that doesn't invert or adapt. Fix by binding fills to `Foreground/*` (text) or `Background/*` (surfaces). |
+| **Buttons use Button/* semantics, not Foreground/Background** | Button fills (bg, text, stroke) bind to the `Button/*` variable collection — NOT to `Foreground/*` or `Background/*`. The Button collection has its own Light/Dark modes that adapt contrast independently (e.g. Primary/BG flips Navy/700 → Navy/500). | Never bind button fills to `Foreground/*` or `Background/*`. Destructive buttons are the sole exception — they use `Status/Error/*` primitives directly. |
+| **Dark mode frame requires both Semantic and Button collections** | Setting a frame's variable mode to Semantic=Dark only flips surface and text colors. Buttons remain in light mode because the Button collection is a separate collection with its own mode. | When activating dark mode on any frame — in design or via `setExplicitVariableModeForCollection` — always set BOTH `Semantic → Dark` and `Button → Dark` on the same frame. |
+| **Repeated components, not molecule variants** | Building N nearly-identical frames/components for repeating content (e.g., three feature cards) creates N master components that must be maintained separately. | Build ONE molecule component with overrideable content properties, then place it N times as instances with content overrides. The What We Do feature cards (Identify / Optimize / Refine) are an example of where this was missed. |

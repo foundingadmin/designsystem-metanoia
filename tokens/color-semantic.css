@@ -27,6 +27,34 @@
   --border-default: var(--color-grey-300);
   --border-strong:  var(--color-grey-600);
   --border-accent:  var(--color-aqua);
+
+  /* ── Button — Primary ───────────────────────────────────── */
+  --btn-primary-bg:           var(--color-navy-700);
+  --btn-primary-bg-hover:     var(--color-navy-500);
+  --btn-primary-bg-active:    var(--color-navy-900);
+  --btn-primary-bg-disabled:  var(--color-grey-50);
+  --btn-primary-text:         var(--color-white);
+  --btn-primary-text-disabled:var(--color-grey-400);
+
+  /* ── Button — Secondary ─────────────────────────────────── */
+  --btn-secondary-bg:              var(--color-white);
+  --btn-secondary-bg-hover:        var(--color-navy-100);
+  --btn-secondary-bg-active:       var(--color-navy-100);
+  --btn-secondary-bg-disabled:     var(--color-white);
+  --btn-secondary-text:            var(--color-navy-900);
+  --btn-secondary-text-disabled:   var(--color-grey-400);
+  --btn-secondary-border:          var(--color-navy-700);
+  --btn-secondary-border-hover:    var(--color-navy-900);
+  --btn-secondary-border-active:   var(--color-navy-900);
+  --btn-secondary-border-disabled: var(--color-grey-200);
+
+  /* ── Button — Ghost ─────────────────────────────────────── */
+  --btn-ghost-bg-hover:        var(--color-grey-100);
+  --btn-ghost-bg-active:       var(--color-grey-200);
+  --btn-ghost-text:            var(--color-navy-700);
+  --btn-ghost-text-disabled:   var(--color-grey-400);
+  --btn-ghost-border:          var(--color-grey-300);
+  --btn-ghost-border-disabled: var(--color-grey-200);
 }
 
 [data-theme="dark"] {
@@ -51,6 +79,34 @@
   --border-default: var(--color-grey-700);
   --border-strong:  var(--color-grey-400);
   --border-accent:  var(--color-aqua);
+
+  /* ── Button — Primary ───────────────────────────────────── */
+  --btn-primary-bg:           var(--color-navy-500);
+  --btn-primary-bg-hover:     var(--color-aqua-700);
+  --btn-primary-bg-active:    var(--color-navy-700);
+  --btn-primary-bg-disabled:  var(--color-grey-800);
+  --btn-primary-text:         var(--color-white);
+  --btn-primary-text-disabled:var(--color-grey-600);
+
+  /* ── Button — Secondary ─────────────────────────────────── */
+  --btn-secondary-bg:              var(--color-grey-800);
+  --btn-secondary-bg-hover:        var(--color-grey-700);
+  --btn-secondary-bg-active:       var(--color-grey-700);
+  --btn-secondary-bg-disabled:     var(--color-grey-800);
+  --btn-secondary-text:            var(--color-white);
+  --btn-secondary-text-disabled:   var(--color-grey-600);
+  --btn-secondary-border:          var(--color-grey-500);
+  --btn-secondary-border-hover:    var(--color-grey-300);
+  --btn-secondary-border-active:   var(--color-grey-300);
+  --btn-secondary-border-disabled: var(--color-grey-700);
+
+  /* ── Button — Ghost ─────────────────────────────────────── */
+  --btn-ghost-bg-hover:        var(--color-grey-800);
+  --btn-ghost-bg-active:       var(--color-grey-700);
+  --btn-ghost-text:            var(--color-white);
+  --btn-ghost-text-disabled:   var(--color-grey-600);
+  --btn-ghost-border:          var(--color-grey-600);
+  --btn-ghost-border-disabled: var(--color-grey-700);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,5 +127,27 @@
     --border-default: var(--color-grey-700);
     --border-strong:  var(--color-grey-400);
     --border-accent:  var(--color-aqua);
+    --btn-primary-bg:           var(--color-navy-500);
+    --btn-primary-bg-hover:     var(--color-aqua-700);
+    --btn-primary-bg-active:    var(--color-navy-700);
+    --btn-primary-bg-disabled:  var(--color-grey-800);
+    --btn-primary-text:         var(--color-white);
+    --btn-primary-text-disabled:var(--color-grey-600);
+    --btn-secondary-bg:              var(--color-grey-800);
+    --btn-secondary-bg-hover:        var(--color-grey-700);
+    --btn-secondary-bg-active:       var(--color-grey-700);
+    --btn-secondary-bg-disabled:     var(--color-grey-800);
+    --btn-secondary-text:            var(--color-white);
+    --btn-secondary-text-disabled:   var(--color-grey-600);
+    --btn-secondary-border:          var(--color-grey-500);
+    --btn-secondary-border-hover:    var(--color-grey-300);
+    --btn-secondary-border-active:   var(--color-grey-300);
+    --btn-secondary-border-disabled: var(--color-grey-700);
+    --btn-ghost-bg-hover:        var(--color-grey-800);
+    --btn-ghost-bg-active:       var(--color-grey-700);
+    --btn-ghost-text:            var(--color-white);
+    --btn-ghost-text-disabled:   var(--color-grey-600);
+    --btn-ghost-border:          var(--color-grey-600);
+    --btn-ghost-border-disabled: var(--color-grey-700);
   }
 }

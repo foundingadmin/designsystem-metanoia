@@ -81,6 +81,29 @@ per the versioning rules in CLAUDE.md (`PATCH` for value changes, `MAJOR` for re
 
 ---
 
+## Important: sync does NOT update component CSS
+
+The sync pipeline only patches raw token *values* inside `tokens/*.css`.
+It does **not** touch component stylesheets in `preview/` or anywhere else.
+
+**What this means in practice:**
+
+If a new semantic variable layer is introduced (e.g. `--btn-*` for buttons,
+or a new `--card-*` category), the sync will correctly write the variable
+*definitions* into `tokens/color-semantic.css` — but any component HTML/CSS
+that was written using primitives or hardcoded hex will not automatically
+switch over. Those files must be manually migrated to use the new semantic
+variables before dark mode (or any token aliasing) will work in the browser.
+
+**Checklist when a new semantic variable group is added:**
+
+- [ ] New `--*` definitions are in the correct `tokens/*.css` file with `:root` and `[data-theme="dark"]` blocks
+- [ ] `sync/token-map.js` has bridge entries for every new variable
+- [ ] Every `preview/*.html` file that renders affected components uses `var(--new-semantic-token)` — not primitives or raw hex
+- [ ] Dark mode is verified by adding `data-theme="dark"` to the preview `<html>` tag and inspecting
+
+---
+
 ## Future: Visual Component → Code
 
 The visual component sync direction is planned as Feature 001 — see `sync/FEATURE-LIST.md`.

@@ -21,17 +21,17 @@
     will-change: transform, box-shadow;
   }
 
-  /* Primary — depth via inset highlight + lifted shadow that grows on hover */
+  /* Primary */
   .primary{
-    background:var(--color-navy);
-    color:#fff;
+    background:var(--btn-primary-bg);
+    color:var(--btn-primary-text);
     box-shadow:
       0 1px 0 rgba(255,255,255,0.12) inset,
       0 1px 2px rgba(6,47,74,0.20),
       0 2px 6px rgba(9,75,119,0.18);
   }
   .primary:hover{
-    background:#0A5689;
+    background:var(--btn-primary-bg-hover);
     transform: translateY(-1px);
     box-shadow:
       0 1px 0 rgba(255,255,255,0.16) inset,
@@ -39,32 +39,33 @@
       0 8px 18px rgba(9,75,119,0.18);
   }
   .primary:active{
-    background:#062F4A;
+    background:var(--btn-primary-bg-active);
     transform: translateY(0);
     box-shadow:
       0 1px 0 rgba(255,255,255,0.10) inset,
       0 1px 2px rgba(6,47,74,0.30);
   }
 
-  /* Secondary — solid surface with 4.5:1 nav-on-white text + visible 1.5px border, lifts on hover */
+  /* Secondary */
   .secondary{
-    background:#fff;
-    color:var(--color-navy-900);              /* #062F4A on #fff = ~12.7:1 */
-    border:1.5px solid var(--color-navy);
+    background:var(--btn-secondary-bg);
+    color:var(--btn-secondary-text);
+    border:1.5px solid var(--btn-secondary-border);
     box-shadow:
       0 1px 0 rgba(9,75,119,0.04) inset,
       0 1px 2px rgba(9,75,119,0.06);
   }
   .secondary:hover{
-    background:var(--color-navy-100);          /* #DCEAF3 — keeps text >12:1 */
-    border-color:var(--color-navy-900);
+    background:var(--btn-secondary-bg-hover);
+    border-color:var(--btn-secondary-border-hover);
     transform: translateY(-1px);
     box-shadow:
       0 4px 10px rgba(9,75,119,0.14),
       0 8px 18px rgba(9,75,119,0.08);
   }
   .secondary:active{
-    background:#C8DEEC;
+    background:var(--btn-secondary-bg-active);
+    border-color:var(--btn-secondary-border-active);
     transform: translateY(0);
     box-shadow: 0 1px 2px rgba(9,75,119,0.08) inset;
   }
@@ -77,7 +78,7 @@
       0 2px 6px rgba(50,203,237,0.22);
   }
   .accent:hover{
-    background:#1FA8C9;color:#fff;
+    background:var(--color-aqua-700);color:#fff;
     transform:translateY(-1px);
     box-shadow:
       0 1px 0 rgba(255,255,255,0.20) inset,
@@ -86,14 +87,19 @@
   }
   .accent:active{transform:translateY(0);background:#168AA8;color:#fff;box-shadow:0 1px 2px rgba(22,138,168,0.30) inset;}
 
-  .ghost{background:transparent;color:var(--color-navy);border-color:var(--border-default);}
-  .ghost:hover{background:var(--color-grey-100);}
+  .ghost{
+    background:transparent;
+    color:var(--btn-ghost-text);
+    border-color:var(--btn-ghost-border);
+  }
+  .ghost:hover{background:var(--btn-ghost-bg-hover);}
+  .ghost:active{background:var(--btn-ghost-bg-active);}
 
   .danger{
-    background:#D6492F;color:#fff;
+    background:var(--color-error-600);color:#fff;
     box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 2px 6px rgba(214,73,47,0.22);
   }
-  .danger:hover{background:#B83C24;transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 14px rgba(214,73,47,0.28);}
+  .danger:hover{background:var(--color-error-700);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 14px rgba(214,73,47,0.28);}
 
   .btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(50,203,237,0.55);}
 

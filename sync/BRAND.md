@@ -282,7 +282,7 @@ const required = [
 |---|---|
 | **No hyphens** | Never hyphenate compound modifiers — "enterprise grade" not "enterprise-grade", "world class" not "world-class", "asset intensive" not "asset-intensive". Exception: hyphenated proper nouns and part numbers only. |
 | **No em-dashes** | Do not use em-dashes (—) as mid-clause separators in body copy. Replace with a comma, restructure the sentence, or break into two sentences. Em-dashes are acceptable only in headlines or fragment-style headings where they serve as a period substitute. |
-| **Overlines** | Use the Eyebrow text style for section labels — no all-caps tag atom components. |
+| **Overlines** | Section overlines at the top of a section use the Eyebrow text style and are written **ALL CAPS** (e.g. "WHAT WE DO", "PLATFORM"). They are bare text nodes — no tag/pill atom components. |
 | **Sentence fragments** | Fragments are encouraged for headlines and overlines. ("The Right Parts. The Right Data.") |
 | **Sentence case** | Headings use sentence case, not Title Case, unless the copy contains a product name or proper noun. |
 | **Tone** | Direct, declarative, industrial. Avoid: "empower", "unlock", "leverage", "seamless", "game-changing", exclamation marks. |
@@ -295,3 +295,6 @@ const required = [
 | Issue | Cause | Fix |
 |---|---|---|
 | **Shadow clipped by parent** | A parent frame has `clipsContent = true`, which clips drop shadows from child elements. | Either remove `clipsContent` on the parent, or move the shadow to the parent itself instead of the child. Never enable clip content on a container that has visually shadowed children. |
+| **Dark mode reveals unbound fills** | Text or frame fills using raw hex values don't respond to mode switching — they stay the same color in dark mode. | Always test dark mode after building a page: switch the Figma variable mode on the page frame to `dark` and look for anything that doesn't invert or adapt. Fix by binding fills to `Foreground/*` (text) or `Background/*` (surfaces). |
+| **Buttons use primitives, not semantics** | Button fills (bg, text, stroke) bind to primitive variables (`Navy/*`, `Brand/*`, `Grey/*`) rather than semantic aliases. This is intentional — buttons maintain brand color in both modes. | Never bind button component fills to `Foreground/*` or `Background/*`. |
+| **Repeated components, not molecule variants** | Building N nearly-identical frames/components for repeating content (e.g., three feature cards) creates N master components that must be maintained separately. | Build ONE molecule component with overrideable content properties, then place it N times as instances with content overrides. The What We Do feature cards (Identify / Optimize / Refine) are an example of where this was missed. |

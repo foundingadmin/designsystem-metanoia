@@ -175,23 +175,43 @@ const SEMANTIC_KEYS = {
 
 ## Button Color Token Mapping
 
+Primary, Secondary, and Ghost buttons bind to `Button/*` semantic variables (light/dark mode aware).
+Destructive buttons bind directly to `Status/Error/*` primitives (red maintains contrast in both modes).
+
 | Button type + state | Background variable | Text variable | Border variable |
 |---|---|---|---|
-| Primary / Default | `Navy/700` | `Brand/White` | — |
-| Primary / Hover | `Navy/500` | `Brand/White` | — |
-| Primary / Active | `Navy/900` | `Brand/White` | — |
-| Secondary / Default | `Brand/White` | `Navy/900` | `Navy/700` |
-| Secondary / Hover | `Navy/100` | `Navy/900` | `Navy/900` |
-| Ghost / Default | transparent | `Navy/700` | `Grey/300` |
-| Ghost / Hover | `Grey/100` | `Navy/700` | `Grey/300` |
+| Primary / Default | `Button/Primary/BG` | `Button/Primary/Text` | — |
+| Primary / Hover | `Button/Primary/BG-Hover` | `Button/Primary/Text` | — |
+| Primary / Active | `Button/Primary/BG-Active` | `Button/Primary/Text` | — |
+| Primary / Disabled | `Button/Primary/BG-Disabled` | `Button/Primary/Text-Disabled` | — |
+| Secondary / Default | `Button/Secondary/BG` | `Button/Secondary/Text` | `Button/Secondary/Border` |
+| Secondary / Hover | `Button/Secondary/BG-Hover` | `Button/Secondary/Text` | `Button/Secondary/Border-Hover` |
+| Secondary / Active | `Button/Secondary/BG-Active` | `Button/Secondary/Text` | `Button/Secondary/Border-Active` |
+| Secondary / Disabled | `Button/Secondary/BG-Disabled` | `Button/Secondary/Text-Disabled` | `Button/Secondary/Border-Disabled` |
+| Ghost / Default | transparent | `Button/Ghost/Text` | `Button/Ghost/Border` |
+| Ghost / Hover | `Button/Ghost/BG-Hover` | `Button/Ghost/Text` | `Button/Ghost/Border` |
+| Ghost / Active | `Button/Ghost/BG-Active` | `Button/Ghost/Text` | `Button/Ghost/Border` |
+| Ghost / Disabled | transparent | `Button/Ghost/Text-Disabled` | `Button/Ghost/Border-Disabled` |
 | Destructive / Default | `Status/Error/600` | `Brand/White` | — |
 | Destructive / Hover | `Status/Error/700` | `Brand/White` | — |
 | Destructive / Active | `Status/Error/800` | `Brand/White` | — |
 | Any / Focus | default bg | default text | + focus ring effect |
-| Any / Disabled | default bg at 40% opacity | default text at 40% opacity | — |
 
-> `Status/Error/700` (`#B83C24`) was missing from the original token scale and had to be added.
-> Always check that hover/active states have a corresponding primitive variable before building.
+### Button semantic token values (light → dark)
+
+| Token | Light mode | Dark mode |
+|---|---|---|
+| `Button/Primary/BG` | `Navy/700` | `Navy/500` |
+| `Button/Primary/BG-Hover` | `Navy/500` | `Aqua/700` |
+| `Button/Primary/BG-Active` | `Navy/900` | `Navy/700` |
+| `Button/Secondary/BG` | `Brand/White` | `Grey/800` |
+| `Button/Secondary/Text` | `Navy/900` | `Brand/White` |
+| `Button/Secondary/Border` | `Navy/700` | `Grey/500` |
+| `Button/Ghost/Text` | `Navy/700` | `Brand/White` |
+| `Button/Ghost/Border` | `Grey/300` | `Grey/600` |
+
+> CSS equivalents: `--btn-primary-bg`, `--btn-secondary-bg`, etc. in `tokens/color-semantic.css`.
+> `Status/Error/700` (`#B83C24`) was added to the primitive scale to support the Destructive hover state.
 
 ---
 

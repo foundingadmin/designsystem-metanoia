@@ -127,6 +127,34 @@ const TOKEN_MAP = [
   { css: '--border-strong',    figma: 'Border/Strong' },
   { css: '--border-accent',    figma: 'Border/Accent' },
 
+  // ── Button — Primary ─────────────────────────────────────────────
+  { css: '--btn-primary-bg',            figma: 'Button/Primary/BG' },
+  { css: '--btn-primary-bg-hover',      figma: 'Button/Primary/BG-Hover' },
+  { css: '--btn-primary-bg-active',     figma: 'Button/Primary/BG-Active' },
+  { css: '--btn-primary-bg-disabled',   figma: 'Button/Primary/BG-Disabled' },
+  { css: '--btn-primary-text',          figma: 'Button/Primary/Text' },
+  { css: '--btn-primary-text-disabled', figma: 'Button/Primary/Text-Disabled' },
+
+  // ── Button — Secondary ───────────────────────────────────────────
+  { css: '--btn-secondary-bg',               figma: 'Button/Secondary/BG' },
+  { css: '--btn-secondary-bg-hover',         figma: 'Button/Secondary/BG-Hover' },
+  { css: '--btn-secondary-bg-active',        figma: 'Button/Secondary/BG-Active' },
+  { css: '--btn-secondary-bg-disabled',      figma: 'Button/Secondary/BG-Disabled' },
+  { css: '--btn-secondary-text',             figma: 'Button/Secondary/Text' },
+  { css: '--btn-secondary-text-disabled',    figma: 'Button/Secondary/Text-Disabled' },
+  { css: '--btn-secondary-border',           figma: 'Button/Secondary/Border' },
+  { css: '--btn-secondary-border-hover',     figma: 'Button/Secondary/Border-Hover' },
+  { css: '--btn-secondary-border-active',    figma: 'Button/Secondary/Border-Active' },
+  { css: '--btn-secondary-border-disabled',  figma: 'Button/Secondary/Border-Disabled' },
+
+  // ── Button — Ghost ───────────────────────────────────────────────
+  { css: '--btn-ghost-bg-hover',        figma: 'Button/Ghost/BG-Hover' },
+  { css: '--btn-ghost-bg-active',       figma: 'Button/Ghost/BG-Active' },
+  { css: '--btn-ghost-text',            figma: 'Button/Ghost/Text' },
+  { css: '--btn-ghost-text-disabled',   figma: 'Button/Ghost/Text-Disabled' },
+  { css: '--btn-ghost-border',          figma: 'Button/Ghost/Border' },
+  { css: '--btn-ghost-border-disabled', figma: 'Button/Ghost/Border-Disabled' },
+
   // ════════════════════════════════════════════════════════════════
   // TYPOGRAPHY — tokens/typography.css
   // ════════════════════════════════════════════════════════════════

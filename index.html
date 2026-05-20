@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.4.1';
+const VERSION      = '2.5.0';
 const LAST_UPDATED = 'May 20, 2026';
 
 /* ================================================================
@@ -465,6 +465,15 @@ const LAST_UPDATED = 'May 20, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.5.0',
+    date: '2026-05-20',
+    type: 'minor',
+    changes: [
+      'Add preview/template-landing-page.html — full landing page template for a B2B customer persona with nav, hero, social proof, pain points, feature rows, how-it-works steps, testimonial, CTA, and footer',
+      'Register Templates group in SECTIONS with landing-page entry',
+    ],
+  },
   {
     version: '2.4.1',
     date: '2026-05-20',
@@ -914,6 +923,16 @@ const SECTIONS = [
     cols: 1,
     cards: [
       { src: 'preview/components-empty.html', label: 'Empty state variants' },
+    ],
+  },
+  /* ── Templates ── */
+  {
+    id: 'landing-page', group: 'Templates', icon: 'layout-template',
+    label: 'Landing Page',
+    desc: 'Full B2B landing page template for a customer persona. Nav, hero with stats, trusted-by strip, pain points, alternating feature rows, capability cards, how-it-works steps, testimonial, CTA, and footer. Replace all <code>[bracket]</code> placeholders with real copy.',
+    cols: 1,
+    cards: [
+      { src: 'preview/template-landing-page.html', label: 'Landing page — customer persona' },
     ],
   },
 ];

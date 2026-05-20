@@ -42,4 +42,9 @@
   --container-narrow:  720px;
   --container-default: 1120px;
   --container-wide:    1440px;
+
+  /* ── Icon stroke weight (unitless — SVG stroke-width) ────── */
+  --icon-stroke-sm: 2;
+  --icon-stroke-md: 2;
+  --icon-stroke-lg: 2;
 }

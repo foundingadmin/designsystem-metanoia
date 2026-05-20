@@ -13,10 +13,15 @@
 │   ├── typography.css           ← Font family, weight, size, line-height, letter-spacing
 │   ├── spacing.css              ← Space scale, radii, shadows, layout containers
 │   └── motion.css               ← Easing curves + duration tiers
-├── sync/                        ← Figma ↔ CSS sync scripts
+├── sync/                        ← Figma ↔ CSS sync scripts + reference docs
 │   ├── token-map.js             ← CSS ↔ Figma variable mapping (organized by collection)
 │   ├── sync-figma-to-repo.js   ← Figma → tokens/* diff + PR
-│   └── sync-repo-to-figma.js   ← tokens/* → Figma diff + apply
+│   ├── sync-repo-to-figma.js   ← tokens/* → Figma diff + apply
+│   ├── init-figma.js            ← One-time Figma variable bootstrap script
+│   ├── SKILL-REPO-TO-FIGMA.md  ← Figma Plugin API patterns + component build reference
+│   ├── RUNDOC_v2.md             ← Full Phase 0–5 DS build plan + verification checklists
+│   ├── FEATURE-LIST.md          ← Sync engine feature backlog
+│   └── SKILL-BIDIRECTIONAL-SYNC.md ← Legacy sync reference (superseded by DS Sync section below)
 ├── README.md                    ← Brand guidelines, voice, visual foundations
 ├── SKILL.md                     ← Claude Code skill manifest
 ├── assets/                      ← Logos (SVG), identity guide PDF, type guide JPG
@@ -237,6 +242,49 @@ Claude Code can handle all three steps when asked:
 | `CSS_MISSING` | Token in map but not in CSS | Add to CSS or remove from map |
 | `FIGMA_MISSING` | Token in map but not in Figma | Create variable in Figma or remove from map |
 | `NOT_A_COLOR` | CSS value isn't a parseable color | Check for var() alias chain or non-color token |
+
+---
+
+## /sync Reference Docs — When to Read
+
+These files are **not auto-loaded**. Read them explicitly (via the `Read` tool) when a trigger condition below applies. They are the authoritative source for anything not covered by the DS Sync section above.
+
+### `sync/SKILL-REPO-TO-FIGMA.md` — Figma Component Build Skill
+
+Read this file whenever:
+- Building or generating any component in Figma via `use_figma`
+- User says "build in Figma", "generate components", "push to Figma", "initialize the Figma file"
+- Constructing any atom, molecule, or organism: icons, buttons, inputs, tags, cards, alerts, breadcrumb, pagination, tabs, nav, modal, table, hero, empty states
+- Debugging `combineAsVariants`, layout sizing modes, fill/stroke variable binding, or line height in `use_figma` scripts
+- Needing text style import keys (`STYLE_KEYS`), component node IDs, or semantic variable import keys (`SEMANTIC_KEYS`)
+- Building UI frames directly on a Figma page (screens, mocks, heroes, sections)
+
+Contains: mandatory build order, script skeleton, Plugin API correct values, line-height gotcha + fix, button anatomy, Icon/Placeholder code, combineAsVariants layout patterns, molecule patterns, canvas design guidelines, full text style / component / semantic variable reference tables.
+
+### `sync/RUNDOC_v2.md` — Full DS Build Plan (Phases 0–5)
+
+Read this file whenever:
+- User asks to "continue the DS build", "what's the next phase", "where are we in the Figma build", or "run the build plan"
+- Working on Phase 0 (token corrections + dark mode), Phase 1 (variable init via `init-figma.js`), Phase 2 (text + effect styles), or Phases 3–5 (atoms → molecules → organisms)
+- Needing the exact component variant matrix (e.g. Button: 180 variants, Form Inputs: 6 components × states)
+- Needing the verification checklist to confirm a phase completed correctly
+- Questions about the sprint/RunDoc frame system in Figma
+
+Contains: token corrections before Figma bootstrap, `init-figma.js` config block, text style specs (14 styles), shadow specs (6 effects), full component variant matrices, organism breakdowns (Table: 3 types, Hero: Light/Dark modes), sprint RunDoc template.
+
+### `sync/FEATURE-LIST.md` — Sync Engine Feature Backlog
+
+Read this file whenever:
+- User asks what features are planned or in the pipeline for the sync engine
+- Adding a new feature entry to the backlog
+- Questions about Figma-first component sync (Feature 001: `component-map.js` architecture)
+- Asking whether a sync capability exists or is planned
+
+Contains: backlog template, Feature 001 (component-map.js + Phase 2 extension to `sync-figma-to-repo.js` for syncing Figma component structure → preview HTML).
+
+### `sync/SKILL-BIDIRECTIONAL-SYNC.md` — Legacy Sync Reference
+
+Superseded by the DS Sync section in this file. Only read when diagnosing a sync edge case not covered above. **Note:** this file references `colors_and_type.css` as the sync target — the correct path is `tokens/` (atomic files). Treat the DS Sync section in this CLAUDE.md as authoritative for file paths and git commands.
 
 ---
 

@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.7.0';
+const VERSION      = '2.9.0';
 const LAST_UPDATED = 'May 21, 2026';
 
 /* ================================================================
@@ -465,6 +465,37 @@ const LAST_UPDATED = 'May 21, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.9.0',
+    date: '2026-05-21',
+    type: 'minor',
+    changes: [
+      'Phase 5 organism revision pass — replace all raw-frame constructions with DS atomics',
+      'Nav/Top Bar: replace hand-built logo frame with Logo/Metanoia component instance (Type=Horizontal, Colorway=Full Color); replace raw search frame with Form/Text Input (State=Default) atomic',
+      'Nav/Sidebar Item: replace raw badge frames with Form/Badge atomics (Color=Navy for Default/Hover, Color=Aqua for Active)',
+      'Modal Type=Form: replace raw label+frame field groups with Form/Text Input + Form/Select atomics; modal body now VERTICAL auto-layout',
+      'Hero Split Panel (309:392): full rebuild — 1280×560, dark navy left column with eyebrow/H1/lead/CTA, light right column with illustration placeholder; spacing/radius variables bound throughout',
+      'Hero Full Bleed: apply Semantic+Button dark mode variable overrides — ghost button now renders as white outline on dark hero (previously invisible)',
+      'Clear 51 white Background/Canvas fills from Icon instances across all pages (propagated from Icon Placeholder swap)',
+      'Bind Spacing/* and Radius/* variables to padding/gap/cornerRadius on Nav, Sidebar, Modal, and Hero organisms',
+      'Document all revision patterns in CODE-TO-VISUAL.md (Organism Patterns section) and BRAND.md (Design Gotchas + Variable Collection IDs)',
+    ],
+  },
+  {
+    version: '2.8.0',
+    date: '2026-05-21',
+    type: 'minor',
+    changes: [
+      'Build Phase 5 organisms in Figma: Nav (Top Bar + Sidebar), Modal (4 variants), Hero, Data Table, Empty States (4 variants)',
+      'Nav/Top Bar (306:276) and Nav/Sidebar (306:328) — variable-bound fills, Icon Placeholder slots, active state with aqua-50/navy',
+      'Modal (307:453) — 4 type variants (Confirm, Destructive, Form, Success); Button atom instances in footer',
+      'Hero (309:409) — full-bleed dark hero with eyebrow, H1, lead copy, primary + ghost CTA buttons',
+      'Data Table (310:459) — header row + 5 data rows, Part No./Description/Category/Status/Qty columns, Form/Tags instances for status cells',
+      'Empty State (302:429) — 4 type variants (First Use, No Results, Error, Loading); Icon Placeholder + Button CTA atoms nested',
+      'Fix Icon Placeholder component name throughout CODE-TO-VISUAL.md: actual Figma name is "Icon Placeholder" (no slash)',
+      'Record all 13 new Phase 5 Figma component sets in BRAND.md Component Set Registry',
+    ],
+  },
   {
     version: '2.7.0',
     date: '2026-05-21',

@@ -136,12 +136,16 @@ Use `figma.getNodeById(id)` to reference local components.
 | `Form/Tag Icon` Color=Neutral | `120:416` | Neutral overline label |
 | `Form/Tags` Info SM Subtle | `117:386` | Small status/info tag |
 | `Form/Tags` Info MD Subtle | `117:401` | Medium status/info tag |
-| `Icon/Placeholder` (set) | `97:23` | Icon slots (Size=16/20/24) |
+| `Icon` (set) | `270:467` | All icon slots — `Name=<kebab-name>, Size=<16\|20\|24>` |
 
-Component set names (for `figma.root.findOne`):
-- `Icon Placeholder` (no slash)
+Component set names (for `figma.root.findOne` or `figma.getNodeById`):
+- `Icon` (node `270:467`) — 48 Lucide icons × 3 sizes; use `getIcon(name, size)` helper
 - `Button`
 - `Form/Tags`
+
+> **Icon Placeholder deleted (Phase 5).** The grey cross-box placeholder
+> component (`97:23`) was removed. All components now use the real `Icon`
+> component set (`270:467`) directly. Never recreate Icon Placeholder.
 
 ---
 
@@ -157,7 +161,6 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 |---|---|---|---|
 | `Logo/Metanoia` | `257:308` | `logo-mark` / `logo-accent` / `logo-wordmark` | `preview/logo-brandmark.html`, `preview/logo-lockups.html`, `preview/logo-wordmark.html` |
 | `Button` | `91:489` | `btn` | `preview/components-buttons.html` |
-| `Icon Placeholder` | `97:23` | — | `preview/iconography.html` |
 | `Icon` | `270:467` | `ds-icon` | `preview/iconography.html` |
 | `Form/Text Input` | `106:387` | — | `preview/components-inputs.html` |
 | `Form/Textarea` | `106:413` | — | `preview/components-inputs.html` |
@@ -175,6 +178,19 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 | `Pagination` | `140:570` | — | `preview/components-pagination.html` |
 | `Tabs/View Tab Item` | `176:587` | — | `preview/components-tabs.html` |
 | `Tabs/Section Tab Item` | `176:612` | — | `preview/components-tabs.html` |
+| `Empty State` | `302:429` | — | `preview/components-empty.html` |
+| `Nav/Top Item` | `304:278` | — | `preview/components-nav.html` |
+| `Nav/Sidebar Item` | `304:321` | — | `preview/components-nav.html` |
+| `Nav/Sidebar Label` | `304:322` | — | `preview/components-nav.html` |
+| `Nav/Top Bar` | `306:276` | — | `preview/components-nav.html` |
+| `Nav/Sidebar` | `306:328` | — | `preview/components-nav.html` |
+| `Modal` | `307:453` | — | `preview/components-modal.html` |
+| `Hero` | `309:409` | — | `preview/components-hero.html` |
+| `Table/Header Cell` | `310:396` | — | — |
+| `Table/Cell` | `310:407` | — | — |
+| `Table/Row` | `310:447` | — | — |
+| `Table/Header Row` | `310:448` | — | — |
+| `Data Table` | `310:459` | — | — |
 
 ---
 
@@ -251,16 +267,6 @@ Destructive buttons bind directly to `Status/Error/*` primitives (red maintains 
 
 > CSS equivalents: `--btn-primary-bg`, `--btn-secondary-bg`, etc. in `tokens/color-semantic.css`.
 > `Status/Error/700` (`#B83C24`) was added to the primitive scale to support the Destructive hover state.
-
----
-
-## Icon/Placeholder Colors
-
-| Role | Hex | Used for |
-|---|---|---|
-| Fill | `#ECEFF2` | grey-100 background |
-| Stroke | `#B6BEC6` | grey-300 border |
-| Cross icon | `#6E7A86` | cross rectangles |
 
 ---
 
@@ -349,6 +355,66 @@ const required = [
 
 ---
 
+## Variable Collection IDs (Metanoia file `c3ayt4AFrNKOmSkGBIyFi4`)
+
+Confirmed at runtime — use for `setExplicitVariableModeForCollection` calls.
+
+| Collection | ID | Modes |
+|---|---|---|
+| Primitives | `VariableCollectionId:56:12` | Value: `56:0` |
+| Typography | `VariableCollectionId:58:12` | Value: `58:0` |
+| Spacing | `VariableCollectionId:58:46` | Value: `58:1` |
+| Motion | `VariableCollectionId:58:77` | Value: `58:2` |
+| Semantic | `VariableCollectionId:84:12` | Light: `84:0`, Dark: `84:1` |
+| Button | `VariableCollectionId:239:227` | Light: `239:0`, Dark: `239:1` |
+
+Key numeric variable IDs (Spacing/Radius — from Spacing collection):
+
+| Token | Variable ID | Value |
+|---|---|---|
+| Spacing/0 | `VariableID:58:47` | 0px |
+| Spacing/1 | `VariableID:58:48` | 4px |
+| Spacing/2 | `VariableID:58:49` | 8px |
+| Spacing/3 | `VariableID:58:50` | 12px |
+| Spacing/4 | `VariableID:58:51` | 16px |
+| Spacing/5 | `VariableID:58:52` | 20px |
+| Spacing/6 | `VariableID:58:53` | 24px |
+| Spacing/8 | `VariableID:58:54` | 32px |
+| Spacing/10 | `VariableID:58:55` | 40px |
+| Spacing/12 | `VariableID:58:56` | 48px |
+| Spacing/16 | `VariableID:58:57` | 64px |
+| Spacing/20 | `VariableID:58:58` | 80px |
+| Spacing/24 | `VariableID:58:59` | 96px |
+| Spacing/32 | `VariableID:58:60` | 128px |
+| Radius/XS | `VariableID:58:61` | 2px |
+| Radius/SM | `VariableID:58:62` | 4px |
+| Radius/MD | `VariableID:58:63` | 8px |
+| Radius/LG | `VariableID:58:64` | 12px |
+| Radius/XL | `VariableID:58:65` | 16px |
+
+Key semantic color variable IDs (Semantic collection, resolved at runtime):
+
+| Semantic token | Variable ID | Light | Dark |
+|---|---|---|---|
+| Background/Canvas | `VariableID:84:13` | white | near-black |
+| Background/Subtle | `VariableID:84:14` | light grey | dark grey |
+| Foreground/Primary | `VariableID:84:18` | `rgb(6,47,74)` navy | white |
+| Foreground/Secondary | `VariableID:84:20` | `rgb(86,99,111)` | light grey |
+| Foreground/Subtle | `VariableID:84:21` | `rgb(140,151,161)` | dim grey |
+| Border/Default | `VariableID:84:25` | light border | dark border |
+| Border/Strong | `VariableID:84:26` | medium border | medium border |
+
+Key primitive color variable IDs (Primitives collection):
+
+| Primitive | Variable ID | Value |
+|---|---|---|
+| Navy (primary dark) | `VariableID:56:13` | `rgb(9,75,119)` |
+| Light Aqua (active bg) | `VariableID:56:27` | `rgb(236,250,253)` |
+| Background/Canvas white | `VariableID:56:16` | `rgb(255,255,255)` |
+| Aqua/300 | resolved via `findVar('Aqua/300')` | `rgb(50,203,237)` |
+
+---
+
 ## Design Gotchas
 
 | Issue | Cause | Fix |
@@ -358,3 +424,11 @@ const required = [
 | **Buttons use Button/* semantics, not Foreground/Background** | Button fills (bg, text, stroke) bind to the `Button/*` variable collection — NOT to `Foreground/*` or `Background/*`. The Button collection has its own Light/Dark modes that adapt contrast independently (e.g. Primary/BG flips Navy/700 → Navy/500). | Never bind button fills to `Foreground/*` or `Background/*`. Destructive buttons are the sole exception — they use `Status/Error/*` primitives directly. |
 | **Dark mode frame requires both Semantic and Button collections** | Setting a frame's variable mode to Semantic=Dark only flips surface and text colors. Buttons remain in light mode because the Button collection is a separate collection with its own mode. | When activating dark mode on any frame — in design or via `setExplicitVariableModeForCollection` — always set BOTH `Semantic → Dark` and `Button → Dark` on the same frame. |
 | **Repeated components, not molecule variants** | Building N nearly-identical frames/components for repeating content (e.g., three feature cards) creates N master components that must be maintained separately. | Build ONE molecule component with overrideable content properties, then place it N times as instances with content overrides. The What We Do feature cards (Identify / Optimize / Refine) are an example of where this was missed. |
+| **Never use Icon Placeholder — use the Icon component directly** | Using the grey cross-box placeholder (`Icon Placeholder`, formerly `97:23`) was a legacy fallback. It creates technical debt: every placeholder must be manually swapped by designers, and they're invisible in component previews. The placeholder component was deleted in Phase 5. | Always use the real `Icon` component set (`270:467`, `Name=<name>, Size=<16\|20\|24>`) for every icon slot in every new component. Use `getIcon(name, size)?.createInstance()`. For nested instance overrides, use `instance.swapComponent(newVariant)` — do NOT use `insertChild` inside an INSTANCE node. |
+| **`combineAsVariants()` clips content by default** | `figma.combineAsVariants()` sets `clipsContent = true` on the resulting COMPONENT_SET. Any variant content extending beyond the set bounds is silently clipped — no error, no warning. | Always add `set.clipsContent = false` immediately after `combineAsVariants()`. This was the root cause of clipped footers in Hero and Modal organisms (Phase 5). |
+| **Variant frames clip when height is set before content** | Organism COMPONENT frames (modals, heroes, dialogs) with `layoutSizingVertical = 'FIXED'` clip any content appended after the height was locked. Since `clipsContent = true` is Figma's default for auto-layout frames, the overflow is invisible. | Set `layoutSizingVertical = 'HUG'` on COMPONENT variant frames as the LAST operation after all children are appended. Exception: components with explicit height requirements (Nav bars, Table rows, Buttons) keep FIXED. |
+| **Inner structural frames also clip independently** | Each inner wrapper frame (header/body/footer sections, column frames in a split-panel hero) has its own `clipsContent = true`. Clearing only the top-level variant frame is insufficient — inner frames clip their own children independently. | Set `clipsContent = false` on every structural wrapper frame inside an organism, not just the outermost variant. Use a recursive helper when building organisms with multiple levels of nesting. |
+| **Icon instance fills — white Background/Canvas from placeholder swap** | During icon replacement (Icon Placeholder → real Icon), if the swap helper copies `.fills` from the old placeholder to the new instance, a white `Background/Canvas` fill (VariableID:56:16) lands on the Icon instance root. This is invisible in light mode but breaks dark contexts. | After any icon swap or bulk replacement, always set `inst.fills = []` on every newly created Icon instance. Run a bulk clear pass: `page.findAll(n => n.type==='INSTANCE' && n.mainComponent?.parent?.id==='270:467').forEach(i => { i.fills=[]; })`. Confirmed: 51 instances cleared in Phase 5 revision. |
+| **Background/Canvas is NOT white in dark mode** | `Background/Canvas` (VariableID:84:13) resolves to white in light mode but near-black in dark mode. Binding dark-section H1/lead text to this variable makes text invisible in dark mode. | For white text on dark backgrounds: bind to `Foreground/Primary` (VariableID:84:18) which resolves to white in dark mode. `Background/Canvas` is only correct for surface fills, not foreground text. |
+| **FILL sizing may fail on children of COMPONENT nodes** | `layoutSizingHorizontal = 'FILL'` on a node inside a COMPONENT (as opposed to a FRAME) may throw "node must be an auto-layout frame or a child of one" even when the parent COMPONENT has `layoutMode` set. | Use `resize(exactPx, exactPx)` with `layoutSizingHorizontal = 'FIXED'` instead of FILL for direct children of COMPONENT nodes. FILL works normally for FRAME→FRAME parent-child relationships. |
+| **Organism organisms must use DS atomics — not raw frames** | Phase 5 organisms were initially built with raw frame+text constructions for inputs, badges, and logo areas. This breaks the atomic component hierarchy and means changes to the atom don't propagate to organisms. | Before building any input field, badge, search bar, logo, or button in an organism, check the Component Set Registry. If an atomic exists (Form/Text Input, Form/Badge, Logo/Metanoia, etc.), create an instance of it. Never hand-build UI elements that have existing atomic components. |

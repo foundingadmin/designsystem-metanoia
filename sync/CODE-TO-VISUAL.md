@@ -30,13 +30,13 @@ Variables and styles must exist BEFORE any component that references them.
 Run these phases in strict sequence — never skip ahead.
 
 ```
-1. Visual Variables     — primitives first, then semantic aliases
-2. Text Styles          — after variables (font binding requires variable IDs)
-3. Effect Styles        — shadows from spacing.css
-4. Icon/Placeholder atom — before ANY component that uses icon slots
-5. Atoms                — Button, Input, Tag, Badge
-6. Molecules            — Card, Alert, Breadcrumb, Pagination, Tabs
-7. Organisms            — Nav, Modal, Table, Hero, Empty States
+1. Visual Variables  — primitives first, then semantic aliases
+2. Text Styles       — after variables (font binding requires variable IDs)
+3. Effect Styles     — shadows from spacing.css
+4. Icon library      — 48 Lucide icons × 3 sizes (270:467); used directly in all components
+5. Atoms             — Button, Input, Tag, Badge
+6. Molecules         — Card, Alert, Breadcrumb, Pagination, Tabs
+7. Organisms         — Nav, Modal, Table, Hero, Empty States
 ```
 
 To check what already exists before building, run:
@@ -348,53 +348,80 @@ Type=Primary, Size=MD, Icon=None, State=Default
 
 ---
 
-## Icon/Placeholder Component
+## Using the Icon Component (never use Icon Placeholder)
 
-Must be created BEFORE building buttons. Designers swap this component instance
-in the properties panel to replace placeholders with actual icons.
+> **Icon Placeholder is deleted.** The grey cross-box placeholder component
+> (`97:23`) was removed in Phase 5. Always use the real Lucide `Icon`
+> component set (`270:467`, variant property `Name=<name>, Size=<16|20|24>`)
+> directly in all new components — at every level (atom, molecule, organism).
+
+### Lookup helper
 
 ```js
-function makeIconPlaceholder(size) {
-  const comp = figma.createComponent();
-  comp.name = `Size=${size}`;
-  comp.resize(size, size);
-  comp.layoutMode = 'HORIZONTAL';
-  comp.primaryAxisAlignItems = 'CENTER';
-  comp.counterAxisAlignItems = 'CENTER';
-  comp.primaryAxisSizingMode = 'FIXED';
-  comp.counterAxisSizingMode = 'FIXED';
-  comp.cornerRadius = 3;
-  comp.fills   = [{ type: 'SOLID', color: hexRgb('#ECEFF2') }]; // grey-100 — see BRAND.md
-  comp.strokes = [{ type: 'SOLID', color: hexRgb('#B6BEC6') }]; // grey-300 — see BRAND.md
-  comp.strokeWeight = 1;
-  comp.strokeAlign = 'INSIDE';
-  comp.clipsContent = true;
+const iconSet = figma.getNodeById('270:467'); // Icon component set
 
-  // Cross (+) visual — two rectangles forming a plus sign
-  const cs = Math.max(Math.round(size * 0.5), 6);
-  const cf = figma.createFrame();
-  cf.name = 'cross'; cf.resize(cs, cs); cf.fills = []; cf.layoutMode = 'NONE';
-
-  const hb = figma.createRectangle();
-  hb.resize(cs, 2); hb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }]; // cross color — see BRAND.md
-  hb.cornerRadius = 1; hb.x = 0; hb.y = Math.round((cs - 2) / 2);
-
-  const vb = figma.createRectangle();
-  vb.resize(2, cs); vb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }]; // cross color — see BRAND.md
-  vb.cornerRadius = 1; vb.x = Math.round((cs - 2) / 2); vb.y = 0;
-
-  cf.appendChild(hb); cf.appendChild(vb);
-  comp.appendChild(cf);
-  // cf is a non-autolayout child of an autolayout parent → use FIXED
-  cf.layoutSizingHorizontal = 'FIXED';
-  cf.layoutSizingVertical   = 'FIXED';
-
-  return comp;
+function getIcon(name, size) {
+  // name = kebab-case Lucide name (see sync/component-map.js ICON_CATALOG)
+  // size = 16 | 20 | 24
+  return iconSet.children.find(c => c.name === `Name=${name}, Size=${size}`) || null;
 }
 
-const iconVariants = [16, 20, 24].map(makeIconPlaceholder);
-const iconSet = figma.combineAsVariants(iconVariants, dsPage);
-iconSet.name = 'Icon/Placeholder';
+// Usage — create an instance and add to a parent
+const icon = getIcon('settings', 16)?.createInstance();
+parent.appendChild(icon);
+icon.layoutSizingHorizontal = 'FIXED';
+icon.layoutSizingVertical   = 'FIXED';
+```
+
+### Choosing the right size
+
+| Context | Size |
+|---|---|
+| Nav items, breadcrumb, table sort, button SM/MD | 16 |
+| Modal header icon, alert icon, button LG, action bars | 20 |
+| Card image slot, empty state, hero watermark | 24 |
+
+### Overriding an icon variant inside an existing instance (swapComponent)
+
+When you need to set a SPECIFIC icon on an instance that's INSIDE another
+instance (e.g., each nav item in Nav/Top Bar needs its own icon), you cannot
+use `insertChild` — it fails with "New parent is an instance." Use
+`swapComponent()` instead:
+
+```js
+// ✅ Correct — swap the variant of a nested icon instance
+const navItemInst = figma.getNodeById('306:285'); // Nav/Top Item instance in organism
+const iconInst = navItemInst.findOne(n =>
+  n.type === 'INSTANCE' && n.mainComponent?.parent?.id === '270:467'
+);
+const newVariant = getIcon('package', 16);
+iconInst.swapComponent(newVariant); // changes this instance's variant; no insertChild needed
+
+// ❌ Wrong — insertChild throws when parent is inside an instance
+const parent = iconInst.parent;
+parent.insertChild(idx, newInst); // Error: "Cannot move node. New parent is an instance."
+```
+
+### Dynamic findAll in a replacement loop gives stale results
+
+When replacing instances inside a loop, `findAll` called INSIDE the loop
+reflects the live tree after each removal. This causes the first-vs-last
+position logic to break:
+
+```js
+// ❌ Wrong — allPlhInComp re-queries after each removal, so "first" is always true
+masterInstances.forEach(plh => {
+  const allPlhInComp = comp.findAll(isPlh); // stale after first removal
+  const isFirst = allPlhInComp[0]?.id === plh.id; // always true for remaining
+  swap(plh, isFirst ? 'header-icon' : 'x', isFirst ? 20 : 16);
+});
+
+// ✅ Correct — snapshot the list once, then identify by position
+const snapshot = [...comp.findAll(isPlh)]; // snapshot before any removals
+snapshot.forEach((plh, i) => {
+  const isFirst = i === 0;
+  swap(plh, isFirst ? 'header-icon' : 'x', isFirst ? 20 : 16);
+});
 ```
 
 ---
@@ -557,19 +584,21 @@ const missingStyles = requiredStyles.filter(
   name => !textStyles.find(s => s.name === name || s.name.endsWith('/' + name))
 );
 
-const iconSet = figma.root.findOne(n => n.type === 'COMPONENT_SET' && n.name === 'Icon/Placeholder');
+const iconCompSet = figma.getNodeById('270:467'); // Icon component set (48 icons × 3 sizes)
 
 return {
   variables: { total: allVars.length, missing },
   textStyles: { total: textStyles.length, missing: missingStyles },
-  iconPlaceholder: iconSet ? 'found' : 'MISSING — build before buttons',
+  iconSet: iconCompSet
+    ? `found — ${iconCompSet.children.length} variants`
+    : 'MISSING (270:467) — required for all icon slots',
 };
 ```
 
 If anything is missing, build it before proceeding. Missing primitives →
 buttons will have hardcoded colors. Missing text styles → button text will
-have no style binding. Missing Icon/Placeholder → icon slots will use
-raw rectangles that designers can't swap.
+have no style binding. Missing Icon set → icon slots will have no component
+to reference.
 
 ---
 
@@ -656,6 +685,236 @@ ico.fills = varFill('Foreground/Tertiary', '#8895A1');  // variable name — see
 
 See `sync/BRAND.md` (Semantic Variable Reference section) for this brand's
 full variable name → role mapping (Canvas bg, Subtle bg, Primary text, etc.).
+
+---
+
+## Organism Patterns (Phase 5 lessons + Phase 5 revision pass)
+
+### combineAsVariants clipsContent — always clear immediately
+
+`figma.combineAsVariants()` creates a COMPONENT_SET with `clipsContent = true`
+by default. This clips any variant content that exceeds the set's bounding
+box and produces silent, invisible truncation — no error, no warning.
+
+**Always add this immediately after `combineAsVariants()`:**
+
+```js
+const set = figma.combineAsVariants(variants, page);
+set.name = 'MyComponent';
+set.clipsContent = false;   // ← mandatory — prevents set from clipping variants
+```
+
+### Variant frames need HUG height AFTER all children
+
+Organism COMPONENT frames (modals, heroes, cards-with-variable-content) must
+have `layoutSizingVertical = 'HUG'` applied **after** all children are appended.
+Setting a fixed height during frame creation and then adding content clips the
+overflow — `clipsContent = true` is Figma's default for auto-layout frames.
+
+```js
+// ✅ Correct — HUG applied after content is complete
+const variant = figma.createComponent();
+variant.layoutMode = 'VERTICAL';
+variant.layoutSizingHorizontal = 'FIXED';
+variant.resize(480, 100);   // width locked; height is a temporary placeholder
+// ... append header, body, footer children ...
+variant.layoutSizingVertical = 'HUG';   // ← last line; frame grows to fit content
+variant.clipsContent = false;
+
+// ❌ Wrong — frame is fixed at 200px; buttons appended after will be clipped
+const variant = figma.createComponent();
+variant.resize(480, 200);   // height locked at 200px
+// ... append all children (total height = 280px) ...
+// footer buttons at 200–280px are silently clipped
+```
+
+**Exception:** Components with explicit height requirements (Nav bars,
+Table rows, Buttons) should keep FIXED height — they are designed to a
+specific pixel height independent of content.
+
+### Inner structural frames need clipsContent cleared too
+
+Organisms composed of stacked section frames (header/body/footer in a modal;
+left/right columns in a hero split panel) each get `clipsContent = true` by
+default. Clear it on every structural wrapper:
+
+```js
+function buildSection(parent) {
+  const section = figma.createFrame();
+  section.layoutMode    = 'VERTICAL';
+  section.clipsContent  = false;  // ← required on every inner wrapper
+  // ... add content ...
+  parent.appendChild(section);
+}
+```
+
+If you forget, the inner frame clips its own children independently of the
+parent — meaning clearing only the top-level variant frame is not enough.
+
+### Button instances have layoutSizingVertical = FIXED by default
+
+When you call `component.createInstance()` on a Button component, the
+instance inherits `layoutSizingVertical = 'FIXED'`. Inside a VERTICAL
+auto-layout parent, a FIXED-height child that is taller than expected can
+prevent the parent from computing its correct HUG height. Always set:
+
+```js
+const btn = buttonComp.createInstance();
+parent.appendChild(btn);
+btn.layoutSizingHorizontal = 'FIXED';  // keep button width locked
+// layoutSizingVertical: leave as FIXED for fixed-height components (nav, row)
+// For variable-height containers (organism footers): set to HUG
+btn.layoutSizingVertical = 'HUG';
+```
+
+### Icon instance white fill — clear after every swap
+
+During icon replacement (placeholder → real Icon instance), any `fills` copied
+from the old placeholder instance to the new Icon instance will produce a white
+`Background/Canvas` fill on the icon root. This is invisible in light mode but
+breaks dark mode and causes visual artifacts in dark sections.
+
+**Always clear fills on newly swapped Icon instances:**
+
+```js
+// After any icon swap or instance creation:
+const inst = iconComp.createInstance();
+inst.fills = [];  // ← mandatory — Icon variants render via their internal vectors,
+                  //   not the instance root fill; a root fill overwrites them visually
+
+// Bulk clear pass across all pages (run once per session after replacements):
+for (const page of figma.root.children) {
+  page.findAll(n => n.type === 'INSTANCE' && n.mainComponent?.parent?.id === '270:467')
+    .forEach(inst => { if (inst.fills?.length) inst.fills = []; });
+}
+```
+
+Root cause: the swap helper copies `.fills` from the old node to the new
+instance during replacement. The old Icon Placeholder had a white
+`Background/Canvas` fill (VariableID:56:16) that propagated. The Icon
+component renders correctly with `fills = []` — the inner Frame and Vector
+children handle color via stroke variables.
+
+### Dark mode on organisms — always set BOTH Semantic AND Button collections
+
+Applying Semantic dark mode only flips surface and text colors — buttons remain
+in light mode because `Button/*` variables live in a separate collection with
+their own Light/Dark modes.
+
+**Ghost buttons on a dark hero will be invisible (navy stroke on navy bg) unless
+the Button collection is also set to Dark:**
+
+```js
+// ✅ Correct — both collections required for a dark section/organism
+frame.setExplicitVariableModeForCollection('VariableCollectionId:84:12', '84:1');   // Semantic → Dark
+frame.setExplicitVariableModeForCollection('VariableCollectionId:239:227', '239:1'); // Button → Dark
+
+// ❌ Wrong — ghost button stroke/text still resolve to navy (light mode values)
+frame.setExplicitVariableModeForCollection('VariableCollectionId:84:12', '84:1'); // Semantic only
+```
+
+Collection and mode IDs (Metanoia file `c3ayt4AFrNKOmSkGBIyFi4`):
+- Semantic: `VariableCollectionId:84:12` — Light=`84:0`, Dark=`84:1`
+- Button: `VariableCollectionId:239:227` — Light=`239:0`, Dark=`239:1`
+
+Apply at the outermost dark container (COMPONENT or structural frame). Children
+inherit the mode automatically.
+
+### Dark mode text semantics — Background/Canvas is NOT white in dark mode
+
+`Background/Canvas` (VariableID:84:13) resolves to white in light mode and dark
+(near-black) in dark mode. **Do NOT bind hero H1/lead text fills to
+`Background/Canvas`** — in dark mode the text becomes invisible.
+
+For white text on a dark hero background:
+
+```js
+// ✅ Correct — Foreground/Primary resolves to white in dark mode
+h1.fills = [figma.variables.setBoundVariableForPaint(
+  { type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 1 },
+  'color',
+  figma.variables.getVariableById('VariableID:84:18') // Foreground/Primary
+)];
+
+// ❌ Wrong — Background/Canvas is dark in dark mode → text disappears
+h1.fills = [figma.variables.setBoundVariableForPaint(
+  { type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 1 },
+  'color',
+  figma.variables.getVariableById('VariableID:84:13') // Background/Canvas
+)];
+```
+
+Dark mode semantic token behavior (Metanoia Semantic collection):
+| Token | VariableID | Light mode | Dark mode |
+|---|---|---|---|
+| Background/Canvas | 84:13 | white (#FFF) | near-black |
+| Background/Subtle | 84:14 | light grey | dark grey |
+| Foreground/Primary | 84:18 | navy (#062F4A) | white |
+| Foreground/Secondary | 84:20 | medium grey | light grey |
+| Foreground/Subtle | 84:21 | muted grey | dim grey |
+
+### FILL sizing limitation on children of COMPONENT nodes
+
+`layoutSizingHorizontal = 'FILL'` requires the node to be a child of a frame
+or component that already has `layoutMode` set. When the parent is a COMPONENT
+(not a FRAME), this setter may fail with "node must be an auto-layout frame or
+a child of an auto-layout frame" even if the component has `layoutMode` set.
+
+**Workaround:** use explicit pixel dimensions with `resize()` instead of FILL
+for children of COMPONENT nodes:
+
+```js
+// ❌ May throw for COMPONENT children
+leftCol.layoutSizingHorizontal = 'FILL';
+
+// ✅ Use explicit resize instead
+leftCol.resize(640, 560); // exact pixel values
+leftCol.layoutSizingHorizontal = 'FIXED'; // never FILL on COMPONENT children
+```
+
+For FRAME children of FRAME parents, FILL works normally.
+
+### Using DS atomics in organisms — required pattern
+
+Organism components must reference DS atomics — never construct UI elements from
+raw frames/text when an atomic exists. Detected violations from Phase 5 revision:
+
+**Nav/Top Bar logo:** use `Logo/Metanoia` component set (`257:308`) — specifically
+`Type=Horizontal, Colorway=Full Color` variant (`257:238`) resized to ~110×21px.
+Do not hand-build a frame with an Icon + TEXT "metanoia".
+
+**Nav/Top Bar search:** use `Form/Text Input` (`106:387`) State=Default (`106:362`).
+For nav context (no visible label), hide the Label and Helper text nodes on the
+instance: `labelNode.visible = false`. Resize to 220px wide.
+
+**Sidebar nav badge:** use `Form/Badge` (`120:391`) — Color=Navy (`120:377`) for
+Default/Hover states, Color=Aqua (`120:379`) for Active state. Size: 32×24px.
+Do not hand-build a rounded rectangle + count text.
+
+**Form modal inputs:** use `Form/Text Input` (`106:362`) State=Default for text
+fields, `Form/Select` (`107:362`) State=Default for dropdown fields. Set the body
+frame to VERTICAL auto-layout with `primaryAxisSizingMode = 'AUTO'` so it grows.
+Do not hand-build label+input+helper frame groups.
+
+```js
+// Correct pattern — Form modal body with atomics
+const modalBody = figma.getNodeById('307:434');
+modalBody.layoutMode            = 'VERTICAL';
+modalBody.primaryAxisSizingMode = 'AUTO';  // HUG height
+modalBody.counterAxisSizingMode = 'FIXED';
+modalBody.itemSpacing           = 16;
+modalBody.paddingTop = modalBody.paddingBottom = modalBody.paddingLeft = modalBody.paddingRight = 24;
+
+const tiComp = figma.getNodeById('106:362'); // Form/Text Input, State=Default
+const inst   = tiComp.createInstance();
+modalBody.appendChild(inst);
+inst.layoutSizingHorizontal = 'FILL'; // fills modal width minus padding
+inst.layoutSizingVertical   = 'HUG';
+// Override label and placeholder text via findOne + loadFontAsync
+const labelNode = inst.findOne(n => n.type === 'TEXT' && n.name === 'Label');
+await figma.loadFontAsync(labelNode.fontName);
+labelNode.characters = 'Part number';
+```
 
 ---
 

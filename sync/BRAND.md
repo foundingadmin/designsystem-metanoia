@@ -191,6 +191,7 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 | `Table/Row` | `310:447` | — | — |
 | `Table/Header Row` | `310:448` | — | — |
 | `Data Table` | `310:459` | — | — |
+| `DS Status / RunDoc` | `337:571` | — | — |
 
 ---
 
@@ -217,12 +218,10 @@ const SEMANTIC_KEYS = {
   'Foreground/Link Hover':  'f33cb574a6101e566792c20b95c015f21746aa22',
   // Border
   'Border/Accent':          '26fcc1205c04d3d0d5e0ac196ce5fe068a4496aa',
-  // Logo (added v2.3.0 — import keys not yet captured; resolve in next session
-  // that touches Logo variables by running figma.variables.getLocalVariables()
-  // and filtering for collection name 'Logo')
-  // 'Logo/Accent':         'TBD — resolve next Logo session',
-  // 'Logo/Mark':           'TBD — resolve next Logo session',
-  // 'Logo/Wordmark':       'TBD — resolve next Logo session',
+  // Logo (added v2.3.0 — keys resolved 2026-05-21)
+  'Logo/Accent':   '725f0f78af9700b74aab0e878bca743ab54a2e53',
+  'Logo/Mark':     '5699842a87a48aaff78d6880c346b962a6baf370',
+  'Logo/Wordmark': '9b9e0fe20770147a6bf5baa22341ad9cabc0c926',
 };
 ```
 

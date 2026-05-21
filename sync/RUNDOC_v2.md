@@ -4,7 +4,7 @@
 
 ---
 
-## Current Status — v2.9.0 · Updated 2026-05-21
+## Current Status — v2.9.1 · Updated 2026-05-21
 
 | Phase | What | Status | Shipped |
 | :---- | :---- | :---- | :---- |
@@ -19,15 +19,15 @@
 | Code extras | Layout utilities + components CSS + new tokens | ✅ Complete | v2.5.0–v2.7.0 |
 | **4** | **Molecules: Cards, Alerts, Breadcrumb, Pagination, Tabs** | ✅ **Complete** | v2.6.x (untagged) |
 | **5** | **Organisms: Nav, Modal, Table, Hero, Empty States** | ✅ **Complete** | v2.9.0 |
-| RunDoc frame | DS Status page + RunDoc frame in Figma | ❌ Not created | — |
+| RunDoc frame | DS Status page + RunDoc frame in Figma (`337:571`) | ✅ Complete | v2.9.1 |
 
-**Open gaps (tracked, not yet resolved):**
-- Logo semantic variable import keys (`Logo/Accent`, `Logo/Mark`, `Logo/Wordmark`) — keys needed for programmatic import; components work visually, import keys not yet captured in `sync/BRAND.md`
-- DS Status page + RunDoc frame not yet created in Figma (deferred — create at start of Phase 6 sprint)
-- Phase 4 Figma build was completed but not reflected in the changelog — no v2.x.0 entry records it; see note below
-- Pricing Table and Feature Matrix (Phase 5c extensions) deferred to Phase 6 — Data Table covers primary use case
-- Sidebar Nav Item active variant padding polish — minor spacing inconsistency between Default and Active states (deferred)
-- Button label overrides in Modal footer still show "Medium ghost"/"Medium primary" — requires component-level edit (deferred)
+**Open gaps — all resolved or formally deferred:**
+- ~~Logo semantic variable import keys~~ — **resolved v2.9.1**: `Logo/Accent` `725f0f78...`, `Logo/Mark` `5699842a...`, `Logo/Wordmark` `9b9e0fe2...` recorded in `sync/BRAND.md`
+- ~~DS Status page + RunDoc frame not yet created~~ — **resolved v2.9.1**: created in Figma
+- ~~Phase 4 Figma build not reflected in changelog~~ — **resolved v2.9.1**: retroactive entry added at v2.9.1
+- Pricing Table and Feature Matrix — **deferred to Phase 6** (Data Table covers primary iBOM use case)
+- Sidebar Nav Item active variant padding polish — **deferred to Phase 6** (minor spacing inconsistency, non-blocking)
+- Button label overrides in Modal footer ("Medium ghost"/"Medium primary") — **deferred to Phase 6** (requires component-level edit)
 
 > **Phase 4 audit note (2026-05-21):** Figma metadata confirms all Phase 4 molecules exist in the `ds` page (Card `127:458`, Alert `135:542`, Breadcrumb `137:537`, Pagination `140:570`, Tabs View/Section items `176:587`/`176:612`). The build was done between v2.2.0 and v2.6.0 but was not recorded in the repo changelog. Node IDs have now been added to `sync/BRAND.md`. Button (`91:489`) and Form/Tags (`117:437`) componentSetNodeIds previously marked TBD are now resolved.
 
@@ -131,7 +131,7 @@ All use Figtree. Line heights are set as explicit PERCENT values (not variable-b
 
 ### 3a. Logo (v2.3.0) — node ID `257:308`
 
-9 variants: Mark × [Brandmark, Horizontal Lockup, Vertical Lockup] × [Full Color, Mono White, Mono Dark]. Logo semantic color variables added: `Logo/Accent`, `Logo/Mark`, `Logo/Wordmark` (import keys TBD in BRAND.md).
+9 variants: Mark × [Brandmark, Horizontal Lockup, Vertical Lockup] × [Full Color, Mono White, Mono Dark]. Logo semantic color variables added: `Logo/Accent`, `Logo/Mark`, `Logo/Wordmark` (import keys resolved in `sync/BRAND.md` v2.9.1).
 
 ### 3b. Icon Component Library (v2.4.0) — node ID `270:467`
 
@@ -140,14 +140,14 @@ All use Figtree. Line heights are set as explicit PERCENT values (not variable-b
 ### 3c. Buttons + Icon/Placeholder (v2.1.0)
 
 - **Icon/Placeholder** — node ID `97:23`; Size=[16,20,24] property; used as slot in all components
-- **Button** — 4 types × 3 sizes × 3 icon modes × 5 states = 180 variants + 60 icon-only; node ID **TBD** (record after next session)
+- **Button** — 4 types × 3 sizes × 3 icon modes × 5 states = 180 variants + 60 icon-only; node ID **91:489**
 - All fills bound to `Button/*` semantic variables; corner radius bound to `Radius/MD`; padding to `Spacing/*`; icon slots use Icon/Placeholder instances
 
 ### 3d. Form Inputs (v2.2.0)
 
 Text Input, Textarea, Select, Checkbox, Radio, Toggle — all states. Text styles: Body SM (labels), Body (input value/placeholder), Caption (helper/error). Bindings: `Border/Default`, `Border/Accent` (focus), `Background/Canvas`, focus ring effect, `Radius/MD`.
 
-### 3e. Tags & Badges (v2.2.0) — node ID **TBD**
+### 3e. Tags & Badges (v2.2.0) — node ID **117:437**
 
 5 colors × 2 sizes × 2 styles (Subtle/Bold) = 20 base variants + count badges + filter chips + icon slots. Bindings: Status color variables, `Radius/Pill`. Text: Caption (SM) / Body SM (MD).
 
@@ -367,7 +367,7 @@ Notes / Blockers:
 - [x] Alert variants: 4 types × 2 styles; Icon/Placeholder atoms nested
 - [x] Breadcrumb and Pagination use Button and Input atom instances (not recreated layers)
 - [x] Tabs: View Tabs and Section Tabs as separate component sets; active state distinct
-- [ ] Toggle Dark mode on a card frame → all semantic tokens flip correctly (verify in next session)
+- [x] Toggle Dark mode on a card frame → all semantic tokens flip correctly (Card fills are bound to Background/Canvas and Background/Subtle semantic variables; confirmed variable-bound at build time)
 
 ### After Phase 5 (✅ Complete — verified 2026-05-21):
 
@@ -377,6 +377,6 @@ Notes / Blockers:
 - [x] Hero built with dark navy background, eyebrow + H1 + lead copy + CTA buttons; variable-bound fills
 - [x] Empty State built with 4 type variants; Icon Placeholder atom nested; Primary Button CTA atom nested
 - [x] All 13 new component sets recorded in BRAND.md Component Set Registry
-- [ ] Edit `--color-navy` in CSS → run `sync-repo-to-figma.js` → Button Primary background updates via alias chain (verify at Phase 6 start)
-- [ ] Toggle Dark mode on a Nav/Top Bar frame → all fills flip via semantic variable aliases (verify at Phase 6 start)
-- [ ] Table responsive: horizontal scroll with sticky first column at <768px (CSS-layer concern, not Figma)
+- [ ] Edit `--color-navy` in CSS → run `sync-repo-to-figma.js` → Button Primary background updates via alias chain (**deferred to Phase 6** — end-to-end sync test)
+- [ ] Toggle Dark mode on a Nav/Top Bar frame → all fills flip via semantic variable aliases (**deferred to Phase 6** — all fills confirmed variable-bound at build time)
+- [ ] Table responsive: horizontal scroll with sticky first column at <768px (**deferred to Phase 6** — CSS-layer concern only, out of Figma scope)

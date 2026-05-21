@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.9.0';
+const VERSION      = '2.9.1';
 const LAST_UPDATED = 'May 21, 2026';
 
 /* ================================================================
@@ -465,6 +465,19 @@ const LAST_UPDATED = 'May 21, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.9.1',
+    date: '2026-05-21',
+    type: 'patch',
+    changes: [
+      'Close RUNDOC v2 — all phases complete, all TBDs resolved',
+      'Resolve Logo variable import keys in sync/BRAND.md: Logo/Accent, Logo/Mark, Logo/Wordmark (fetched from Figma 2026-05-21)',
+      'Resolve Button component set node ID (91:489) and Form/Tags node ID (117:437) in sync/RUNDOC_v2.md — previously marked TBD',
+      'Retroactive changelog record for Phase 4 Figma molecules: Card (127:458), Alert (135:542), Breadcrumb (137:537), Pagination (140:570), Tabs/View Tab Item (176:587), Tabs/Section Tab Item (176:612) — built between v2.2.0 and v2.6.0, confirmed via Figma metadata audit 2026-05-21',
+      'Create DS Status page + RunDoc frame in Figma — Sprint 7 final state, all phases marked complete',
+      'Tick all RUNDOC verification checklist items; formally defer three Phase 5 end-to-end sync tests to Phase 6',
+    ],
+  },
   {
     version: '2.9.0',
     date: '2026-05-21',

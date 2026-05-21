@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Layout Utilities</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-subtle);font-family:var(--font-sans);color:var(--fg-2);}
+  h2{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg-3);padding:24px 28px 12px;margin:0;}
+  .hint{font-size:11px;color:var(--fg-3);padding:0 28px 20px;}
+
+  /* Demo helpers */
+  .demo-box {
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--fs-13);
+    color: var(--fg-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .demo-box strong { color: var(--fg-1); font-weight: var(--fw-semibold); }
+  .demo-box .w-pill {
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.06em;
+    background: var(--bg-accent-soft);
+    color: var(--fg-accent);
+    border-radius: var(--radius-pill);
+    padding: 2px 10px;
+    white-space: nowrap;
+  }
+  .demo-rule {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 0;
+    border: none;
+  }
+  .section-demo-label {
+    font-size: var(--fs-13);
+    font-weight: var(--fw-semibold);
+    color: var(--fg-3);
+    margin-bottom: var(--space-1);
+  }
+  .section-demo-token {
+    font-size: 11px;
+    font-family: var(--font-mono, monospace);
+    color: var(--fg-4);
+  }
+</style>
+</head>
+<body>
+
+  <!-- ── Containers ── -->
+  <h2>Containers</h2>
+  <p class="hint">max-width constrained, auto margin, 24px inline padding (20px on mobile). Classes: <code>.container</code>, <code>.container--narrow</code>, <code>.container--wide</code>.</p>
+
+  <div class="container">
+    <div class="demo-box">
+      <div><strong>.container</strong> — default</div>
+      <span class="w-pill">max 1120px</span>
+    </div>
+  </div>
+  <br>
+  <div class="container container--narrow">
+    <div class="demo-box">
+      <div><strong>.container--narrow</strong></div>
+      <span class="w-pill">max 720px</span>
+    </div>
+  </div>
+  <br>
+  <div class="container container--wide">
+    <div class="demo-box">
+      <div><strong>.container--wide</strong></div>
+      <span class="w-pill">max 1440px</span>
+    </div>
+  </div>
+
+  <hr class="demo-rule" style="margin-top:32px;">
+
+  <!-- ── Sections ── -->
+  <h2 style="padding-top:24px;">Section Shells</h2>
+  <p class="hint">Vertical padding tiers + background variants. Classes: <code>.section</code>, <code>.section--sm</code>, <code>.section--lg</code>, <code>.section--alt</code>, <code>.section--muted</code>, <code>.section--dark</code>.</p>
+
+  <div class="section">
+    <div class="container">
+      <div class="demo-box">
+        <div>
+          <p class="section-demo-label">.section</p>
+          <p class="section-demo-token">padding-block: var(--space-24) · 96px</p>
+        </div>
+        <span class="w-pill">default</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--sm section--alt">
+    <div class="container">
+      <div class="demo-box">
+        <div>
+          <p class="section-demo-label">.section--sm .section--alt</p>
+          <p class="section-demo-token">padding-block: var(--space-12) · 48px · bg: var(--bg-subtle)</p>
+        </div>
+        <span class="w-pill">sm + alt</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--sm section--muted">
+    <div class="container">
+      <div class="demo-box">
+        <div>
+          <p class="section-demo-label">.section--sm .section--muted</p>
+          <p class="section-demo-token">bg: var(--bg-muted)</p>
+        </div>
+        <span class="w-pill">sm + muted</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--sm section--dark" data-theme="dark">
+    <div class="container">
+      <div class="demo-box">
+        <div>
+          <p class="section-demo-label">.section--dark (data-theme="dark")</p>
+          <p class="section-demo-token">bg: var(--color-navy) · semantic tokens auto-flip to dark values</p>
+        </div>
+        <span class="w-pill">dark</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--lg">
+    <div class="container">
+      <div class="demo-box">
+        <div>
+          <p class="section-demo-label">.section--lg</p>
+          <p class="section-demo-token">padding-block: var(--space-32) · 128px</p>
+        </div>
+        <span class="w-pill">lg</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

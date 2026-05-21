@@ -1,0 +1,40 @@
+/* ============================================================
+   Metanoia — Layout Utilities
+   Structural shells for containers and page sections.
+   Not sync-eligible (code-only, like typography-utilities.css).
+   ============================================================ */
+
+/* ── Containers ──────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container-default);   /* 1120px */
+  margin-inline: auto;
+  padding-inline: var(--space-6);        /* 24px */
+}
+.container--narrow {
+  max-width: var(--container-narrow);    /* 720px */
+}
+.container--wide {
+  max-width: var(--container-wide);      /* 1440px */
+}
+
+@media (max-width: 600px) {
+  .container,
+  .container--narrow,
+  .container--wide {
+    padding-inline: var(--space-5);      /* 20px */
+  }
+}
+
+/* ── Section shells ──────────────────────────────────────── */
+.section         { padding-block: var(--space-24); }           /* 96px */
+.section--sm     { padding-block: var(--space-12); }           /* 48px */
+.section--lg     { padding-block: var(--space-32); }           /* 128px */
+.section--alt    { background: var(--bg-subtle); }
+.section--muted  { background: var(--bg-muted); }
+
+/* Dark section: apply data-theme="dark" to the element so all
+   semantic tokens (--fg-*, --border-*) auto-flip to dark values. */
+.section--dark {
+  background: var(--color-navy);
+}

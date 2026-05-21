@@ -30,13 +30,13 @@ Variables and styles must exist BEFORE any component that references them.
 Run these phases in strict sequence — never skip ahead.
 
 ```
-1. Visual Variables     — primitives first, then semantic aliases
-2. Text Styles          — after variables (font binding requires variable IDs)
-3. Effect Styles        — shadows from spacing.css
-4. Icon Placeholder atom — before ANY component that uses icon slots
-5. Atoms                — Button, Input, Tag, Badge
-6. Molecules            — Card, Alert, Breadcrumb, Pagination, Tabs
-7. Organisms            — Nav, Modal, Table, Hero, Empty States
+1. Visual Variables  — primitives first, then semantic aliases
+2. Text Styles       — after variables (font binding requires variable IDs)
+3. Effect Styles     — shadows from spacing.css
+4. Icon library      — 48 Lucide icons × 3 sizes (270:467); used directly in all components
+5. Atoms             — Button, Input, Tag, Badge
+6. Molecules         — Card, Alert, Breadcrumb, Pagination, Tabs
+7. Organisms         — Nav, Modal, Table, Hero, Empty States
 ```
 
 To check what already exists before building, run:
@@ -348,53 +348,80 @@ Type=Primary, Size=MD, Icon=None, State=Default
 
 ---
 
-## Icon/Placeholder Component
+## Using the Icon Component (never use Icon Placeholder)
 
-Must be created BEFORE building buttons. Designers swap this component instance
-in the properties panel to replace placeholders with actual icons.
+> **Icon Placeholder is deleted.** The grey cross-box placeholder component
+> (`97:23`) was removed in Phase 5. Always use the real Lucide `Icon`
+> component set (`270:467`, variant property `Name=<name>, Size=<16|20|24>`)
+> directly in all new components — at every level (atom, molecule, organism).
+
+### Lookup helper
 
 ```js
-function makeIconPlaceholder(size) {
-  const comp = figma.createComponent();
-  comp.name = `Size=${size}`;
-  comp.resize(size, size);
-  comp.layoutMode = 'HORIZONTAL';
-  comp.primaryAxisAlignItems = 'CENTER';
-  comp.counterAxisAlignItems = 'CENTER';
-  comp.primaryAxisSizingMode = 'FIXED';
-  comp.counterAxisSizingMode = 'FIXED';
-  comp.cornerRadius = 3;
-  comp.fills   = [{ type: 'SOLID', color: hexRgb('#ECEFF2') }]; // grey-100 — see BRAND.md
-  comp.strokes = [{ type: 'SOLID', color: hexRgb('#B6BEC6') }]; // grey-300 — see BRAND.md
-  comp.strokeWeight = 1;
-  comp.strokeAlign = 'INSIDE';
-  comp.clipsContent = true;
+const iconSet = figma.getNodeById('270:467'); // Icon component set
 
-  // Cross (+) visual — two rectangles forming a plus sign
-  const cs = Math.max(Math.round(size * 0.5), 6);
-  const cf = figma.createFrame();
-  cf.name = 'cross'; cf.resize(cs, cs); cf.fills = []; cf.layoutMode = 'NONE';
-
-  const hb = figma.createRectangle();
-  hb.resize(cs, 2); hb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }]; // cross color — see BRAND.md
-  hb.cornerRadius = 1; hb.x = 0; hb.y = Math.round((cs - 2) / 2);
-
-  const vb = figma.createRectangle();
-  vb.resize(2, cs); vb.fills = [{ type: 'SOLID', color: hexRgb('#6E7A86') }]; // cross color — see BRAND.md
-  vb.cornerRadius = 1; vb.x = Math.round((cs - 2) / 2); vb.y = 0;
-
-  cf.appendChild(hb); cf.appendChild(vb);
-  comp.appendChild(cf);
-  // cf is a non-autolayout child of an autolayout parent → use FIXED
-  cf.layoutSizingHorizontal = 'FIXED';
-  cf.layoutSizingVertical   = 'FIXED';
-
-  return comp;
+function getIcon(name, size) {
+  // name = kebab-case Lucide name (see sync/component-map.js ICON_CATALOG)
+  // size = 16 | 20 | 24
+  return iconSet.children.find(c => c.name === `Name=${name}, Size=${size}`) || null;
 }
 
-const iconVariants = [16, 20, 24].map(makeIconPlaceholder);
-const iconSet = figma.combineAsVariants(iconVariants, dsPage);
-iconSet.name = 'Icon Placeholder';
+// Usage — create an instance and add to a parent
+const icon = getIcon('settings', 16)?.createInstance();
+parent.appendChild(icon);
+icon.layoutSizingHorizontal = 'FIXED';
+icon.layoutSizingVertical   = 'FIXED';
+```
+
+### Choosing the right size
+
+| Context | Size |
+|---|---|
+| Nav items, breadcrumb, table sort, button SM/MD | 16 |
+| Modal header icon, alert icon, button LG, action bars | 20 |
+| Card image slot, empty state, hero watermark | 24 |
+
+### Overriding an icon variant inside an existing instance (swapComponent)
+
+When you need to set a SPECIFIC icon on an instance that's INSIDE another
+instance (e.g., each nav item in Nav/Top Bar needs its own icon), you cannot
+use `insertChild` — it fails with "New parent is an instance." Use
+`swapComponent()` instead:
+
+```js
+// ✅ Correct — swap the variant of a nested icon instance
+const navItemInst = figma.getNodeById('306:285'); // Nav/Top Item instance in organism
+const iconInst = navItemInst.findOne(n =>
+  n.type === 'INSTANCE' && n.mainComponent?.parent?.id === '270:467'
+);
+const newVariant = getIcon('package', 16);
+iconInst.swapComponent(newVariant); // changes this instance's variant; no insertChild needed
+
+// ❌ Wrong — insertChild throws when parent is inside an instance
+const parent = iconInst.parent;
+parent.insertChild(idx, newInst); // Error: "Cannot move node. New parent is an instance."
+```
+
+### Dynamic findAll in a replacement loop gives stale results
+
+When replacing instances inside a loop, `findAll` called INSIDE the loop
+reflects the live tree after each removal. This causes the first-vs-last
+position logic to break:
+
+```js
+// ❌ Wrong — allPlhInComp re-queries after each removal, so "first" is always true
+masterInstances.forEach(plh => {
+  const allPlhInComp = comp.findAll(isPlh); // stale after first removal
+  const isFirst = allPlhInComp[0]?.id === plh.id; // always true for remaining
+  swap(plh, isFirst ? 'header-icon' : 'x', isFirst ? 20 : 16);
+});
+
+// ✅ Correct — snapshot the list once, then identify by position
+const snapshot = [...comp.findAll(isPlh)]; // snapshot before any removals
+snapshot.forEach((plh, i) => {
+  const isFirst = i === 0;
+  swap(plh, isFirst ? 'header-icon' : 'x', isFirst ? 20 : 16);
+});
 ```
 
 ---
@@ -557,19 +584,21 @@ const missingStyles = requiredStyles.filter(
   name => !textStyles.find(s => s.name === name || s.name.endsWith('/' + name))
 );
 
-const iconSet = figma.root.findOne(n => n.type === 'COMPONENT_SET' && n.name === 'Icon Placeholder');
+const iconCompSet = figma.getNodeById('270:467'); // Icon component set (48 icons × 3 sizes)
 
 return {
   variables: { total: allVars.length, missing },
   textStyles: { total: textStyles.length, missing: missingStyles },
-  iconPlaceholder: iconSet ? 'found' : 'MISSING — build before buttons',
+  iconSet: iconCompSet
+    ? `found — ${iconCompSet.children.length} variants`
+    : 'MISSING (270:467) — required for all icon slots',
 };
 ```
 
 If anything is missing, build it before proceeding. Missing primitives →
 buttons will have hardcoded colors. Missing text styles → button text will
-have no style binding. Missing Icon/Placeholder → icon slots will use
-raw rectangles that designers can't swap.
+have no style binding. Missing Icon set → icon slots will have no component
+to reference.
 
 ---
 

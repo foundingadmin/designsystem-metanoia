@@ -659,6 +659,87 @@ full variable name → role mapping (Canvas bg, Subtle bg, Primary text, etc.).
 
 ---
 
+## Organism Patterns (Phase 5 lessons)
+
+### combineAsVariants clipsContent — always clear immediately
+
+`figma.combineAsVariants()` creates a COMPONENT_SET with `clipsContent = true`
+by default. This clips any variant content that exceeds the set's bounding
+box and produces silent, invisible truncation — no error, no warning.
+
+**Always add this immediately after `combineAsVariants()`:**
+
+```js
+const set = figma.combineAsVariants(variants, page);
+set.name = 'MyComponent';
+set.clipsContent = false;   // ← mandatory — prevents set from clipping variants
+```
+
+### Variant frames need HUG height AFTER all children
+
+Organism COMPONENT frames (modals, heroes, cards-with-variable-content) must
+have `layoutSizingVertical = 'HUG'` applied **after** all children are appended.
+Setting a fixed height during frame creation and then adding content clips the
+overflow — `clipsContent = true` is Figma's default for auto-layout frames.
+
+```js
+// ✅ Correct — HUG applied after content is complete
+const variant = figma.createComponent();
+variant.layoutMode = 'VERTICAL';
+variant.layoutSizingHorizontal = 'FIXED';
+variant.resize(480, 100);   // width locked; height is a temporary placeholder
+// ... append header, body, footer children ...
+variant.layoutSizingVertical = 'HUG';   // ← last line; frame grows to fit content
+variant.clipsContent = false;
+
+// ❌ Wrong — frame is fixed at 200px; buttons appended after will be clipped
+const variant = figma.createComponent();
+variant.resize(480, 200);   // height locked at 200px
+// ... append all children (total height = 280px) ...
+// footer buttons at 200–280px are silently clipped
+```
+
+**Exception:** Components with explicit height requirements (Nav bars,
+Table rows, Buttons) should keep FIXED height — they are designed to a
+specific pixel height independent of content.
+
+### Inner structural frames need clipsContent cleared too
+
+Organisms composed of stacked section frames (header/body/footer in a modal;
+left/right columns in a hero split panel) each get `clipsContent = true` by
+default. Clear it on every structural wrapper:
+
+```js
+function buildSection(parent) {
+  const section = figma.createFrame();
+  section.layoutMode    = 'VERTICAL';
+  section.clipsContent  = false;  // ← required on every inner wrapper
+  // ... add content ...
+  parent.appendChild(section);
+}
+```
+
+If you forget, the inner frame clips its own children independently of the
+parent — meaning clearing only the top-level variant frame is not enough.
+
+### Button instances have layoutSizingVertical = FIXED by default
+
+When you call `component.createInstance()` on a Button component, the
+instance inherits `layoutSizingVertical = 'FIXED'`. Inside a VERTICAL
+auto-layout parent, a FIXED-height child that is taller than expected can
+prevent the parent from computing its correct HUG height. Always set:
+
+```js
+const btn = buttonComp.createInstance();
+parent.appendChild(btn);
+btn.layoutSizingHorizontal = 'FIXED';  // keep button width locked
+// layoutSizingVertical: leave as FIXED for fixed-height components (nav, row)
+// For variable-height containers (organism footers): set to HUG
+btn.layoutSizingVertical = 'HUG';
+```
+
+---
+
 ## Canvas Design Guidelines (use_figma page/screen builds)
 
 These rules apply whenever building UI frames directly on a page

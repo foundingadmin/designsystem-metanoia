@@ -4,7 +4,7 @@
 
 ---
 
-## Current Status — v2.6.0 · Updated 2026-05-20
+## Current Status — v2.7.0 · Updated 2026-05-21
 
 | Phase | What | Status | Shipped |
 | :---- | :---- | :---- | :---- |
@@ -16,13 +16,17 @@
 | 3c | Buttons + Icon/Placeholder | ✅ Complete | v2.1.0 |
 | 3d | Form Inputs (6 types, all states) | ✅ Complete | v2.2.0 |
 | 3e | Tags & Badges | ✅ Complete | v2.2.0 |
-| **4** | **Molecules: Cards, Alerts, Breadcrumb, Pagination, Tabs** | **→ Active** | — |
-| 5 | Organisms: Nav, Modal, Table, Hero, Empty States | ❌ Not started | — |
+| Code extras | Layout utilities + components CSS + new tokens | ✅ Complete | v2.5.0–v2.7.0 |
+| **4** | **Molecules: Cards, Alerts, Breadcrumb, Pagination, Tabs** | ✅ **Complete** | v2.6.x (untagged) |
+| **5** | **Organisms: Nav, Modal, Table, Hero, Empty States** | **→ Active** | — |
 | RunDoc frame | DS Status page + RunDoc frame in Figma | ❌ Not created | — |
 
 **Open gaps (tracked, not yet resolved):**
-- Button and Form/Tags `COMPONENT_SET` node IDs still TBD in `sync/component-map.js` and `sync/BRAND.md`
-- Logo semantic variable import keys (`Logo/Accent`, `Logo/Mark`, `Logo/Wordmark`) marked TBD in `sync/BRAND.md`
+- Logo semantic variable import keys (`Logo/Accent`, `Logo/Mark`, `Logo/Wordmark`) — keys needed for programmatic import; components work visually, import keys not yet captured in `sync/BRAND.md`
+- DS Status page + RunDoc frame not yet created in Figma (create at start of Phase 5 sprint)
+- Phase 4 Figma build was completed but not reflected in the changelog — no v2.x.0 entry records it; see note below
+
+> **Phase 4 audit note (2026-05-21):** Figma metadata confirms all Phase 4 molecules exist in the `ds` page (Card `127:458`, Alert `135:542`, Breadcrumb `137:537`, Pagination `140:570`, Tabs View/Section items `176:587`/`176:612`). The build was done between v2.2.0 and v2.6.0 but was not recorded in the repo changelog. Node IDs have now been added to `sync/BRAND.md`. Button (`91:489`) and Form/Tags (`117:437`) componentSetNodeIds previously marked TBD are now resolved.
 
 ---
 
@@ -146,46 +150,66 @@ Text Input, Textarea, Select, Checkbox, Radio, Toggle — all states. Text style
 
 ---
 
-## → Phase 4 — Molecules (ACTIVE)
+## ✅ Code Extras (v2.4.0–v2.7.0, alongside Phase 3–4)
 
-Each molecule uses nested atom instances — no recreating from scratch. HTML previews at `preview/components-*.html` are the coded reference.
+These additions were made to the code repo in parallel with Figma Phase 3–4 builds. They extend the DS beyond what RUNDOC originally scoped.
 
-### 4a. Cards
+### Layout utilities (v2.7.0)
+
+`styles/layout-utilities.css` — `.container`, `.container--narrow`, `.container--wide`, `.section`, `.section--sm`, `.section--lg`, `.section--alt`, `.section--muted`, `.section--dark`. Showcase: `preview/layout-containers.html`.
+
+### Component CSS (v2.7.0)
+
+`styles/components.css` — `.btn` base + `.btn--primary`, `.btn--secondary`, `.btn--ghost` variants × `.btn--sm`, `.btn--md`, `.btn--lg` sizes, all token-bound. This is the real CSS layer for consuming apps — the Figma components are the visual reference, this is the implementation.
+
+### New tokens (v2.7.0)
+
+`--color-aqua-300` (mid-step between aqua-200 and aqua-500) and `--color-error-50` (lightest error tint for status backgrounds). Both registered in `sync/token-map.js`.
+
+### Landing page template (v2.5.0)
+
+`preview/template-landing-page.html` — full B2B landing page for a customer persona (nav, hero, social proof, pain points, feature rows, how-it-works, testimonial, CTA, footer). Registered in a new **Templates** group in `index.html` SECTIONS.
+
+---
+
+## ✅ Phase 4 — Molecules (COMPLETE)
+
+Each molecule uses nested atom instances. HTML previews at `preview/components-*.html` are the coded reference.
+
+### 4a. Cards — node ID `127:458`
 
 **Variants:** Elevation [Flat, Raised, Floating]
 
-Note: Light/Dark is handled by variable modes at the design level — not separate variants.
-
 Bindings: `Background/Canvas`, `Border/Subtle`, shadow effect styles. Text layers use Body, Body SM, H4. Footer slot uses Button atom instances.
 
-### 4b. Alerts
+### 4b. Alerts — node ID `135:542`
 
 **Variants:** Type [Info, Success, Warning, Error] × Style [Inline, Banner]
 
 Structure: Icon/Placeholder atom + title (Body, semibold) + body (Body SM) + optional dismiss (Button, Ghost, Trailing Icon). Bindings: status color variables per type.
 
-### 4c. Breadcrumb
+### 4c. Breadcrumb — node ID `137:537`
 
 **Variants:** State [Default, With Home Icon]
 
 Separator: chevron only. Uses Icon/Placeholder for home icon and chevron separators. Text: Body SM.
 
-### 4d. Pagination
+### 4d. Pagination — node ID `140:570`
 
 **Variants:** Type [Numbered, Prev/Next, Compact]
 
 Uses Button atom instances (Ghost type) for page number buttons and prev/next controls. Row-count selector uses Select input atom.
 
-### 4e. Tabs — renamed
+### 4e. Tabs — node IDs `176:587` (View Tab Item), `176:612` (Section Tab Item)
 
-- **View Tabs** (was "Underline") — top-level live area switching, full-width underline indicator
-- **Section Tabs** (was "Pill") — subsection switching within a live area, pill-shaped
+- **View Tabs** — top-level live area switching, full-width underline indicator
+- **Section Tabs** — subsection switching within a live area, pill-shaped
 
 **Variants for each:** State per tab item [Default, Active, Hover, Disabled] × optional Count badge. Text: Body SM (semibold for active).
 
 ---
 
-## Phase 5 — Organisms
+## → Phase 5 — Organisms (ACTIVE)
 
 Each organism uses nested molecule AND atom instances.
 
@@ -238,9 +262,33 @@ Uses Icon/Placeholder atom, Button atoms (CTA), H4 + Body + Body SM text styles.
 
 ---
 
+## Living Doc Protocol — Required for Every Session
+
+**Every Claude Code session that builds, changes, or ships anything must update plan docs before ending the session.** Stale roadmaps cause the next session to work from wrong assumptions. This is not optional.
+
+### What to update and when
+
+| Trigger | What to update |
+| :---- | :---- |
+| Phase or sub-phase completes in Figma | Mark ✅ in status table; add node ID to BRAND.md Component Set Registry; tick off verification checklist items |
+| New code file added (`styles/`, `preview/`, `tokens/`) | Add it to the Code Extras section above or the relevant Phase section |
+| New Figma variable, style, or component created | Record the node ID, style key, or variable key in `sync/BRAND.md` immediately |
+| Token renamed or removed | Update RUNDOC Context + open gaps; update `sync/token-map.js` + `sync/BRAND.md` |
+| New feature idea for the sync engine | Add to `sync/FEATURE-LIST.md` (newest first) |
+| A TBD is resolved | Remove TBD from BRAND.md and RUNDOC open gaps; fill in the real value |
+| Version bump | Update header version + date in this file |
+
+### What never to do
+
+- Never end a session with the header version or date behind `index.html`'s `VERSION` constant
+- Never mark a phase "Active" that is actually complete in Figma
+- Never leave a `TBD` in BRAND.md for a node ID that exists in Figma (look it up with `get_metadata`)
+
+---
+
 ## Sprint / RunDoc System
 
-**Each sprint = one `use_figma` session.** At the start of Phase 4, create a `DS Status` page in the Figma file (not yet done). A `RunDoc` frame on that page is updated at the end of every sprint:
+**Each sprint = one `use_figma` session.** Create a `DS Status` page in the Figma file at the start of Phase 5 (not yet done). A `RunDoc` frame on that page is updated at the end of every sprint:
 
 ```
 Metanoia DS — Build RunDoc
@@ -311,13 +359,13 @@ Notes / Blockers:
 - [x] Form inputs: all 6 types, all states; correct text styles and variable bindings
 - [x] Tags: all 20 base variants; status color variable bindings
 
-### After Phase 4 (target):
+### After Phase 4 (✅ Complete — confirmed 2026-05-21 via Figma metadata):
 
-- [ ] Card Elevation variants: Flat/Raised/Floating; shadow effect styles applied
-- [ ] Toggle Dark mode on a card frame → all semantic tokens flip correctly
-- [ ] Alert variants: 4 types × 2 styles; Icon/Placeholder atoms nested
-- [ ] Breadcrumb and Pagination use Button and Input atom instances (not recreated layers)
-- [ ] Tabs: View Tabs and Section Tabs as separate component sets; active state distinct
+- [x] Card Elevation variants: Flat/Raised/Floating; shadow effect styles applied
+- [x] Alert variants: 4 types × 2 styles; Icon/Placeholder atoms nested
+- [x] Breadcrumb and Pagination use Button and Input atom instances (not recreated layers)
+- [x] Tabs: View Tabs and Section Tabs as separate component sets; active state distinct
+- [ ] Toggle Dark mode on a card frame → all semantic tokens flip correctly (verify in next session)
 
 ### After Phase 5 (target):
 

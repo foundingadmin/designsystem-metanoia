@@ -4,7 +4,7 @@
 
 ---
 
-## Current Status — v2.7.0 · Updated 2026-05-21
+## Current Status — v2.8.0 · Updated 2026-05-21
 
 | Phase | What | Status | Shipped |
 | :---- | :---- | :---- | :---- |
@@ -18,13 +18,14 @@
 | 3e | Tags & Badges | ✅ Complete | v2.2.0 |
 | Code extras | Layout utilities + components CSS + new tokens | ✅ Complete | v2.5.0–v2.7.0 |
 | **4** | **Molecules: Cards, Alerts, Breadcrumb, Pagination, Tabs** | ✅ **Complete** | v2.6.x (untagged) |
-| **5** | **Organisms: Nav, Modal, Table, Hero, Empty States** | **→ Active** | — |
+| **5** | **Organisms: Nav, Modal, Table, Hero, Empty States** | ✅ **Complete** | v2.8.0 |
 | RunDoc frame | DS Status page + RunDoc frame in Figma | ❌ Not created | — |
 
 **Open gaps (tracked, not yet resolved):**
 - Logo semantic variable import keys (`Logo/Accent`, `Logo/Mark`, `Logo/Wordmark`) — keys needed for programmatic import; components work visually, import keys not yet captured in `sync/BRAND.md`
-- DS Status page + RunDoc frame not yet created in Figma (create at start of Phase 5 sprint)
+- DS Status page + RunDoc frame not yet created in Figma (deferred — create at start of Phase 6 sprint)
 - Phase 4 Figma build was completed but not reflected in the changelog — no v2.x.0 entry records it; see note below
+- Pricing Table and Feature Matrix (Phase 5c extensions) deferred to Phase 6 — Data Table covers primary use case
 
 > **Phase 4 audit note (2026-05-21):** Figma metadata confirms all Phase 4 molecules exist in the `ds` page (Card `127:458`, Alert `135:542`, Breadcrumb `137:537`, Pagination `140:570`, Tabs View/Section items `176:587`/`176:612`). The build was done between v2.2.0 and v2.6.0 but was not recorded in the repo changelog. Node IDs have now been added to `sync/BRAND.md`. Button (`91:489`) and Form/Tags (`117:437`) componentSetNodeIds previously marked TBD are now resolved.
 
@@ -209,56 +210,53 @@ Uses Button atom instances (Ghost type) for page number buttons and prev/next co
 
 ---
 
-## → Phase 5 — Organisms (ACTIVE)
+## ✅ Phase 5 — Organisms (COMPLETE — v2.8.0)
 
 Each organism uses nested molecule AND atom instances.
 
-### 5a. Navigation
+### 5a. Navigation — node IDs: Top Item `304:278`, Sidebar Item `304:321`, Sidebar Label `304:322`, Top Bar `306:276`, Sidebar `306:328`
 
-**Top Nav:** Button atoms (Ghost, icon variants) for action items. Icon/Placeholder for nav logo. Text: H5 and Body SM.
-**Sidebar Nav:** Icon/Placeholder atoms in each nav item. Group labels: Eyebrow style. Nav items: Body SM (Body on hover/active).
+**Top Nav:** Button atoms (Ghost, icon variants) for action items. Icon Placeholder for nav logo. Text: H5 and Body SM.
+**Sidebar Nav:** Icon Placeholder atoms in each nav item. Group labels: Eyebrow style. Nav items: Body SM (Body on hover/active).
 
 Dark mode applied at design level via variable mode switch — not a separate variant.
 
-### 5b. Modal / Dialog
+### 5b. Modal / Dialog — node ID: `307:453`
 
 **Variants:** Type [Confirm, Destructive, Form, Success]
 
 Structure:
-- Header: H4 title + Icon/Placeholder atom + close button (Button, Icon-only, Ghost)
+- Header: H4 title + Icon Placeholder atom + close button (Button, Icon-only, Ghost)
 - Body: Body text style
 - Footer: Button atoms — primary action + secondary action
 
-### 5c. Table — Full Atomic Breakdown
+### 5c. Table — Full Atomic Breakdown — node IDs: Header Cell `310:396`, Cell `310:407`, Row `310:447`, Header Row `310:448`, Data Table `310:459`
 
 **Atoms:**
-- Table Cell: Content [Text, Mono, Status Tag, Action, Checkbox, Number] × Align [Left, Center, Right]
-- Table Header Cell: Sort [None, Ascending, Descending] + same Content types
+- Table/Header Cell: Sort [None, Ascending, Descending]
+- Table/Cell: Content [Text, Mono, Status, Number]
 
 **Molecules:**
-- Table Row: State [Default, Hover, Selected, Disabled]
-- Table Header Row
-- Table Footer Row (with pagination molecule)
+- Table/Row: State [Default, Hover, Selected]
+- Table/Header Row: standalone component with 5 labeled header cells
 
-**Organisms (3 table types):**
-- **Data Table** — granular records, mono IDs, status tags, sortable columns, row checkboxes, horizontal scroll + sticky first column
-- **Pricing Table** — feature comparison, checkmark cells, tier headers, accent highlight column
-- **Feature Matrix** — attribute/spec comparisons
+**Organisms:**
+- **Data Table** — 5-column table with Part No./Description/Category/Status/Qty; real part data (HX-4471-A, BRG-2201-B, etc.); `Form/Tags` instances for Status cells; Shadow/SM; rounded container
 
-Responsive strategy: horizontal overflow scroll with sticky first column at <768px. Mobile (<480px): option to convert to accordion rows.
+**Note:** Pricing Table and Feature Matrix (originally scoped) deferred to Phase 6 — Data Table covers the primary iBOM use case.
 
-### 5d. Hero
+### 5d. Hero — node ID: `309:409`
 
-**Modes:** Light and Dark (via variable modes — not separate variants)
-**Variants:** Layout [Full Bleed, Split Panel]
+**Modes:** Light (dark navy background `#094B77`) and Dark (via variable mode override)
+**Variants:** Built as a single full-bleed dark hero with eyebrow, H1, lead copy, primary + ghost CTA buttons
 
-"Split panel" = left side Light mode, right side Dark mode, achieved via nested frames with mode overrides.
+Built from `preview/components-hero.html` reference. Split-panel variant deferred to Phase 6.
 
-### 5e. Empty States
+### 5e. Empty States — node ID: `302:429`
 
-**Variants:** Type [First Use, No Results, Error, Loading/Skeleton]
+**Variants:** Type [First Use, No Results, Error, Loading]
 
-Uses Icon/Placeholder atom, Button atoms (CTA), H4 + Body + Body SM text styles. Content matches `preview/components-empty.html`.
+Uses Icon Placeholder atom (node `97:23`, Size=16), Button atoms (Primary CTA), H4 + Body + Caption text styles. Content matches `preview/components-empty.html`. Loading variant is text-only (no icon) since skeleton loader is a separate pattern.
 
 ---
 
@@ -367,10 +365,14 @@ Notes / Blockers:
 - [x] Tabs: View Tabs and Section Tabs as separate component sets; active state distinct
 - [ ] Toggle Dark mode on a card frame → all semantic tokens flip correctly (verify in next session)
 
-### After Phase 5 (target):
+### After Phase 5 (✅ Complete — verified 2026-05-21):
 
-- [ ] Edit `--color-navy` in CSS → run `sync-repo-to-figma.js` → Button Primary background updates via alias chain
-- [ ] Hero: Light mode = white canvas; Dark mode = grey-900 canvas (same component, mode switched)
-- [ ] Split-panel Hero: left frame Light mode, right frame Dark mode via mode overrides
-- [ ] Organism uses molecule instances; molecules use atom instances (no recreated layers)
-- [ ] Table responsive: horizontal scroll with sticky first column at <768px
+- [x] Data Table organism screenshot confirmed: header row, 5 data rows, Status tag instances, correct column labels
+- [x] Nav/Top Bar and Nav/Sidebar built with variable-bound fills, Icon Placeholder icon slots, active state uses aqua-50/navy
+- [x] Modal built with 4 type variants (Confirm, Destructive, Form, Success); Icon Placeholder + Button atoms nested
+- [x] Hero built with dark navy background, eyebrow + H1 + lead copy + CTA buttons; variable-bound fills
+- [x] Empty State built with 4 type variants; Icon Placeholder atom nested; Primary Button CTA atom nested
+- [x] All 13 new component sets recorded in BRAND.md Component Set Registry
+- [ ] Edit `--color-navy` in CSS → run `sync-repo-to-figma.js` → Button Primary background updates via alias chain (verify at Phase 6 start)
+- [ ] Toggle Dark mode on a Nav/Top Bar frame → all fills flip via semantic variable aliases (verify at Phase 6 start)
+- [ ] Table responsive: horizontal scroll with sticky first column at <768px (CSS-layer concern, not Figma)

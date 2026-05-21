@@ -139,7 +139,7 @@ Use `figma.getNodeById(id)` to reference local components.
 | `Icon/Placeholder` (set) | `97:23` | Icon slots (Size=16/20/24) |
 
 Component set names (for `figma.root.findOne`):
-- `Icon Placeholder` (no slash)
+- `Icon Placeholder` (no slash — NOT `'Icon/Placeholder'`; always prefer `figma.getNodeById('97:23')`)
 - `Button`
 - `Form/Tags`
 
@@ -175,6 +175,19 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 | `Pagination` | `140:570` | — | `preview/components-pagination.html` |
 | `Tabs/View Tab Item` | `176:587` | — | `preview/components-tabs.html` |
 | `Tabs/Section Tab Item` | `176:612` | — | `preview/components-tabs.html` |
+| `Empty State` | `302:429` | — | `preview/components-empty.html` |
+| `Nav/Top Item` | `304:278` | — | `preview/components-nav.html` |
+| `Nav/Sidebar Item` | `304:321` | — | `preview/components-nav.html` |
+| `Nav/Sidebar Label` | `304:322` | — | `preview/components-nav.html` |
+| `Nav/Top Bar` | `306:276` | — | `preview/components-nav.html` |
+| `Nav/Sidebar` | `306:328` | — | `preview/components-nav.html` |
+| `Modal` | `307:453` | — | `preview/components-modal.html` |
+| `Hero` | `309:409` | — | `preview/components-hero.html` |
+| `Table/Header Cell` | `310:396` | — | — |
+| `Table/Cell` | `310:407` | — | — |
+| `Table/Row` | `310:447` | — | — |
+| `Table/Header Row` | `310:448` | — | — |
+| `Data Table` | `310:459` | — | — |
 
 ---
 

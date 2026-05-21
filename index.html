@@ -456,7 +456,7 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.7.0';
+const VERSION      = '2.8.0';
 const LAST_UPDATED = 'May 21, 2026';
 
 /* ================================================================
@@ -465,6 +465,21 @@ const LAST_UPDATED = 'May 21, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.8.0',
+    date: '2026-05-21',
+    type: 'minor',
+    changes: [
+      'Build Phase 5 organisms in Figma: Nav (Top Bar + Sidebar), Modal (4 variants), Hero, Data Table, Empty States (4 variants)',
+      'Nav/Top Bar (306:276) and Nav/Sidebar (306:328) — variable-bound fills, Icon Placeholder slots, active state with aqua-50/navy',
+      'Modal (307:453) — 4 type variants (Confirm, Destructive, Form, Success); Button atom instances in footer',
+      'Hero (309:409) — full-bleed dark hero with eyebrow, H1, lead copy, primary + ghost CTA buttons',
+      'Data Table (310:459) — header row + 5 data rows, Part No./Description/Category/Status/Qty columns, Form/Tags instances for status cells',
+      'Empty State (302:429) — 4 type variants (First Use, No Results, Error, Loading); Icon Placeholder + Button CTA atoms nested',
+      'Fix Icon Placeholder component name throughout CODE-TO-VISUAL.md: actual Figma name is "Icon Placeholder" (no slash)',
+      'Record all 13 new Phase 5 Figma component sets in BRAND.md Component Set Registry',
+    ],
+  },
   {
     version: '2.7.0',
     date: '2026-05-21',

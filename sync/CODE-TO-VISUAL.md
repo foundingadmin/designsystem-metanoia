@@ -33,7 +33,7 @@ Run these phases in strict sequence — never skip ahead.
 1. Visual Variables     — primitives first, then semantic aliases
 2. Text Styles          — after variables (font binding requires variable IDs)
 3. Effect Styles        — shadows from spacing.css
-4. Icon/Placeholder atom — before ANY component that uses icon slots
+4. Icon Placeholder atom — before ANY component that uses icon slots
 5. Atoms                — Button, Input, Tag, Badge
 6. Molecules            — Card, Alert, Breadcrumb, Pagination, Tabs
 7. Organisms            — Nav, Modal, Table, Hero, Empty States
@@ -394,7 +394,7 @@ function makeIconPlaceholder(size) {
 
 const iconVariants = [16, 20, 24].map(makeIconPlaceholder);
 const iconSet = figma.combineAsVariants(iconVariants, dsPage);
-iconSet.name = 'Icon/Placeholder';
+iconSet.name = 'Icon Placeholder';
 ```
 
 ---
@@ -557,7 +557,7 @@ const missingStyles = requiredStyles.filter(
   name => !textStyles.find(s => s.name === name || s.name.endsWith('/' + name))
 );
 
-const iconSet = figma.root.findOne(n => n.type === 'COMPONENT_SET' && n.name === 'Icon/Placeholder');
+const iconSet = figma.root.findOne(n => n.type === 'COMPONENT_SET' && n.name === 'Icon Placeholder');
 
 return {
   variables: { total: allVars.length, missing },

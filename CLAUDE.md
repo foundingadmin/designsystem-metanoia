@@ -47,6 +47,8 @@
 | `tokens/motion.css` | Easing curves, duration tiers | Motion |
 | `styles/typography-utilities.css` | `@font-face` + `.t-*` classes | **Not synced** |
 | `styles/icon-utilities.css` | `.ds-icon` component class | **Not synced** |
+| `styles/layout-utilities.css` | `.container` + `.section` shells | **Not synced** |
+| `styles/components.css` | `.btn` CSS component classes | **Not synced** |
 
 ## Versioning rules
 
@@ -78,7 +80,7 @@ This system uses **Semantic Versioning**: `MAJOR.MINOR.PATCH`
    ```
 3. Commit: `chore: bump to vX.Y.Z — <one-line summary>`
 
-Current version: **v1.5.1**
+Current version: **v2.7.0**
 
 ## Adding a new preview card
 
@@ -139,3 +141,14 @@ See `sync/SYNC-MASTER.md` for the full architecture overview and direction map.
 
 After any `use_figma` call → Build Quality Check in `sync/CODE-TO-VISUAL.md`.
 Before editing any `sync/` doc → read `sync/META.md`.
+
+## Living Doc Rule
+
+**Every session that ships anything must update plan docs before it ends.** The RUNDOC, FEATURE-LIST, and BRAND.md are the only persistent memory between sessions. Stale docs break the next session.
+
+Minimum required at end of each session:
+1. Update `sync/RUNDOC_v2.md` header version + date to match `index.html VERSION`
+2. Mark any completed phase/sub-phase ✅ in the RUNDOC status table
+3. Record all new Figma node IDs, variable keys, and style keys in `sync/BRAND.md`
+4. Tick off RUNDOC verification checklist items that are confirmed done
+5. Resolve any TBDs that are now known — never leave a TBD that can be looked up

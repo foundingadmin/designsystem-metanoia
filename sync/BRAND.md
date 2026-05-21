@@ -155,11 +155,26 @@ Populated incrementally during Phase 3–5 build sessions. One row added per `us
 
 | figmaName | componentSetNodeId | cssClass | previewFile |
 |---|---|---|---|
-| `Logo` | `257:308` | `logo-mark` / `logo-accent` / `logo-wordmark` | `preview/logo-brandmark.html`, `preview/logo-lockups.html`, `preview/logo-wordmark.html` |
-| `Button` | TBD | `btn` | `preview/components-buttons.html` |
-| `Form/Tags` | TBD | `tag` | `preview/components-tags.html` |
+| `Logo/Metanoia` | `257:308` | `logo-mark` / `logo-accent` / `logo-wordmark` | `preview/logo-brandmark.html`, `preview/logo-lockups.html`, `preview/logo-wordmark.html` |
+| `Button` | `91:489` | `btn` | `preview/components-buttons.html` |
 | `Icon Placeholder` | `97:23` | — | `preview/iconography.html` |
 | `Icon` | `270:467` | `ds-icon` | `preview/iconography.html` |
+| `Form/Text Input` | `106:387` | — | `preview/components-inputs.html` |
+| `Form/Textarea` | `106:413` | — | `preview/components-inputs.html` |
+| `Form/Select` | `107:407` | — | `preview/components-inputs.html` |
+| `Form/Checkbox` | `107:422` | — | `preview/components-inputs.html` |
+| `Form/Radio` | `107:433` | — | `preview/components-inputs.html` |
+| `Form/Toggle` | `107:446` | — | `preview/components-inputs.html` |
+| `Form/Tags` | `117:437` | `tag` | `preview/components-tags.html` |
+| `Form/Badge` | `120:391` | — | `preview/components-tags.html` |
+| `Form/Tag Icon` | `120:422` | — | `preview/components-tags.html` |
+| `Form/Chip` | `120:430` | — | `preview/components-tags.html` |
+| `Card` | `127:458` | — | `preview/components-card.html` |
+| `Alert` | `135:542` | — | `preview/components-alerts.html` |
+| `Breadcrumb` | `137:537` | — | `preview/components-breadcrumb.html` |
+| `Pagination` | `140:570` | — | `preview/components-pagination.html` |
+| `Tabs/View Tab Item` | `176:587` | — | `preview/components-tabs.html` |
+| `Tabs/Section Tab Item` | `176:612` | — | `preview/components-tabs.html` |
 
 ---
 
@@ -186,10 +201,12 @@ const SEMANTIC_KEYS = {
   'Foreground/Link Hover':  'f33cb574a6101e566792c20b95c015f21746aa22',
   // Border
   'Border/Accent':          '26fcc1205c04d3d0d5e0ac196ce5fe068a4496aa',
-  // Logo (added v2.3.0 — import keys TBD after next sync)
-  // 'Logo/Accent':         'TBD',
-  // 'Logo/Mark':           'TBD',
-  // 'Logo/Wordmark':       'TBD',
+  // Logo (added v2.3.0 — import keys not yet captured; resolve in next session
+  // that touches Logo variables by running figma.variables.getLocalVariables()
+  // and filtering for collection name 'Logo')
+  // 'Logo/Accent':         'TBD — resolve next Logo session',
+  // 'Logo/Mark':           'TBD — resolve next Logo session',
+  // 'Logo/Wordmark':       'TBD — resolve next Logo session',
 };
 ```
 

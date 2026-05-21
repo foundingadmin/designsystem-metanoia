@@ -4,7 +4,7 @@
 
 ---
 
-## Current Status — v2.8.0 · Updated 2026-05-21
+## Current Status — v2.9.0 · Updated 2026-05-21
 
 | Phase | What | Status | Shipped |
 | :---- | :---- | :---- | :---- |
@@ -18,7 +18,7 @@
 | 3e | Tags & Badges | ✅ Complete | v2.2.0 |
 | Code extras | Layout utilities + components CSS + new tokens | ✅ Complete | v2.5.0–v2.7.0 |
 | **4** | **Molecules: Cards, Alerts, Breadcrumb, Pagination, Tabs** | ✅ **Complete** | v2.6.x (untagged) |
-| **5** | **Organisms: Nav, Modal, Table, Hero, Empty States** | ✅ **Complete** | v2.8.0 |
+| **5** | **Organisms: Nav, Modal, Table, Hero, Empty States** | ✅ **Complete** | v2.9.0 |
 | RunDoc frame | DS Status page + RunDoc frame in Figma | ❌ Not created | — |
 
 **Open gaps (tracked, not yet resolved):**
@@ -26,6 +26,8 @@
 - DS Status page + RunDoc frame not yet created in Figma (deferred — create at start of Phase 6 sprint)
 - Phase 4 Figma build was completed but not reflected in the changelog — no v2.x.0 entry records it; see note below
 - Pricing Table and Feature Matrix (Phase 5c extensions) deferred to Phase 6 — Data Table covers primary use case
+- Sidebar Nav Item active variant padding polish — minor spacing inconsistency between Default and Active states (deferred)
+- Button label overrides in Modal footer still show "Medium ghost"/"Medium primary" — requires component-level edit (deferred)
 
 > **Phase 4 audit note (2026-05-21):** Figma metadata confirms all Phase 4 molecules exist in the `ds` page (Card `127:458`, Alert `135:542`, Breadcrumb `137:537`, Pagination `140:570`, Tabs View/Section items `176:587`/`176:612`). The build was done between v2.2.0 and v2.6.0 but was not recorded in the repo changelog. Node IDs have now been added to `sync/BRAND.md`. Button (`91:489`) and Form/Tags (`117:437`) componentSetNodeIds previously marked TBD are now resolved.
 
@@ -248,9 +250,11 @@ Structure:
 ### 5d. Hero — node ID: `309:409`
 
 **Modes:** Light (dark navy background `#094B77`) and Dark (via variable mode override)
-**Variants:** Built as a single full-bleed dark hero with eyebrow, H1, lead copy, primary + ghost CTA buttons
+**Variants:**
+- `Layout=Full Bleed` (`309:381`) — dark navy hero, eyebrow, H1, lead copy, Primary + Ghost CTAs; dark mode overrides applied to Semantic + Button collections so ghost button renders as white outline on dark bg
+- `Layout=Split Panel` (`309:392`) — rebuilt v2.9.0; 1280×560; left 640px dark navy column (eyebrow, H1, lead, CTA row) with Foreground/Primary white text; right 640px light Background/Subtle column with illustration placeholder; spacing variables bound; dark mode set on left column
 
-Built from `preview/components-hero.html` reference. Split-panel variant deferred to Phase 6.
+Built from `preview/components-hero.html` reference.
 
 ### 5e. Empty States — node ID: `302:429`
 

@@ -688,7 +688,7 @@ full variable name → role mapping (Canvas bg, Subtle bg, Primary text, etc.).
 
 ---
 
-## Organism Patterns (Phase 5 lessons)
+## Organism Patterns (Phase 5 lessons + Phase 5 revision pass)
 
 ### combineAsVariants clipsContent — always clear immediately
 
@@ -765,6 +765,155 @@ btn.layoutSizingHorizontal = 'FIXED';  // keep button width locked
 // layoutSizingVertical: leave as FIXED for fixed-height components (nav, row)
 // For variable-height containers (organism footers): set to HUG
 btn.layoutSizingVertical = 'HUG';
+```
+
+### Icon instance white fill — clear after every swap
+
+During icon replacement (placeholder → real Icon instance), any `fills` copied
+from the old placeholder instance to the new Icon instance will produce a white
+`Background/Canvas` fill on the icon root. This is invisible in light mode but
+breaks dark mode and causes visual artifacts in dark sections.
+
+**Always clear fills on newly swapped Icon instances:**
+
+```js
+// After any icon swap or instance creation:
+const inst = iconComp.createInstance();
+inst.fills = [];  // ← mandatory — Icon variants render via their internal vectors,
+                  //   not the instance root fill; a root fill overwrites them visually
+
+// Bulk clear pass across all pages (run once per session after replacements):
+for (const page of figma.root.children) {
+  page.findAll(n => n.type === 'INSTANCE' && n.mainComponent?.parent?.id === '270:467')
+    .forEach(inst => { if (inst.fills?.length) inst.fills = []; });
+}
+```
+
+Root cause: the swap helper copies `.fills` from the old node to the new
+instance during replacement. The old Icon Placeholder had a white
+`Background/Canvas` fill (VariableID:56:16) that propagated. The Icon
+component renders correctly with `fills = []` — the inner Frame and Vector
+children handle color via stroke variables.
+
+### Dark mode on organisms — always set BOTH Semantic AND Button collections
+
+Applying Semantic dark mode only flips surface and text colors — buttons remain
+in light mode because `Button/*` variables live in a separate collection with
+their own Light/Dark modes.
+
+**Ghost buttons on a dark hero will be invisible (navy stroke on navy bg) unless
+the Button collection is also set to Dark:**
+
+```js
+// ✅ Correct — both collections required for a dark section/organism
+frame.setExplicitVariableModeForCollection('VariableCollectionId:84:12', '84:1');   // Semantic → Dark
+frame.setExplicitVariableModeForCollection('VariableCollectionId:239:227', '239:1'); // Button → Dark
+
+// ❌ Wrong — ghost button stroke/text still resolve to navy (light mode values)
+frame.setExplicitVariableModeForCollection('VariableCollectionId:84:12', '84:1'); // Semantic only
+```
+
+Collection and mode IDs (Metanoia file `c3ayt4AFrNKOmSkGBIyFi4`):
+- Semantic: `VariableCollectionId:84:12` — Light=`84:0`, Dark=`84:1`
+- Button: `VariableCollectionId:239:227` — Light=`239:0`, Dark=`239:1`
+
+Apply at the outermost dark container (COMPONENT or structural frame). Children
+inherit the mode automatically.
+
+### Dark mode text semantics — Background/Canvas is NOT white in dark mode
+
+`Background/Canvas` (VariableID:84:13) resolves to white in light mode and dark
+(near-black) in dark mode. **Do NOT bind hero H1/lead text fills to
+`Background/Canvas`** — in dark mode the text becomes invisible.
+
+For white text on a dark hero background:
+
+```js
+// ✅ Correct — Foreground/Primary resolves to white in dark mode
+h1.fills = [figma.variables.setBoundVariableForPaint(
+  { type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 1 },
+  'color',
+  figma.variables.getVariableById('VariableID:84:18') // Foreground/Primary
+)];
+
+// ❌ Wrong — Background/Canvas is dark in dark mode → text disappears
+h1.fills = [figma.variables.setBoundVariableForPaint(
+  { type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 1 },
+  'color',
+  figma.variables.getVariableById('VariableID:84:13') // Background/Canvas
+)];
+```
+
+Dark mode semantic token behavior (Metanoia Semantic collection):
+| Token | VariableID | Light mode | Dark mode |
+|---|---|---|---|
+| Background/Canvas | 84:13 | white (#FFF) | near-black |
+| Background/Subtle | 84:14 | light grey | dark grey |
+| Foreground/Primary | 84:18 | navy (#062F4A) | white |
+| Foreground/Secondary | 84:20 | medium grey | light grey |
+| Foreground/Subtle | 84:21 | muted grey | dim grey |
+
+### FILL sizing limitation on children of COMPONENT nodes
+
+`layoutSizingHorizontal = 'FILL'` requires the node to be a child of a frame
+or component that already has `layoutMode` set. When the parent is a COMPONENT
+(not a FRAME), this setter may fail with "node must be an auto-layout frame or
+a child of an auto-layout frame" even if the component has `layoutMode` set.
+
+**Workaround:** use explicit pixel dimensions with `resize()` instead of FILL
+for children of COMPONENT nodes:
+
+```js
+// ❌ May throw for COMPONENT children
+leftCol.layoutSizingHorizontal = 'FILL';
+
+// ✅ Use explicit resize instead
+leftCol.resize(640, 560); // exact pixel values
+leftCol.layoutSizingHorizontal = 'FIXED'; // never FILL on COMPONENT children
+```
+
+For FRAME children of FRAME parents, FILL works normally.
+
+### Using DS atomics in organisms — required pattern
+
+Organism components must reference DS atomics — never construct UI elements from
+raw frames/text when an atomic exists. Detected violations from Phase 5 revision:
+
+**Nav/Top Bar logo:** use `Logo/Metanoia` component set (`257:308`) — specifically
+`Type=Horizontal, Colorway=Full Color` variant (`257:238`) resized to ~110×21px.
+Do not hand-build a frame with an Icon + TEXT "metanoia".
+
+**Nav/Top Bar search:** use `Form/Text Input` (`106:387`) State=Default (`106:362`).
+For nav context (no visible label), hide the Label and Helper text nodes on the
+instance: `labelNode.visible = false`. Resize to 220px wide.
+
+**Sidebar nav badge:** use `Form/Badge` (`120:391`) — Color=Navy (`120:377`) for
+Default/Hover states, Color=Aqua (`120:379`) for Active state. Size: 32×24px.
+Do not hand-build a rounded rectangle + count text.
+
+**Form modal inputs:** use `Form/Text Input` (`106:362`) State=Default for text
+fields, `Form/Select` (`107:362`) State=Default for dropdown fields. Set the body
+frame to VERTICAL auto-layout with `primaryAxisSizingMode = 'AUTO'` so it grows.
+Do not hand-build label+input+helper frame groups.
+
+```js
+// Correct pattern — Form modal body with atomics
+const modalBody = figma.getNodeById('307:434');
+modalBody.layoutMode            = 'VERTICAL';
+modalBody.primaryAxisSizingMode = 'AUTO';  // HUG height
+modalBody.counterAxisSizingMode = 'FIXED';
+modalBody.itemSpacing           = 16;
+modalBody.paddingTop = modalBody.paddingBottom = modalBody.paddingLeft = modalBody.paddingRight = 24;
+
+const tiComp = figma.getNodeById('106:362'); // Form/Text Input, State=Default
+const inst   = tiComp.createInstance();
+modalBody.appendChild(inst);
+inst.layoutSizingHorizontal = 'FILL'; // fills modal width minus padding
+inst.layoutSizingVertical   = 'HUG';
+// Override label and placeholder text via findOne + loadFontAsync
+const labelNode = inst.findOne(n => n.type === 'TEXT' && n.name === 'Label');
+await figma.loadFontAsync(labelNode.fontName);
+labelNode.characters = 'Part number';
 ```
 
 ---

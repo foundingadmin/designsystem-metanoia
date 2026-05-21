@@ -24,6 +24,7 @@
   /* ── Aqua scale ─────────────────────────────────────────── */
   --color-aqua-700:    #1FA8C9;
   --color-aqua-500:    #32CBED;
+  --color-aqua-300:    #62D9F3;
   --color-aqua-200:    #BFF1FB;
   --color-aqua-50:     #ECFAFD;
 
@@ -60,6 +61,7 @@
   --color-warning-1000: #3D280A;
 
   /* ── Error scale ────────────────────────────────────────── */
+  --color-error-50:   #FFF2F0;
   --color-error-200:  #FAD5CE;
   --color-error-400:  #E98474;
   --color-error-600:  #D6492F;

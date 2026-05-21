@@ -51,6 +51,7 @@ const TOKEN_MAP = [
   // ── Aqua scale ───────────────────────────────────────────────────
   { css: '--color-aqua-700',   figma: 'Aqua/700' },
   { css: '--color-aqua-500',   figma: 'Aqua/500' },
+  { css: '--color-aqua-300',   figma: 'Aqua/300' },
   { css: '--color-aqua-200',   figma: 'Aqua/200' },
   { css: '--color-aqua-50',    figma: 'Aqua/50' },
 
@@ -87,6 +88,7 @@ const TOKEN_MAP = [
   { css: '--color-warning-1000', figma: 'Status/Warning/1000' },
 
   // ── Error scale ──────────────────────────────────────────────────
+  { css: '--color-error-50',   figma: 'Status/Error/50' },
   { css: '--color-error-200',  figma: 'Status/Error/200' },
   { css: '--color-error-400',  figma: 'Status/Error/400' },
   { css: '--color-error-600',  figma: 'Status/Error/600' },

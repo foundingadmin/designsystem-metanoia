@@ -456,8 +456,8 @@ body {
    VERSION — update these two constants when bumping a release.
    Then add an entry to CHANGELOG below.
    ================================================================ */
-const VERSION      = '2.6.0';
-const LAST_UPDATED = 'May 20, 2026';
+const VERSION      = '2.7.0';
+const LAST_UPDATED = 'May 21, 2026';
 
 /* ================================================================
    CHANGELOG
@@ -465,6 +465,22 @@ const LAST_UPDATED = 'May 20, 2026';
    Keep newest first.
    ================================================================ */
 const CHANGELOG = [
+  {
+    version: '2.7.0',
+    date: '2026-05-21',
+    type: 'minor',
+    changes: [
+      'Add --color-aqua-300 primitive token (mid-step between aqua-200 and aqua-500)',
+      'Add --color-error-50 primitive token (lightest error tint for status backgrounds)',
+      'Register both new tokens in sync/token-map.js for Figma variable sync',
+      'Add styles/layout-utilities.css — .container, .container--narrow, .container--wide, .section, .section--sm, .section--lg, .section--alt, .section--muted, .section--dark',
+      'Add styles/components.css — .btn base + .btn--primary, .btn--secondary, .btn--ghost variants × .btn--sm, .btn--md, .btn--lg sizes, all token-bound',
+      'Import both new CSS layers in colors_and_type.css barrel',
+      'Update components-buttons.html preview to use standard .btn--* class names',
+      'Add preview/layout-containers.html showcase card',
+      'Fix template-landing-page.html: rename --color-status-error-50 → --color-error-50, fix #DC2626 → var(--color-error-600), remove Georgia serif, replace hardcoded hex whites/navy with tokens',
+    ],
+  },
   {
     version: '2.6.0',
     date: '2026-05-20',
@@ -815,6 +831,15 @@ const SECTIONS = [
       { src: 'preview/logo-brandmark.html', label: 'Brandmark' },
       { src: 'preview/logo-lockups.html',   label: 'Lockups' },
       { src: 'preview/logo-wordmark.html',  label: 'Wordmark' },
+    ],
+  },
+  {
+    id: 'layout', group: 'Foundations', icon: 'layout',
+    label: 'Layout',
+    desc: 'Container width classes (<code>.container</code>, <code>.container--narrow</code>, <code>.container--wide</code>) and section shells (<code>.section</code>, <code>.section--alt</code>, <code>.section--dark</code>) from <code>styles/layout-utilities.css</code>.',
+    cols: 1,
+    cards: [
+      { src: 'preview/layout-containers.html', label: 'Containers + section shells' },
     ],
   },
   /* ── Components ── */

@@ -1,0 +1,106 @@
+/* ============================================================
+   Metanoia — Component Classes
+   CSS output layer for DS components. Consumes semantic tokens
+   from color-semantic.css. Not sync-eligible (code-only).
+
+   Grow this file per phase:
+     Phase 3a — Buttons (below)
+     Phase 4  — Tags, Inputs (add here or split into components/)
+     Phase 5  — Nav, Modal, Hero (add here or split)
+   ============================================================ */
+
+/* ══════════════════════════════════════════════════════════
+   BUTTONS
+   All token bindings live in tokens/color-semantic.css.
+   Three variants × three sizes × all interactive states.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Base ────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--ls-loose);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background     var(--dur-fast) var(--ease-standard),
+    color          var(--dur-fast) var(--ease-standard),
+    border-color   var(--dur-fast) var(--ease-standard),
+    box-shadow     var(--dur-fast) var(--ease-standard);
+  /* md size (default) */
+  padding: var(--space-3) var(--space-5);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Sizes ───────────────────────────────────────────────── */
+.btn--sm { padding: var(--space-2) var(--space-4);  font-size: var(--fs-13); }
+.btn--lg { padding: var(--space-4) var(--space-6);  font-size: var(--fs-16); }
+
+/* Icon-only square sizes */
+.btn--icon-sm { padding: var(--space-2); }
+.btn--icon-md { padding: var(--space-3); }
+.btn--icon-lg { padding: var(--space-4); }
+
+/* ── Primary ─────────────────────────────────────────────── */
+.btn--primary {
+  background: var(--btn-primary-bg);
+  color:      var(--btn-primary-text);
+}
+.btn--primary:hover  { background: var(--btn-primary-bg-hover); }
+.btn--primary:active { background: var(--btn-primary-bg-active); }
+.btn--primary:disabled,
+.btn--primary[aria-disabled="true"] {
+  background: var(--btn-primary-bg-disabled);
+  color:      var(--btn-primary-text-disabled);
+}
+
+/* ── Secondary ───────────────────────────────────────────── */
+.btn--secondary {
+  background:   var(--btn-secondary-bg);
+  color:        var(--btn-secondary-text);
+  border-color: var(--btn-secondary-border);
+}
+.btn--secondary:hover {
+  background:   var(--btn-secondary-bg-hover);
+  border-color: var(--btn-secondary-border-hover);
+}
+.btn--secondary:active {
+  background:   var(--btn-secondary-bg-active);
+  border-color: var(--btn-secondary-border-active);
+}
+.btn--secondary:disabled,
+.btn--secondary[aria-disabled="true"] {
+  background:   var(--btn-secondary-bg-disabled);
+  color:        var(--btn-secondary-text-disabled);
+  border-color: var(--btn-secondary-border-disabled);
+}
+
+/* ── Ghost ───────────────────────────────────────────────── */
+.btn--ghost {
+  background:   transparent;
+  color:        var(--btn-ghost-text);
+  border-color: var(--btn-ghost-border);
+}
+.btn--ghost:hover  { background: var(--btn-ghost-bg-hover); }
+.btn--ghost:active { background: var(--btn-ghost-bg-active); }
+.btn--ghost:disabled,
+.btn--ghost[aria-disabled="true"] {
+  color:        var(--btn-ghost-text-disabled);
+  border-color: var(--btn-ghost-border-disabled);
+}
